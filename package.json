@@ -1,0 +1,41 @@
+{
+  "name": "hrmobile",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "moment": "^2.24.0",
+    "native-base": "^2.13.12",
+    "navigationbar-react-native": "0.0.5",
+    "react": "16.9.0",
+    "react-native": "0.61.5",
+    "react-native-orientation-locker": "^1.1.8",
+    "react-native-qrcode-svg": "^6.0.3",
+    "react-native-reanimated": "^1.7.0",
+    "react-native-svg": "^12.0.3",
+    "react-native-vector-icons": "^6.6.0",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.9.0",
+    "@babel/runtime": "7.9.2",
+    "@react-native-community/eslint-config": "0.0.5",
+    "babel-jest": "24.9.0",
+    "eslint": "6.8.0",
+    "jest": "24.9.0",
+    "metro-react-native-babel-preset": "0.56.4",
+    "react-test-renderer": "16.9.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
