@@ -1,17 +1,19 @@
-import { 
-    Platform, 
+import {
+    Platform,
     StyleSheet,
-    Dimensions 
+    Dimensions
 } from 'react-native'
 import {
     darkColor,
     lightColor,
     primaryColor,
-    secondaryColor
+    secondaryColor,
+    transparentGray
 } from '../utils/contants'
 
 const COMPONENT_HIGHT = 50;
 const DEVICE_WIDTH = Dimensions.get('window').width;
+const DEVICE_HIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     inputWithIcon: {
         paddingLeft: 15,
@@ -93,8 +95,74 @@ const styles = StyleSheet.create({
     bottomTab: {
         top: 5,
         width: 50,
-        alignItems: 'center', 
+        alignItems: 'center',
         justifyContent: 'center',
+    },
+    bottomTabCircle: {
+        top: -20,
+        width: 74,
+        height: 74,
+        borderRadius: 40,
+        position: 'absolute',
+        backgroundColor: 'white',
+    },
+    bottomTabCenter: {
+        width: 65,
+        height: 65,
+        borderRadius: 40,
+        backgroundColor: transparentGray
+    },
+    cruveContainer: {
+        alignSelf: 'center',
+        width: DEVICE_WIDTH,
+        overflow: 'hidden',
+        height: DEVICE_HIGHT / 4
+    },
+    cruveView: {
+        borderRadius: DEVICE_WIDTH,
+        width: DEVICE_WIDTH * 2,
+        height: DEVICE_WIDTH * 2,
+        marginLeft: -(DEVICE_WIDTH / 2),
+        position: 'absolute',
+        bottom: 0,
+        overflow: 'hidden',
+        backgroundColor: primaryColor
+    },
+    imageCircle: {
+        width: 155,
+        height: 155,
+        borderRadius: 100,
+    },
+    imageContainer: {
+        width: 155,
+        height: 155,
+        borderWidth: 4,
+        borderRadius: 100,
+        borderColor: 'white',
+        alignItems: 'center',
+        position: 'absolute',
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        top: (DEVICE_HIGHT / 4) - 100
+    },
+    buttonCheck: {
+        borderWidth: 8,
+        borderColor: 'white',
+        width: DEVICE_WIDTH - 80,
+        height: DEVICE_WIDTH - 80,
+        borderRadius: DEVICE_WIDTH / 2, 
+        backgroundColor: secondaryColor,
+        top: (DEVICE_HIGHT / 4) - 100
+    },
+    loadingIndicator: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
     }
 })
 

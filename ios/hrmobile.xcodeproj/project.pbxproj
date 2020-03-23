@@ -35,6 +35,8 @@
 		15DF8ABD2AC341E1A072E565 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 01CCFEE3D11C47019CE174A5 /* rubicon-icon-font.ttf */; };
 		1F9D86698F23438087EA14A2 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A6CA6A0CC924310B741A5EF /* SimpleLineIcons.ttf */; };
 		6E83FFB326644E2C8514F39E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A73B15454E949ECB8A8AE2F /* Zocial.ttf */; };
+		DA5A0F47ACC54AA7B2379081 /* DBMed.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C99DD070EA074FA68AF2F62C /* DBMed.ttf */; };
+		A725A5DC41F64A399581C1FF /* DBYord.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B0A58F9184B16AE12F870 /* DBYord.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +91,8 @@
 		01CCFEE3D11C47019CE174A5 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		4A6CA6A0CC924310B741A5EF /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		2A73B15454E949ECB8A8AE2F /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C99DD070EA074FA68AF2F62C /* DBMed.ttf */ = {isa = PBXFileReference; name = "DBMed.ttf"; path = "../assets/fonts/DBMed.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1F8B0A58F9184B16AE12F870 /* DBYord.ttf */ = {isa = PBXFileReference; name = "DBYord.ttf"; path = "../assets/fonts/DBYord.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +222,8 @@
 				01CCFEE3D11C47019CE174A5 /* rubicon-icon-font.ttf */,
 				4A6CA6A0CC924310B741A5EF /* SimpleLineIcons.ttf */,
 				2A73B15454E949ECB8A8AE2F /* Zocial.ttf */,
+				C99DD070EA074FA68AF2F62C /* DBMed.ttf */,
+				1F8B0A58F9184B16AE12F870 /* DBYord.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -378,6 +384,8 @@
 				15DF8ABD2AC341E1A072E565 /* rubicon-icon-font.ttf in Resources */,
 				1F9D86698F23438087EA14A2 /* SimpleLineIcons.ttf in Resources */,
 				6E83FFB326644E2C8514F39E /* Zocial.ttf in Resources */,
+				DA5A0F47ACC54AA7B2379081 /* DBMed.ttf in Resources */,
+				A725A5DC41F64A399581C1FF /* DBYord.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

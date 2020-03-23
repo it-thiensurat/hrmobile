@@ -8,14 +8,21 @@
 
 import React from 'react';
 import {
-  YellowBox,
+  View,
   Platform,
+  YellowBox,
+  ActivityIndicator,
 } from 'react-native';
 console.disableYellowBox = true
 import { connect } from 'react-redux'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
-import { Provider as PaperProvider } from 'react-native-paper'
+
+import styles from './style/style'
+
+import {
+  secondaryColor
+} from './utils/contants'
 
 import {
   setCustomView,
@@ -51,20 +58,27 @@ function MyStack() {
   );
 }
 
+require('moment/locale/th.js');
 class App extends React.Component {
   render() {
     return (
       <NavigationContainer>
-        <PaperProvider>
-          <MyStack />
-        </PaperProvider>
+        <MyStack />
+        {
+          this.props.reducer.indicator ?
+            <View style={[styles.loadingIndicator]}>
+              <ActivityIndicator size='large' color={secondaryColor} />
+            </View>
+            :
+            null
+        }
       </NavigationContainer>
     )
   }
 };
 
 const mapStateToProps = (state) => ({
-
+  reducer: state.fetchReducer
 })
 
 const mapDispatchToProps = {
