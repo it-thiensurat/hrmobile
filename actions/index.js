@@ -5,6 +5,7 @@ import {
     CLEAR_USERINFO,
     USER_TOKEN,
     CLEAR_TOKEN,
+    CHECK_TYPE,
 } from '../utils/contants'
 
 
@@ -83,3 +84,17 @@ export const clearToken = (data) => ({
 /**
  * End
  */
+
+/**
+ * Check Type
+ */
+export function CheckTypeControll(data) {
+    return (dispatch) => {
+        dispatch(changeTypeCheck(data))
+    }
+}
+
+export const changeTypeCheck = (data) => ({
+    type: CHECK_TYPE,
+    payload: data
+})

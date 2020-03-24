@@ -18,13 +18,15 @@ import {
     API_KEY,
     BASEURL,
     LOGIN_URL,
-    TOKEN_KEY
+    TOKEN_KEY,
+    CHECK_KEY
 } from '../utils/contants'
 
 import {
     tokenControll,
     userInfoControll,
     indicatorControll,
+    CheckTypeControll
 } from '../actions'
 
 
@@ -37,8 +39,8 @@ import StorageService from '../utils/StorageServies'
 class LoginScreen extends React.Component {
 
     state = {
-        username: 'A42393',
-        password: '25300417'
+        username: '',
+        password: ''
     }
 
     onLogin() {
@@ -55,7 +57,7 @@ class LoginScreen extends React.Component {
 
         props.indicatorControll(true)
         Helper.post(BASEURL + LOGIN_URL, formData, header, (results) => {
-            if (results.status = 'SUCCESS') {
+            if (results.status == 'SUCCESS') {
                 props.tokenControll('save', results.token)
                 props.userInfoControll('save', results.data)
                 StorageService.set(TOKEN_KEY, results.token)
@@ -68,18 +70,17 @@ class LoginScreen extends React.Component {
         })
     }
 
-    onLoginToken() {
+    onLoginToken(token) {
         let that = this
         const props = that.props
         let header = {
-            'Authorization': props.reducer.token,
+            'Authorization': token,
             'x-api-key': API_KEY
         }
-        let formData = new FormData();
 
         props.indicatorControll(true)
-        Helper.post(BASEURL + LOGIN_URL, formData, header, (results) => {
-            if (results.status = 'SUCCESS') {
+        Helper.post(BASEURL + LOGIN_URL, '', header, (results) => {
+            if (results.status == 'SUCCESS') {
                 props.tokenControll('save', results.token)
                 props.userInfoControll('save', results.data)
                 StorageService.set(TOKEN_KEY, results.token)
@@ -87,19 +88,34 @@ class LoginScreen extends React.Component {
                 props.navigation.replace('Main')
             } else {
                 props.indicatorControll(false)
-                alert(`${results.message}`)
+                alert(`token: ${results.message}`)
             }
         })
     }
 
-    getStorage() {
+    getStorageToken() {
         let that = this
-        const props = that.props
         try {
             StorageService.get(TOKEN_KEY).then(obj => {
                 if (obj !== null) {
-                    let token = JSON.parse(obj)
-                    props.tokenControll('save', token)
+                    that.onLoginToken(obj)
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        } catch (error) {
+
+        }
+    }
+
+    getStorageCheck() {
+        let that = this
+        const props = that.props
+        try {
+            StorageService.get(CHECK_KEY).then(obj => {
+                if (obj !== null) {
+                    let check = JSON.parse(obj)
+                    props.CheckTypeControll(check == 'I' ? true : false)
                 }
             }).catch(function (error) {
                 console.log(error);
@@ -120,11 +136,10 @@ class LoginScreen extends React.Component {
     }
 
     async componentDidMount() {
-        await this.getStorage()
-        await this.onLoginToken()
+        await this.getStorageCheck()
+        await this.getStorageToken()
         BackHandler.addEventListener('hardwareBackPress', this.handleBack);
     }
-
 
     render() {
         return (
@@ -182,7 +197,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     tokenControll,
     userInfoControll,
-    indicatorControll
+    indicatorControll,
+    CheckTypeControll
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)

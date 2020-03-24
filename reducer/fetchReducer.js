@@ -4,13 +4,15 @@ import {
     SAVE_USERINFOR,
     CLEAR_USERINFO,
     USER_TOKEN,
-    CLEAR_TOKEN
+    CLEAR_TOKEN,
+    CHECK_TYPE
 } from '../utils/contants'
 
 const initialState = {
     indicator: false,
     userInfo: [],
-    token: ''
+    token: '',
+    checkType: false,
 }
 
 export default (state = initialState, action) => {
@@ -44,6 +46,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 token: ''
+            }
+        case CHECK_TYPE:
+            return {
+                ...state,
+                checkType: action.payload
             }
         default:
             return state

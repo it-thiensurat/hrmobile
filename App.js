@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 console.disableYellowBox = true
 import { connect } from 'react-redux'
+import Orientation from 'react-native-orientation-locker'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
 
@@ -60,6 +61,11 @@ function MyStack() {
 
 require('moment/locale/th.js');
 class App extends React.Component {
+
+  componentDidMount() {
+    Orientation.lockToPortrait();
+  }
+
   render() {
     return (
       <NavigationContainer>
