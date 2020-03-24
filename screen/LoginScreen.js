@@ -48,7 +48,7 @@ class LoginScreen extends React.Component {
         const props = that.props
         const { username, password } = that.state
         let header = {
-            'Authorization': '',
+            // 'Authorization': '',
             'x-api-key': API_KEY
         }
         let formData = new FormData();
@@ -88,7 +88,7 @@ class LoginScreen extends React.Component {
                 props.navigation.replace('Main')
             } else {
                 props.indicatorControll(false)
-                alert(`token: ${results.message}`)
+                alert(`${results.message}`)
             }
         })
     }
@@ -126,9 +126,10 @@ class LoginScreen extends React.Component {
     }
 
     handleBack = () => {
-        if (this.props.navigation.state.routeName == 'Login') {
-            return true
-        }
+        return true
+        // if (this.props.navigation.state.routeName == 'Login') {
+        //     return false
+        // }
     };
 
     componentWillUnmount() {

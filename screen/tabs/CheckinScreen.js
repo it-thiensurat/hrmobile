@@ -142,9 +142,10 @@ class CheckinScreen extends React.Component {
     }
 
     handleBack = () => {
-        if (this.props.navigation.state.routeName == 'Checkin') {
-            return true
-        }
+        return true
+        // if (this.props.navigation.state.routeName == 'Checkin') {
+        //     return true
+        // }
     };
 
     componentWillUnmount() {
