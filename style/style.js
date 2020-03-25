@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         height: 10
     },
     bold: {
-        fontFamily: 'DBMed'
+        fontFamily: Platform.OS == 'android' ? 'DBMed' : 'DB Helvethaica X'
     },
     positionBottom: {
         bottom: 0,

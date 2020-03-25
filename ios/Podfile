@@ -38,20 +38,30 @@ target 'hrmobile' do
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
-  target 'hrmobileTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  # target 'hrmobileTests' do
+  #   inherit! :search_paths
+  #   # Pods for testing
+  # end
 
-  use_native_modules!
+  # use_native_modules!
 end
 
-target 'hrmobile-tvOS' do
-  # Pods for hrmobile-tvOS
+# target 'hrmobile-tvOS' do
+#   # Pods for hrmobile-tvOS
 
-  target 'hrmobile-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
+#   target 'hrmobile-tvOSTests' do
+#     inherit! :search_paths
+#     # Pods for testing
+#   end
+
+# end
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    targets_to_ignore = %w(React yoga)
+
+    if targets_to_ignore.include? target.name
+      target.remove_from_project
+    end
+
   end
-
 end
