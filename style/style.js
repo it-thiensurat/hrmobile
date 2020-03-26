@@ -134,8 +134,8 @@ const styles = StyleSheet.create({
         borderRadius: 100,
     },
     imageContainer: {
-        width: 155,
-        height: 155,
+        width: 100,
+        height: 100,
         borderWidth: 4,
         borderRadius: 100,
         borderColor: 'white',
@@ -143,16 +143,18 @@ const styles = StyleSheet.create({
         position: 'absolute',
         backgroundColor: 'white',
         justifyContent: 'center',
-        top: (DEVICE_HIGHT / 4) - 100
+        // top: (DEVICE_HIGHT / 4) - 100,
+        marginLeft: -(DEVICE_WIDTH / 2),
     },
     buttonCheck: {
+        marginTop: 20,
         borderWidth: 8,
         borderColor: 'white',
         width: DEVICE_WIDTH - 80,
         height: DEVICE_WIDTH - 80,
         borderRadius: DEVICE_WIDTH / 2, 
         backgroundColor: secondaryColor,
-        top: (DEVICE_HIGHT / 4) - 100
+        // top: (DEVICE_HIGHT / 4) - 100
     },
     loadingIndicator: {
         position: 'absolute',

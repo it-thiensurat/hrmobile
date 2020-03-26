@@ -11,6 +11,7 @@ import {
   View,
   Platform,
   YellowBox,
+  SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
 console.disableYellowBox = true

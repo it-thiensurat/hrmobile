@@ -4,6 +4,7 @@ import {
     Text,
     Image,
     Alert,
+    Platform,
     BackHandler,
     TouchableOpacity,
     PermissionsAndroid
@@ -11,6 +12,7 @@ import {
 var moment = require('moment');
 import { connect } from 'react-redux'
 import { NavigationBar } from 'navigationbar-react-native'
+import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import Geolocation from '@react-native-community/geolocation'
 
 import {
@@ -74,46 +76,45 @@ class CheckinScreen extends React.Component {
     }
 
     async requestLocationPermission() {
-        try {
-            const chckLocationPermission = PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-            if (chckLocationPermission === PermissionsAndroid.RESULTS.GRANTED) {
-                this.getCurrentLocation()
-            } else {
-                try {
-                    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                        {
-                            'title': 'Cool Location App required Location permission',
-                            'message': 'We required Location permission in order to get device location ' +
-                                'Please grant us.'
+        if (Platform.OS == 'ios') {
+            this.getCurrentLocation()
+        } else {
+            try {
+                const chckLocationPermission = PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+                if (chckLocationPermission === PermissionsAndroid.RESULTS.GRANTED) {
+                    this.getCurrentLocation()
+                } else {
+                    try {
+                        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                            {
+                                'title': 'Cool Location App required Location permission',
+                                'message': 'We required Location permission in order to get device location ' +
+                                    'Please grant us.'
+                            }
+                        )
+                        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                            this.getCurrentLocation()
+                        } else {
+                            alert("You don't have access for the location");
                         }
-                    )
-                    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                        this.getCurrentLocation()
-                    } else {
-                        alert("You don't have access for the location");
+                    } catch (err) {
+                        alert(err)
                     }
-                } catch (err) {
-                    alert(err)
                 }
+            } catch (err) {
+                console.warn(err)
             }
-        } catch (err) {
-            console.warn(err)
         }
     }
 
     getCurrentLocation() {
         Geolocation.getCurrentPosition(
             position => {
-                // const initialPosition = JSON.stringify(position);
                 this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
             },
-            error => Alert.alert('Error', JSON.stringify(error)),
+            error => console.log(error),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
-        this.watchID = Geolocation.watchPosition(position => {
-            // const lastPosition = JSON.stringify(position);
-            this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
-        });
     }
 
     ComponentLeft = () => {
@@ -167,7 +168,7 @@ class CheckinScreen extends React.Component {
         const props = this.props.reducer
 
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, paddingTop: Platform.OS == 'ios' ? 10 : 0 }}>
                 <NavigationBar
                     componentLeft={this.ComponentLeft}
                     componentCenter={this.ComponentCenter}
@@ -185,10 +186,13 @@ class CheckinScreen extends React.Component {
                 <View style={{ flex: 1, alignItems: 'center' }}>
                     <View style={[styles.cruveContainer]}>
                         <View style={[styles.cruveView, { backgroundColor: props.checkType ? darkColor : primaryColor }]} />
-                        <Text style={[styles.bold, { fontSize: 30, color: 'white', top: 10, width: '100%', textAlign: 'center' }]}>{`${props.userInfo.title}${props.userInfo.firstname} ${props.userInfo.lastname}`}</Text>
-                        <Text style={{ fontSize: 24, color: 'white', top: 10, width: '100%', textAlign: 'center' }}>{`${props.userInfo.position}`}</Text>
                     </View>
-                    <Image source={{ uri: 'https://via.placeholder.com/300' }} style={[styles.imageContainer]} />
+                    <View style={[styles.imageContainer, { borderColor: 'white' }]}>
+                        <Icon name="user" color={props.checkType ? darkColor : primaryColor} size={60} />
+                    </View>
+                    {/* <Image source={{ uri: 'https://via.placeholder.com/300' }} style={[styles.imageContainer]} /> */}
+                    <Text style={[styles.bold, { fontSize: 30, color: props.checkType ? darkColor : primaryColor, width: '100%', textAlign: 'center' }]}>{`${props.userInfo.title}${props.userInfo.firstname} ${props.userInfo.lastname}`}</Text>
+                    <Text style={{ fontSize: 24, color: props.checkType ? darkColor : primaryColor, width: '100%', textAlign: 'center' }}>{`${props.userInfo.position}`}</Text>
                     <View style={[styles.center]}>
                         <TouchableOpacity style={[styles.buttonCheck, styles.shadow, styles.center, { backgroundColor: props.checkType ? darkColor : secondaryColor }]}
                             onPress={() => this.onCheck()
