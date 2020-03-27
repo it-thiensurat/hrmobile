@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     PermissionsAndroid
 } from 'react-native'
-var moment = require('moment');
+var moment = require('moment')
 import { connect } from 'react-redux'
 import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
@@ -24,7 +24,8 @@ import {
     API_KEY,
     BASEURL,
     CHECK_URL,
-    CHECK_KEY
+    CHECK_KEY,
+    CHECK_TIME
 } from '../../utils/contants'
 
 import {
@@ -40,9 +41,11 @@ import StorageService from '../../utils/StorageServies'
 class CheckinScreen extends React.Component {
 
     state = {
-        latitude: '13.123',
-        longitude: '100.7895',
+        latitude: '',
+        longitude: '',
+        checkDate: '',
         currentTime: new Date(),
+        check: false
     }
 
     onCheck() {
@@ -63,11 +66,13 @@ class CheckinScreen extends React.Component {
         formData.append('type', type);
 
         props.indicatorControll(true)
-        Helper.post(BASEURL + CHECK_URL, formData, header, (results) => {
+        Helper.post(BASEURL + CHECK_URL, formData, header, async (results) => {
             if (results.status == 'SUCCESS') {
-                StorageService.set(CHECK_KEY, JSON.stringify(type))
-                props.CheckTypeControll(type == 'I' ? true : false)
-                props.indicatorControll(false)
+                await StorageService.set(CHECK_KEY, JSON.stringify(type))
+                await StorageService.set(CHECK_TIME, JSON.stringify(moment(new Date()).format('L')))
+                await props.CheckTypeControll(type == 'I' ? true : false)
+                await props.indicatorControll(false)
+                await that.setState({ check: true })
             } else {
                 props.indicatorControll(false)
                 alert(`${results.message}`)
@@ -144,10 +149,7 @@ class CheckinScreen extends React.Component {
 
     handleBack = () => {
         return true
-        // if (this.props.navigation.state.routeName == 'Checkin') {
-        //     return true
-        // }
-    };
+    }
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
@@ -159,6 +161,12 @@ class CheckinScreen extends React.Component {
                 currentTime: new Date()
             })
         }, 1000)
+
+        setInterval(() => {
+            this.setState({
+                check: false
+            })
+        }, 600000)
         this.requestLocationPermission()
         BackHandler.addEventListener('hardwareBackPress', this.handleBack);
     }
@@ -194,7 +202,7 @@ class CheckinScreen extends React.Component {
                     <Text style={[styles.bold, { fontSize: 30, color: props.checkType ? darkColor : primaryColor, width: '100%', textAlign: 'center' }]}>{`${props.userInfo.title}${props.userInfo.firstname} ${props.userInfo.lastname}`}</Text>
                     <Text style={{ fontSize: 24, color: props.checkType ? darkColor : primaryColor, width: '100%', textAlign: 'center' }}>{`${props.userInfo.position}`}</Text>
                     <View style={[styles.center]}>
-                        <TouchableOpacity style={[styles.buttonCheck, styles.shadow, styles.center, { backgroundColor: props.checkType ? darkColor : secondaryColor }]}
+                        <TouchableOpacity disabled={this.state.check} style={[styles.buttonCheck, styles.shadow, styles.center, { backgroundColor: this.state.check ? 'gray' : props.checkType ? darkColor : secondaryColor }]}
                             onPress={() => this.onCheck()
                             }>
                             <Text style={{ fontSize: 24, color: 'white' }}>{`${props.checkType ? 'CHECK OUT' : 'CHECK IN'}`}</Text>

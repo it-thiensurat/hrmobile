@@ -83,6 +83,7 @@ class MenuScreen extends React.Component {
                         <Text>{`2. เมื่อบันทึกเวลาเข้างานแล้ว หน้าจอจะเปลี่ยนเป็นสีแดง`}</Text>
                         <Text>{`3. ไม่ควรกดปุ่ม CHECK IN หรือ CHECK OUT ซ้ำๆ กันหลายครั้ง เพราะจะทำให้ข้อมูลเกิดความผิดพลาดได้`}</Text>
                         <Text>{`4. เมื่อถึงเวลาเลิกงาน ให้พนักงานกดปุ่ม CHECK OUT เพื่อบันทึกเวลาเลิกงาน (หน้าจอสีแดง)`}</Text>
+                        <Text>{`5. แอพพลิเคชั่นจะมีการบันทึกตำแหน่งล่าสุดของคุณด้วย`}</Text>
                     </View>
                     <View style={[ styles.center, { position: 'absolute', bottom: 20}]}>
                         <Text style={{ fontSize: 14, color: primaryColor }}>{`Powered by IT of Thiensurat Public Company Limited`}</Text>

@@ -7,6 +7,7 @@ import {
     BackHandler,
     TouchableOpacity
 } from 'react-native'
+var moment = require('moment')
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 
@@ -19,7 +20,8 @@ import {
     BASEURL,
     LOGIN_URL,
     TOKEN_KEY,
-    CHECK_KEY
+    CHECK_KEY,
+    CHECK_TIME
 } from '../utils/contants'
 
 import {
@@ -40,7 +42,8 @@ class LoginScreen extends React.Component {
 
     state = {
         username: '',
-        password: ''
+        password: '',
+        currentDate: new Date(),
     }
 
     onLogin() {
@@ -125,19 +128,41 @@ class LoginScreen extends React.Component {
         }
     }
 
+    checkDate() {
+        let that = this
+        try {
+            StorageService.get(CHECK_TIME).then(obj => {
+                if (obj !== null) {
+                    let date = (JSON.parse(obj))
+                    let now = moment(new Date()).format('L')
+                    console.log('Yesterday: ' + date + ', Now: ' + now)
+                    if (date < now) {
+                        console.log('Check date < : true')
+                        StorageService.remove(CHECK_KEY)
+                    } else {
+                        this.getStorageCheck()
+                        console.log('Check date < : false')
+                    }
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        } catch (error) {
+
+        }
+    }
+
     handleBack = () => {
         return true
-        // if (this.props.navigation.state.routeName == 'Login') {
-        //     return false
-        // }
-    };
+    }
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
     }
 
     async componentDidMount() {
-        await this.getStorageCheck()
+        await this.checkDate()
+        // await this.getStorageCheck()
         await this.getStorageToken()
         BackHandler.addEventListener('hardwareBackPress', this.handleBack);
     }
@@ -154,8 +179,7 @@ class LoginScreen extends React.Component {
                         placeholder='Username (รหัสพนักงาน ex. Axxxxx)'
                         keyboardType='email-address'
                         returnKeyType='next'
-                        onBlur={false}
-                        autoCapitalize={false}
+                        autoCapitalize='none'
                         value={this.state.username}
                         onChangeText={(text) => this.setState({ username: text })}
                         onSubmitEditing={() => this.password.focus()} />
@@ -168,8 +192,7 @@ class LoginScreen extends React.Component {
                         placeholder='Password  (ปี เดือน วันเกิด ex. yyyymmdd)'
                         keyboardType='number-pad'
                         returnKeyType='done'
-                        onBlur={false}
-                        autoCapitalize={false}
+                        autoCapitalize='none'
                         secureTextEntry={true}
                         value={this.state.password}
                         onChangeText={(text) => this.setState({ password: text })}
