@@ -4,6 +4,7 @@ import {
     Text,
     Image,
     Alert,
+    AppState,
     Platform,
     BackHandler,
     TouchableOpacity,
@@ -11,6 +12,7 @@ import {
 } from 'react-native'
 var moment = require('moment')
 import { connect } from 'react-redux'
+import RNExitApp from 'react-native-exit-app'
 import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import Geolocation from '@react-native-community/geolocation'
@@ -25,7 +27,8 @@ import {
     BASEURL,
     CHECK_URL,
     CHECK_KEY,
-    CHECK_TIME
+    CHECK_TIME,
+    TIMESTAMP
 } from '../../utils/contants'
 
 import {
@@ -43,9 +46,10 @@ class CheckinScreen extends React.Component {
     state = {
         latitude: '',
         longitude: '',
-        checkDate: '',
+        checkTime: 600000,
         currentTime: new Date(),
-        check: false
+        check: false,
+        appState: AppState.currentState
     }
 
     onCheck() {
@@ -82,44 +86,95 @@ class CheckinScreen extends React.Component {
 
     async requestLocationPermission() {
         if (Platform.OS == 'ios') {
-            this.getCurrentLocation()
+            this.watchID = Geolocation.watchPosition(position => {
+                this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+            }, (error) => null,
+                { enableHighAccuracy: true, timeout: 2000, maximumAge: 1000, distanceFilter: 10 },
+            );
         } else {
             try {
-                const chckLocationPermission = PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-                if (chckLocationPermission === PermissionsAndroid.RESULTS.GRANTED) {
-                    this.getCurrentLocation()
+                //     const chckLocationPermission = PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+                //     if (chckLocationPermission === PermissionsAndroid.RESULTS.GRANTED) {
+                //         this.getCurrentLocation()
+                //     } else {
+                //         try {
+                //             const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                //                 {
+                //                     'title': 'Cool Location App required Location permission',
+                //                     'message': 'We required Location permission in order to get device location ' +
+                //                         'Please grant us.'
+                //                 }
+                //             )
+                //             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                //                 this.getCurrentLocation()
+                //             }
+                //         } catch (err) {
+                //             alert(err)
+                //         }
+                //     }
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+                    'title': 'Location Access Required',
+                    'message': 'This App needs to Access your location'
+                }
+                )
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    this.watchID = Geolocation.watchPosition(position => {
+                        this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+                    }, (error) => null,
+                        { enableHighAccuracy: true, timeout: 2000, maximumAge: 1000, distanceFilter: 10 },
+                    );
                 } else {
-                    try {
-                        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                            {
-                                'title': 'Cool Location App required Location permission',
-                                'message': 'We required Location permission in order to get device location ' +
-                                    'Please grant us.'
-                            }
-                        )
-                        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                            this.getCurrentLocation()
-                        } else {
-                            alert("You don't have access for the location");
-                        }
-                    } catch (err) {
-                        alert(err)
-                    }
+                    Alert.alert(
+                        'คำเตือน',
+                        'กรุณาให้แอพพลิเคชั่น TSR HR Mobile เข้าถึงการระบุตำแหน่ง',
+                        [
+                            { text: 'Cancel', onPress: () => RNExitApp.exitApp(), style: 'cancel' },
+                            { text: 'OK', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: false }
+                    )
                 }
             } catch (err) {
-                console.warn(err)
+                Alert.alert(
+                    'คำเตือน',
+                    'กรุณาให้แอพพลิเคชั่น TSR HR Mobile เข้าถึงการระบุตำแหน่ง',
+                    [
+                        { text: 'Cancel', onPress: () => RNExitApp.exitApp(), style: 'cancel' },
+                        { text: 'OK', onPress: () => this.requestLocationPermission() },
+                    ],
+                    { cancelable: false }
+                )
             }
         }
     }
 
-    getCurrentLocation() {
-        Geolocation.getCurrentPosition(
-            position => {
-                this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
-            },
-            error => console.log(error),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-        );
+    // getCurrentLocation() {
+    //     Geolocation.getCurrentPosition(
+    //         position => {
+    //             this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+    //         },
+    //         error => console.log(error),
+    //         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    //     );
+    // }
+
+    _handleAppStateChange = (nextAppState) => {
+        if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+            console.log('IF: ' + nextAppState)
+            StorageService.get(TIMESTAMP).then(obj => {
+                if (obj !== null) {
+                    let time = JSON.parse(obj)
+                    this.setState({ checkTime: time, check: time > 0 ? true : false })
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        } else {
+            console.log('ELSE: ' + nextAppState)
+            StorageService.set(TIMESTAMP, JSON.stringify(this.state.checkTime))
+        }
+        this.setState({ appState: nextAppState });
     }
 
     ComponentLeft = () => {
@@ -152,13 +207,24 @@ class CheckinScreen extends React.Component {
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
+        AppState.removeEventListener('change', this._handleAppStateChange)
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBack)
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        await StorageService.get(TIMESTAMP).then(obj => {
+            if (obj !== null) {
+                let time = JSON.parse(obj)
+                this.setState({ checkTime: time, check: time > 0 ? true : false })
+            }
+        }).catch(function (error) {
+            console.log(error);
+        });
+
         setInterval(() => {
             this.setState({
-                currentTime: new Date()
+                currentTime: new Date(),
+                checkTime: this.state.check ? this.state.checkTime - 1 : 600000
             })
         }, 1000)
 
@@ -166,9 +232,10 @@ class CheckinScreen extends React.Component {
             this.setState({
                 check: false
             })
-        }, 600000)
-        this.requestLocationPermission()
-        BackHandler.addEventListener('hardwareBackPress', this.handleBack);
+        }, this.state.checkTime)
+        await this.requestLocationPermission()
+        AppState.addEventListener('change', this._handleAppStateChange)
+        BackHandler.addEventListener('hardwareBackPress', this.handleBack)
     }
 
     render() {

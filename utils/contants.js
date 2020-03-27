@@ -29,6 +29,7 @@ export const API_KEY            = '43fcecf67114fa38ff11b7afe6519650'
 export const TOKEN_KEY          = 'TOKEN_KEY'
 export const CHECK_KEY          = 'CHECK_KEY'
 export const CHECK_TIME         = 'CHECK_TIME'
+export const TIMESTAMP          = 'TIMESTAMP'
 
 
 /**

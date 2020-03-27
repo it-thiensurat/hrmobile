@@ -38,6 +38,8 @@ target 'hrmobile' do
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
+  pod 'RNExitApp', :path => '../node_modules/react-native-exit-app'
+
   target 'hrmobileTests' do
     inherit! :search_paths
     # Pods for testing
