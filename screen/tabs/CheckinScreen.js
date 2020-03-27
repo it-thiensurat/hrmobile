@@ -93,25 +93,6 @@ class CheckinScreen extends React.Component {
             );
         } else {
             try {
-                //     const chckLocationPermission = PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-                //     if (chckLocationPermission === PermissionsAndroid.RESULTS.GRANTED) {
-                //         this.getCurrentLocation()
-                //     } else {
-                //         try {
-                //             const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                //                 {
-                //                     'title': 'Cool Location App required Location permission',
-                //                     'message': 'We required Location permission in order to get device location ' +
-                //                         'Please grant us.'
-                //                 }
-                //             )
-                //             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                //                 this.getCurrentLocation()
-                //             }
-                //         } catch (err) {
-                //             alert(err)
-                //         }
-                //     }
                 const granted = await PermissionsAndroid.request(
                     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
                     'title': 'Location Access Required',
@@ -212,14 +193,14 @@ class CheckinScreen extends React.Component {
     }
 
     async componentDidMount() {
-        await StorageService.get(TIMESTAMP).then(obj => {
-            if (obj !== null) {
-                let time = JSON.parse(obj)
-                this.setState({ checkTime: time, check: time > 0 ? true : false })
-            }
-        }).catch(function (error) {
-            console.log(error);
-        });
+        // await StorageService.get(TIMESTAMP).then(obj => {
+        //     if (obj !== null) {
+        //         let time = JSON.parse(obj)
+        //         this.setState({ checkTime: time, check: time > 0 ? true : false })
+        //     }
+        // }).catch(function (error) {
+        //     console.log(error);
+        // });
 
         setInterval(() => {
             this.setState({
