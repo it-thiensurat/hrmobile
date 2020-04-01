@@ -16,6 +16,7 @@ import RNExitApp from 'react-native-exit-app'
 import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import Geolocation from '@react-native-community/geolocation'
+import RNAndroidLocationEnabler from 'react-native-android-location-enabler'
 
 import {
     darkColor,
@@ -82,6 +83,27 @@ class CheckinScreen extends React.Component {
                 alert(`${results.message}`)
             }
         })
+    }
+
+    checkLocationEnable() {
+        RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({interval: 10000, fastInterval: 5000})
+            .then(data => {
+                this.requestLocationPermission()
+                // alert(JSON.stringify(data))
+                // The user has accepted to enable the location services
+                // data can be :
+                //  - "already-enabled" if the location services has been already enabled
+                //  - "enabled" if user has clicked on OK button in the popup
+            }).catch(err => {
+                RNExitApp.exitApp()
+                // alert(JSON.stringify(err))
+                // The user has not accepted to enable the location services or something went wrong during the process
+                // "err" : { "code" : "ERR00|ERR01|ERR02", "message" : "message"}
+                // codes : 
+                //  - ERR00 : The user has clicked on Cancel button in the popup
+                //  - ERR01 : If the Settings change are unavailable
+                //  - ERR02 : If the popup has failed to open
+            });
     }
 
     async requestLocationPermission() {
@@ -193,15 +215,6 @@ class CheckinScreen extends React.Component {
     }
 
     async componentDidMount() {
-        // await StorageService.get(TIMESTAMP).then(obj => {
-        //     if (obj !== null) {
-        //         let time = JSON.parse(obj)
-        //         this.setState({ checkTime: time, check: time > 0 ? true : false })
-        //     }
-        // }).catch(function (error) {
-        //     console.log(error);
-        // });
-
         setInterval(() => {
             this.setState({
                 currentTime: new Date(),
@@ -214,7 +227,8 @@ class CheckinScreen extends React.Component {
                 check: false
             })
         }, this.state.checkTime)
-        await this.requestLocationPermission()
+        await this.checkLocationEnable()
+        // await this.requestLocationPermission()
         AppState.addEventListener('change', this._handleAppStateChange)
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)
     }
