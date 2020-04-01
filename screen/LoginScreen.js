@@ -176,7 +176,7 @@ class LoginScreen extends React.Component {
                     <Icon name="user" color={secondaryColor} size={26} />
                     <TextInput style={[styles.inputContainer]}
                         ref={(input) => { this.username = input; }}
-                        placeholder='Username (รหัสพนักงาน ex. Axxxxx)'
+                        placeholder='Username'
                         keyboardType='email-address'
                         returnKeyType='next'
                         autoCapitalize='none'
@@ -189,7 +189,7 @@ class LoginScreen extends React.Component {
                     <Icon name="lock" color={secondaryColor} size={26} />
                     <TextInput style={[styles.inputContainer]}
                         ref={(input) => { this.password = input; }}
-                        placeholder='Password  (ปี เดือน วันเกิด ex. yyyymmdd)'
+                        placeholder='Password'
                         keyboardType='number-pad'
                         returnKeyType='done'
                         autoCapitalize='none'

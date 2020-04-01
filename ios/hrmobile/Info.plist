@@ -40,7 +40,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like access to your camera for upload picture.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to access your location while you are using the app?</string>
+	<string>Allow $(PRODUCT_NAME) to access location to provide your check in or check out and record your time work.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like access to your photo gallery for upload picture.</string>
 	<key>UIAppFonts</key>

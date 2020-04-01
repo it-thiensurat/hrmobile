@@ -238,7 +238,7 @@ class CheckinScreen extends React.Component {
         const props = this.props.reducer
 
         return (
-            <View style={{ flex: 1, paddingTop: Platform.OS == 'ios' ? 10 : 0 }}>
+            <View style={{ flex: 1 }}>
                 <NavigationBar
                     componentLeft={this.ComponentLeft}
                     componentCenter={this.ComponentCenter}

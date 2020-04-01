@@ -61,7 +61,7 @@ class MenuScreen extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1, paddingTop: Platform.OS == 'ios' ? 10 : 0, backgroundColor: secondaryColor }}>
+            <View style={{ flex: 1, backgroundColor: secondaryColor }}>
                 <NavigationBar
                     componentLeft={this.ComponentLeft}
                     componentCenter={this.ComponentCenter}
