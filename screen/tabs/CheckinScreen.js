@@ -89,20 +89,8 @@ class CheckinScreen extends React.Component {
         RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({interval: 10000, fastInterval: 5000})
             .then(data => {
                 this.requestLocationPermission()
-                // alert(JSON.stringify(data))
-                // The user has accepted to enable the location services
-                // data can be :
-                //  - "already-enabled" if the location services has been already enabled
-                //  - "enabled" if user has clicked on OK button in the popup
             }).catch(err => {
                 RNExitApp.exitApp()
-                // alert(JSON.stringify(err))
-                // The user has not accepted to enable the location services or something went wrong during the process
-                // "err" : { "code" : "ERR00|ERR01|ERR02", "message" : "message"}
-                // codes : 
-                //  - ERR00 : The user has clicked on Cancel button in the popup
-                //  - ERR01 : If the Settings change are unavailable
-                //  - ERR02 : If the popup has failed to open
             });
     }
 
@@ -118,9 +106,9 @@ class CheckinScreen extends React.Component {
                 const granted = await PermissionsAndroid.request(
                     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
                     'title': 'Location Access Required',
-                    'message': 'This App needs to Access your location'
-                }
-                )
+                    'message': 'กรุณาให้แอพพลิเคชั่น TSR HR Mobile เข้าถึงการระบุตำแหน่ง'
+                })
+
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     this.watchID = Geolocation.watchPosition(position => {
                         this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
@@ -133,7 +121,7 @@ class CheckinScreen extends React.Component {
                         'กรุณาให้แอพพลิเคชั่น TSR HR Mobile เข้าถึงการระบุตำแหน่ง',
                         [
                             { text: 'Cancel', onPress: () => RNExitApp.exitApp(), style: 'cancel' },
-                            { text: 'OK', onPress: () => console.log('OK Pressed') },
+                            { text: 'OK', onPress: () => PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION) },
                         ],
                         { cancelable: false }
                     )
@@ -144,7 +132,7 @@ class CheckinScreen extends React.Component {
                     'กรุณาให้แอพพลิเคชั่น TSR HR Mobile เข้าถึงการระบุตำแหน่ง',
                     [
                         { text: 'Cancel', onPress: () => RNExitApp.exitApp(), style: 'cancel' },
-                        { text: 'OK', onPress: () => this.requestLocationPermission() },
+                        { text: 'OK', onPress: () => PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION) },
                     ],
                     { cancelable: false }
                 )
