@@ -64,6 +64,7 @@ class LoginScreen extends React.Component {
                 props.tokenControll('save', results.token)
                 props.userInfoControll('save', results.data)
                 StorageService.set(TOKEN_KEY, results.token)
+                props.CheckTypeControll(false)
                 props.indicatorControll(false)
                 props.navigation.replace('Main')
             } else {
@@ -87,6 +88,7 @@ class LoginScreen extends React.Component {
                 props.tokenControll('save', results.token)
                 props.userInfoControll('save', results.data)
                 StorageService.set(TOKEN_KEY, results.token)
+                props.CheckTypeControll(false)
                 props.indicatorControll(false)
                 props.navigation.replace('Main')
             } else {
@@ -119,6 +121,8 @@ class LoginScreen extends React.Component {
                 if (obj !== null) {
                     let check = JSON.parse(obj)
                     props.CheckTypeControll(check == 'I' ? true : false)
+                } else {
+                    props.CheckTypeControll(false)
                 }
             }).catch(function (error) {
                 console.log(error);

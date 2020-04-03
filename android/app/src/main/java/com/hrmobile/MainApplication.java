@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import io.xogus.reactnative.versioncheck.RNVersionCheckPackage;
 import com.github.wumke.RNExitApp.RNExitAppPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.horcrux.svg.SvgPackage;

@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 var moment = require('moment');
 import { connect } from 'react-redux'
+import VersionCheck from 'react-native-version-check'
 import { NavigationBar } from 'navigationbar-react-native'
 
 import {
@@ -86,6 +87,7 @@ class MenuScreen extends React.Component {
                         <Text>{`5. แอพพลิเคชั่นจะมีการบันทึกตำแหน่งล่าสุดของคุณด้วย`}</Text>
                     </View>
                     <View style={[ styles.center, { position: 'absolute', bottom: 20}]}>
+                        <Text style={{ fontSize: 14, color: primaryColor }}>{`v ${VersionCheck.getCurrentVersion()}`}</Text>
                         <Text style={{ fontSize: 14, color: primaryColor }}>{`Powered by IT of Thiensurat Public Company Limited`}</Text>
                     </View>
                 </View>

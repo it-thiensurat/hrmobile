@@ -140,16 +140,6 @@ class CheckinScreen extends React.Component {
         }
     }
 
-    // getCurrentLocation() {
-    //     Geolocation.getCurrentPosition(
-    //         position => {
-    //             this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
-    //         },
-    //         error => console.log(error),
-    //         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    //     );
-    // }
-
     _handleAppStateChange = (nextAppState) => {
         if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
             console.log('IF: ' + nextAppState)
@@ -163,7 +153,9 @@ class CheckinScreen extends React.Component {
             });
         } else {
             console.log('ELSE: ' + nextAppState)
-            StorageService.set(TIMESTAMP, JSON.stringify(this.state.checkTime))
+            if (this.state.check) {
+                StorageService.set(TIMESTAMP, JSON.stringify(this.state.checkTime))
+            }
         }
         this.setState({ appState: nextAppState });
     }
@@ -203,20 +195,19 @@ class CheckinScreen extends React.Component {
     }
 
     async componentDidMount() {
-        setInterval(() => {
+        await setInterval(() => {
             this.setState({
                 currentTime: new Date(),
                 checkTime: this.state.check ? this.state.checkTime - 1 : 600000
             })
         }, 1000)
 
-        setInterval(() => {
+        await setInterval(() => {
             this.setState({
                 check: false
             })
         }, this.state.checkTime)
         await this.checkLocationEnable()
-        // await this.requestLocationPermission()
         AppState.addEventListener('change', this._handleAppStateChange)
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)
     }
