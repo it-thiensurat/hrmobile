@@ -4,6 +4,7 @@ import {
     Text,
     Image,
     Alert,
+    Linking,
     AppState,
     Platform,
     BackHandler,
@@ -92,6 +93,21 @@ class CheckinScreen extends React.Component {
             }).catch(err => {
                 RNExitApp.exitApp()
             });
+    }
+
+    async checkIOSLocationEnable() {
+        const locationServicesAvailable = await ConnectivityManager.areLocationServicesEnabled()
+        if (!locationServicesAvailable) {
+            Alert.alert(
+                'คำเตือน',
+                'กรุณาให้แอพพลิเคชั่น TSR HR Mobile เข้าถึงการระบุตำแหน่ง',
+                [
+                    { text: 'Cancel', onPress: () => RNExitApp.exitApp(), style: 'cancel' },
+                    { text: 'OK', onPress: () => Linking.openURL('app-settings:') },
+                ],
+                { cancelable: false }
+            )
+        }
     }
 
     async requestLocationPermission() {
@@ -207,7 +223,13 @@ class CheckinScreen extends React.Component {
                 check: false
             })
         }, this.state.checkTime)
-        await this.checkLocationEnable()
+
+        if (Platform.OS == 'android') {
+            await this.checkLocationEnable()
+        } else {
+            await this.requestLocationPermission()
+        }
+        
         AppState.addEventListener('change', this._handleAppStateChange)
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)
     }
