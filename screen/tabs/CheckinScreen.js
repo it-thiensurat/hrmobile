@@ -54,7 +54,9 @@ class CheckinScreen extends React.Component {
         appState: AppState.currentState
     }
 
-    onCheck() {
+    async onCheck() {
+        await this.requestLocationPermission()
+
         let type = ''
         let that = this
         const props = that.props
@@ -64,7 +66,6 @@ class CheckinScreen extends React.Component {
             'Authorization': props.reducer.token,
             'x-api-key': API_KEY
         }
-
         let formData = new FormData();
         formData.append('checkTime', moment(currentTime).format('L').split("/").reverse().join("-") + ' ' + moment(currentTime).format('LTS'));
         formData.append('latitude', latitude);
@@ -72,7 +73,7 @@ class CheckinScreen extends React.Component {
         formData.append('type', type);
 
         props.indicatorControll(true)
-        Helper.post(BASEURL + CHECK_URL, formData, header, async (results) => {
+        await Helper.post(BASEURL + CHECK_URL, formData, header, async (results) => {
             if (results.status == 'SUCCESS') {
                 await StorageService.set(CHECK_KEY, JSON.stringify(type))
                 await StorageService.set(CHECK_TIME, JSON.stringify(moment(new Date()).format('L')))
