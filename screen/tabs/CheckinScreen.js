@@ -132,6 +132,10 @@ class CheckinScreen extends React.Component {
                     }, (error) => null,
                         { enableHighAccuracy: true, timeout: 2000, maximumAge: 1000, distanceFilter: 10 },
                     );
+
+                    Geolocation.getCurrentPosition(position => {
+                        this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+                    })
                 } else {
                     Alert.alert(
                         'คำเตือน',
@@ -211,24 +215,24 @@ class CheckinScreen extends React.Component {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBack)
     }
 
-    async componentDidMount() {
-        await setInterval(() => {
+    componentDidMount() {
+        setInterval(() => {
             this.setState({
                 currentTime: new Date(),
                 checkTime: this.state.check ? this.state.checkTime - 1 : 600000
             })
         }, 1000)
 
-        await setInterval(() => {
+        setInterval(() => {
             this.setState({
                 check: false
             })
         }, this.state.checkTime)
 
         if (Platform.OS == 'android') {
-            await this.checkLocationEnable()
+            this.checkLocationEnable()
         } else {
-            await this.requestLocationPermission()
+            this.requestLocationPermission()
         }
         
         AppState.addEventListener('change', this._handleAppStateChange)
