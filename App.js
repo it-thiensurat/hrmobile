@@ -48,6 +48,7 @@ const Stack = createStackNavigator();
 
 import Main from './screen/MainScreen'
 import Login from './screen/LoginScreen'
+import Leave from './screen/LeaveScreen'
 
 function MyStack() {
   return (
@@ -56,6 +57,7 @@ function MyStack() {
       initialRouteName='Login'>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Main" component={Main} />
+      <Stack.Screen name="Leave" component={Leave} />
     </Stack.Navigator>
   );
 }
