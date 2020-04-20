@@ -60,6 +60,12 @@ const styles = StyleSheet.create({
         backgroundColor: primaryColor,
         borderRadius: COMPONENT_HIGHT / 2
     },
+    secondaryButtonSmall: {
+        height: COMPONENT_HIGHT,
+        width: DEVICE_WIDTH / 2,
+        backgroundColor: primaryColor,
+        borderRadius: COMPONENT_HIGHT / 2
+    },
     shadow: {
         shadowOffset: {
             width: 0,

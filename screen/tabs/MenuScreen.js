@@ -103,7 +103,7 @@ class MenuScreen extends React.Component {
                             </LinearGradient>
                         </TouchableOpacity>
                         <View style={{ width: 20 }} />
-                        <TouchableOpacity style={{ width: 150, height: 150 }}
+                        {/* <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
                                 () => {
                                     this.props.navigation.navigate('Leave')
@@ -112,7 +112,10 @@ class MenuScreen extends React.Component {
                             <LinearGradient colors={['#A2D9CE', '#36D2C7', '#76D7C4']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                                 <Icon name="briefcase" color={'white'} size={50} />
                             </LinearGradient>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
+                        <View style={{ width: 150, height: 150 }}>
+                            
+                        </View>
                     </View>
                     <View style={[styles.center, { position: 'absolute', bottom: 20 }]}>
                         <Text style={[styles.bold, { fontSize: 12 }]}>{`\tแอพพลิเคชั่น สร้างขึ้นเพื่อใช้เป็นแผนสำรองสำหรับ บริษัท เธียรสุรัตน์ จำกัด (มหาชน) โดยมีขั้นตอนการใช้งาน ดังนี้\n`}</Text>
