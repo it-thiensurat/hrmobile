@@ -4,13 +4,17 @@ import {
     Text,
     Platform,
     BackHandler,
-    TouchableOpacity
+    TextInput,
+    TouchableOpacity,
+    ScrollView
 } from 'react-native'
-var moment = require('moment');
+import Moment from 'moment'
+import { Picker } from "native-base"
 import { connect } from 'react-redux'
 import VersionCheck from 'react-native-version-check'
 import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
+import DateTimePickerModal from "react-native-modal-datetime-picker"
 
 import {
     darkColor,
@@ -22,6 +26,12 @@ import {
 import styles from '../style/style'
 
 class MenuScreen extends React.Component {
+
+    state = {
+        isDatePickerVisible: false,
+        leaveDate: new Date(),
+        scheduleCode: ''
+    }
 
     ComponentLeft = () => {
         return (
@@ -36,7 +46,7 @@ class MenuScreen extends React.Component {
     ComponentCenter = () => {
         return (
             <View style={[styles.center]}>
-                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`การลางาน`}</Text>
+                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`ขออนุมัติลา`}</Text>
             </View>
         );
     }
@@ -49,13 +59,38 @@ class MenuScreen extends React.Component {
         );
     }
 
+    _showDateTimePicker = () =>
+        this.setState({ isDatePickerVisible: true });
+
+    _hideDateTimePicker = (date) => {
+        this.setState({
+            isDatePickerVisible: false
+        });
+    }
+
+    _handleDatePicked = (date) => {
+        this.setState({
+            leaveDate: date
+        });
+        this._hideDateTimePicker();
+    }
+
+    onSelectSchedule(value) {
+        // if (value != '999') {
+        //     const props = this.props.reducer
+        //     let title = props.title
+        //     let title_arr = title.filter((item) => item.Id == value)
+        //     // console.log(title_arr)
+        //     this.setState({ titleId: value, titleName: title_arr[0].NameTh })
+        //     // alert(JSON.stringify(this.state.titleName))
+        // } else {
+        //     this.setState({ titleId: '', titleName: '' })
+        // }
+    }
+
     handleBack = () => {
         this.props.navigation.pop();
-            return true;
-        // if (this.props.navigation.state.routeName == 'Leave') {
-        //     this.props.navigation.pop();
-        //     return true;
-        // }
+        return true;
     };
 
     componentWillUnmount() {
@@ -83,18 +118,58 @@ class MenuScreen extends React.Component {
                         elevation: 0,
                         shadowOpacity: 0,
                     }} />
-                <View style={{ flex: 1 }}>
-                    <View style={[styles.center, { position: 'absolute', bottom: 20 }]}>
-                        <Text style={[styles.bold, { fontSize: 12 }]}>{`\tแอพพลิเคชั่น สร้างขึ้นเพื่อใช้เป็นแผนสำรองสำหรับ บริษัท เธียรสุรัตน์ จำกัด (มหาชน) โดยมีขั้นตอนการใช้งาน ดังนี้\n`}</Text>
-                        <Text style={{ fontSize: 12 }}>{`1. เมื่อถึงเวลางานที่กำหนด ให้พนักงานกดปุ่ม CHECK IN เพื่อบันทึกเวลาเข้างาน (หน้าจอสีเขียว)`}</Text>
-                        <Text style={{ fontSize: 12 }}>{`2. เมื่อบันทึกเวลาเข้างานแล้ว หน้าจอจะเปลี่ยนเป็นสีแดง`}</Text>
-                        <Text style={{ fontSize: 12 }}>{`3. ไม่ควรกดปุ่ม CHECK IN หรือ CHECK OUT ซ้ำๆ กันหลายครั้ง เพราะจะทำให้ข้อมูลเกิดความผิดพลาดได้`}</Text>
-                        <Text style={{ fontSize: 12 }}>{`4. เมื่อถึงเวลาเลิกงาน ให้พนักงานกดปุ่ม CHECK OUT เพื่อบันทึกเวลาเลิกงาน (หน้าจอสีแดง)`}</Text>
-                        <Text style={{ fontSize: 12 }}>{`5. แอพพลิเคชั่นจะมีการบันทึกตำแหน่งล่าสุดของคุณด้วย`}</Text>
-                        <Text style={{ fontSize: 14, color: primaryColor }}>{`v ${VersionCheck.getCurrentVersion()}`}</Text>
-                        <Text style={{ fontSize: 14, color: primaryColor }}>{`Powered by IT of Thiensurat Public Company Limited`}</Text>
+                <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps={'never'} keyboardDismissMode='on-drag'>
+                    <View style={{ flex: 1, padding: 10 }}>
+                        <View style={{ marginBottom: 15 }}>
+                            <View style={{ marginBottom: 10 }}>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: 'white' }}>{`วันที่ขอลา`}</Text>
+                            </View>
+                            <TouchableOpacity style={[styles.shadow, styles.inputContainer, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
+                                onPress={
+                                    () => this._showDateTimePicker()
+                                }>
+                                <Icon name={'calendar'} size={30} color={primaryColor} style={{ marginRight: 10 }} />
+                                <TextInput
+                                    placeholder='วันที่ขอลา'
+                                    ref={(input) => { this.leaveDate = input; }}
+                                    autoCapitalize={'none'}
+                                    returnKeyType={'next'}
+                                    value={Moment(this.state.leaveDate).format("DD/MM/YYYY")}
+                                    style={[styles.inputSmall, { color: 'black' }]}
+                                    editable={false} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ marginBottom: 15 }}>
+                            <View style={{ marginBottom: 10 }}>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: 'white' }}>{`รหัสกะ`}</Text>
+                            </View>
+                            <View style={[styles.input, styles.shadow, styles.center]}>
+                                <Picker
+                                    mode="dropdown"
+                                    placeholder=""
+                                    textStyle={{ fontSize: 18 }}
+                                    itemStyle={{ marginLeft: 0, paddingLeft: 10 }}
+                                    itemTextStyle={{ color: 'gray', fontSize: 18 }}
+                                    style={[{ color: 'gray', width: '100%' }]}
+                                    selectedValue={this.state.scheduleCode}
+                                    onValueChange={(value, index) => this.onSelectSchedule(value)} >
+                                    {
+                                        // title.map((value, index) => {
+                                        //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
+                                        // })
+                                    }
+                                </Picker>
+                            </View>
+                        </View>
+                        <View style={styles.marginBetweenVertical}></View>
                     </View>
-                </View>
+                </ScrollView>
+                <DateTimePickerModal
+                    mode="date"
+                    is24Hour={true}
+                    isVisible={this.state.isDatePickerVisible}
+                    onConfirm={this._handleDatePicked}
+                    onCancel={this._hideDateTimePicker} />
             </View>
         )
     }

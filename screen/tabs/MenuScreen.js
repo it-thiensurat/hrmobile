@@ -6,7 +6,6 @@ import {
     BackHandler,
     TouchableOpacity
 } from 'react-native'
-var moment = require('moment');
 import { connect } from 'react-redux'
 import VersionCheck from 'react-native-version-check'
 import { NavigationBar } from 'navigationbar-react-native'
@@ -35,7 +34,7 @@ class MenuScreen extends React.Component {
     ComponentCenter = () => {
         return (
             <View style={[styles.center]}>
-                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`การใช้งาน`}</Text>
+                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`เมนูใช้งาน`}</Text>
             </View>
         );
     }
@@ -100,6 +99,7 @@ class MenuScreen extends React.Component {
                             }>
                             <LinearGradient colors={['#A2D9CE', '#36D2C7', '#76D7C4']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                                 <Icon name="briefcase" color={'white'} size={50} />
+                                <Text style={[styles.bold, { color: 'white' }]}>ขออนุมัติลา</Text>
                             </LinearGradient>
                         </TouchableOpacity>
                         <View style={{ width: 20 }} />
