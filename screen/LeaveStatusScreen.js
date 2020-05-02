@@ -16,6 +16,7 @@ import { connect } from 'react-redux'
 import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import DateTimePickerModal from "react-native-modal-datetime-picker"
+import circleplus from "../img/circleplus.png"
 
 import {
     darkColor,
@@ -114,7 +115,19 @@ class LeaveStatusScreen extends React.Component {
                         shadowOpacity: 0,
                     }} />
 
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F5F5F5' }}>
+                <View style={{ flex: 0.15, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F5F5F5' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ width: 80, height: 80, backgroundColor: 'red', margin: 4 }}></View>
+                        <View style={{ width: 80, height: 80, backgroundColor: 'green', margin: 4 }}></View>
+                        <View style={{ width: 80, height: 80, backgroundColor: 'blue', margin: 4 }}></View>
+                        <View style={{ width: 80, height: 80, backgroundColor: 'pink', margin: 4 }}></View>
+                    </View>
+                </View>
+                <View style={{ flex: 0.85 }}>
+
+                    <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps={'never'} keyboardDismissMode='on-drag'>
+                        
+                    </ScrollView>
 
                     <TouchableOpacity activeOpacity={0.5} style={{ position: 'absolute', width: 55, height: 55, alignItems: 'center', justifyContent: 'center', right: 25, bottom: 25 }}
                         onPress={
@@ -123,13 +136,11 @@ class LeaveStatusScreen extends React.Component {
                             }
                         }>
 
-                        <Icon name={'plus-circle'} size={55} color={secondaryColor} style={{ resizeMode: 'contain' }} />
+                        {/* <Icon name={'plus-circle'} size={55} color={secondaryColor} style={{ resizeMode: 'contain' }} /> */}
 
-                        {/* <Image source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png' }}
-                            style={{ resizeMode: 'contain', width: 50, height: 50 }} /> */}
-
+                        <Image source={circleplus}
+                            style={{ resizeMode: 'contain', width: 50, height: 50 }} />
                     </TouchableOpacity>
-
                 </View>
             </View >
         )
