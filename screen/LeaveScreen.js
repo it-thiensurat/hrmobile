@@ -6,7 +6,8 @@ import {
     BackHandler,
     TextInput,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    Dimensions
 } from 'react-native'
 import Moment from 'moment'
 import { Picker } from "native-base"
@@ -26,7 +27,9 @@ import {
 
 import styles from '../style/style'
 
-class MenuScreen extends React.Component {
+const DEVICE_WIDTH = Dimensions.get('window').width;
+
+class LeaveScreen extends React.Component {
 
     state = {
         isDatePickerVisible: false,
@@ -110,7 +113,7 @@ class MenuScreen extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: secondaryColor }}>
+            <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <NavigationBar
                     componentLeft={this.ComponentLeft}
                     componentCenter={this.ComponentCenter}
@@ -129,26 +132,26 @@ class MenuScreen extends React.Component {
                     <View style={{ flex: 1, padding: 10 }}>
                         <View style={{ marginBottom: 10 }}>
                             <View style={{ marginBottom: 5 }}>
-                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: 'white' }}>{`วันที่ขอลา`}</Text>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`วันที่ขอลา`}</Text>
                             </View>
                             <TouchableOpacity style={[styles.shadow, styles.inputContainer, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
                                 onPress={
                                     () => this._showDateTimePicker()
                                 }>
-                                <Icon name={'calendar'} size={30} color={primaryColor} style={{ marginRight: 10 }} />
                                 <TextInput
                                     placeholder='วันที่ขอลา'
                                     ref={(input) => { this.leaveDate = input; }}
                                     autoCapitalize={'none'}
                                     returnKeyType={'next'}
                                     value={Moment(this.state.leaveDate).format("DD/MM/YYYY")}
-                                    style={[styles.inputSmall, { color: 'black' }]}
+                                    style={[styles.inputWithCalendar, styles.shadow, { color: 'black' }]}
                                     editable={false} />
+                                <Icon name={'calendar'} size={30} color={secondaryColor} style={{ marginLeft: 6 }} />
                             </TouchableOpacity>
                         </View>
                         <View style={{ marginBottom: 10 }}>
                             <View style={{ marginBottom: 5 }}>
-                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: 'white' }}>{`รหัสกะ`}</Text>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`รหัสกะ`}</Text>
                             </View>
                             <View style={[styles.input, styles.shadow, styles.center]}>
                                 <Picker
@@ -170,69 +173,69 @@ class MenuScreen extends React.Component {
                         </View>
                         <View style={{ marginBottom: 10 }}>
                             <View style={{ marginBottom: 5 }}>
-                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: 'white' }}>{`ลาตั้งแต่วันที่`}</Text>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`ลาตั้งแต่วันที่`}</Text>
                             </View>
                             <TouchableOpacity style={[styles.shadow, styles.inputContainer, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
                                 onPress={
                                     () => this._showDateTimePicker()
                                 }>
-                                <Icon name={'calendar'} size={30} color={primaryColor} style={{ marginRight: 10 }} />
                                 <TextInput
                                     placeholder='ลาตั้งแต่วันที่'
                                     ref={(input) => { this.leaveFrom = input; }}
                                     autoCapitalize={'none'}
                                     returnKeyType={'next'}
                                     value={Moment(this.state.leaveFrom).format("DD/MM/YYYY")}
-                                    style={[styles.inputSmall, { color: 'black' }]}
+                                    style={[styles.inputWithCalendar, styles.shadow, { color: 'black' }]}
                                     editable={false} />
+                                <Icon name={'calendar'} size={30} color={secondaryColor} style={{ marginLeft: 6 }} />
                             </TouchableOpacity>
                         </View>
                         <View style={{ marginBottom: 10 }}>
                             <View style={{ marginBottom: 5 }}>
-                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: 'white' }}>{`ถึงวันที่`}</Text>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`ถึงวันที่`}</Text>
                             </View>
                             <TouchableOpacity style={[styles.shadow, styles.inputContainer, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
                                 onPress={
                                     () => this._showDateTimePicker()
                                 }>
-                                <Icon name={'calendar'} size={30} color={primaryColor} style={{ marginRight: 10 }} />
                                 <TextInput
                                     placeholder='ถึงวันที่'
                                     ref={(input) => { this.leaveTo = input; }}
                                     autoCapitalize={'none'}
                                     returnKeyType={'next'}
                                     value={Moment(this.state.leaveTo).format("DD/MM/YYYY")}
-                                    style={[styles.inputSmall, { color: 'black' }]}
+                                    style={[styles.inputWithCalendar, styles.shadow, { color: 'black' }]}
                                     editable={false} />
+                                <Icon name={'calendar'} size={30} color={secondaryColor} style={{ marginLeft: 6 }} />
                             </TouchableOpacity>
                         </View>
                         <View style={{ marginBottom: 10 }}>
                             <RadioGroup
                                 size={25}
                                 thickness={2}
-                                color={'white'}
+                                color={secondaryColor}
                                 style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}
                                 highlightColor='transparent'
                                 onSelect={(index, value) => this.onSelectLeave(index, value)}>
                                 <RadioButton value={"1"}>
-                                    <Text style={{ fontSize: 20, color: 'white' }}>{`เต็มวัน`}</Text>
+                                    <Text style={{ fontSize: 20, color: secondaryColor }}>{`เต็มวัน`}</Text>
                                 </RadioButton>
                                 <RadioButton value={"2"}>
-                                    <Text style={{ fontSize: 20, color: 'white' }}>{`ครึ่งเช้า`}</Text>
+                                    <Text style={{ fontSize: 20, color: secondaryColor }}>{`ครึ่งเช้า`}</Text>
                                 </RadioButton>
                                 <RadioButton value={"3"}>
-                                    <Text style={{ fontSize: 20, color: 'white' }}>{`ครึ่งบ่าย`}</Text>
+                                    <Text style={{ fontSize: 20, color: secondaryColor }}>{`ครึ่งบ่าย`}</Text>
                                 </RadioButton>
                                 <RadioButton value={"4"}>
-                                    <Text style={{ fontSize: 20, color: 'white' }}>{`กำหนดเอง`}</Text>
+                                    <Text style={{ fontSize: 20, color: secondaryColor }}>{`กำหนดเอง`}</Text>
                                 </RadioButton>
                             </RadioGroup>
                         </View>
                         <View style={{ marginBottom: 10 }}>
                             <View style={{ marginBottom: 5 }}>
-                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: 'white' }}>{`ตั้งแต่เวลา`}</Text>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`ตั้งแต่เวลา`}</Text>
                             </View>
-                            <View style={[styles.inputSmall, styles.shadow, styles.center]}>
+                            <View style={[styles.input, styles.shadow, styles.center]}>
                                 <Picker
                                     mode="dropdown"
                                     placeholder=""
@@ -252,9 +255,9 @@ class MenuScreen extends React.Component {
                         </View>
                         <View style={{ marginBottom: 10 }}>
                             <View style={{ marginBottom: 5 }}>
-                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: 'white' }}>{`ถึงเวลา`}</Text>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`ถึงเวลา`}</Text>
                             </View>
-                            <View style={[styles.inputSmall, styles.shadow, styles.center]}>
+                            <View style={[styles.input, styles.shadow, styles.center]}>
                                 <Picker
                                     mode="dropdown"
                                     placeholder=""
@@ -274,7 +277,7 @@ class MenuScreen extends React.Component {
                         </View>
                         <View style={{ marginBottom: 10 }}>
                             <View style={{ marginBottom: 5 }}>
-                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: 'white' }}>{`รหัสการลา`}</Text>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`รหัสการลา`}</Text>
                             </View>
                             <View style={[styles.input, styles.shadow, styles.center]}>
                                 <Picker
@@ -296,7 +299,7 @@ class MenuScreen extends React.Component {
                         </View>
                         <View style={{ marginBottom: 10 }}>
                             <View style={{ marginBottom: 5 }}>
-                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: 'white' }}>{`รายละเอียด`}</Text>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`รายละเอียด`}</Text>
                             </View>
                             <TextInput style={[styles.input, styles.shadow, styles.center]}
                                 ref={(input) => { this.comment = input; }}
@@ -307,19 +310,32 @@ class MenuScreen extends React.Component {
                                 value={this.state.comment}
                                 onChangeText={(text) => this.setState({ comment: text })} />
                         </View>
+                        {/* <View style={{ marginBottom: 10 }}>
+                            <View style={{ marginBottom: 5 }}>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`เอกสารแนบ`}</Text>
+                            </View>
+                            <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: DEVICE_WIDTH / 2, backgroundColor: secondaryColor, borderRadius: 50 / 2 }]}
+                                onPress={() => this.onSelectedFile()} >
+                                <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`Choose File`}</Text>
+                            </TouchableOpacity>
+                        </View> */}
                         <View style={{ marginBottom: 10 }}>
                             <View style={{ marginBottom: 5 }}>
-                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: 'white' }}>{`เอกสารแนบ`}</Text>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`เอกสารแนบ`}</Text>
                             </View>
-                            <TouchableOpacity style={[styles.secondaryButtonSmall, styles.shadow, styles.center]}
-                                onPress={() => this.onSelectedFile()} >
-                                    <Text style={[{ color: secondaryColor, fontSize: 26 }, styles.bold]}>{`Choose File`}</Text>
-                            </TouchableOpacity>
+                            <View style={{ marginLeft: 5, alignItems: 'center' }}>
+                                <TouchableOpacity style={{ backgroundColor: "#d6d7da", height: 180, width: DEVICE_WIDTH - 20, borderRadius: 10, borderWidth: 0.5, borderColor: "#d6d7da", alignItems: "center", justifyContent: "center", }}
+                                    onPress={() => {
+                                        // this.onOpenModal('DetailsPhoto');
+                                    }}>
+                                    <Icon name="plus-circle" size={50} color="gray" />
+                                </TouchableOpacity>
+                            </View>
                         </View>
                         <View style={styles.marginBetweenVertical}></View>
-                        <TouchableOpacity style={[styles.secondaryButton, styles.shadow, styles.center]}
+                        <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: DEVICE_WIDTH - 20, backgroundColor: secondaryColor, borderRadius: 50 / 2 }]}
                             onPress={() => this.onSaveLeave()} >
-                            <Text style={[{ color: secondaryColor, fontSize: 26 }, styles.bold]}>{`บันทึกข้อมูลการลา`}</Text>
+                            <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`บันทึกข้อมูลการลา`}</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -342,4 +358,4 @@ const mapDispatchToProps = {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(LeaveScreen)

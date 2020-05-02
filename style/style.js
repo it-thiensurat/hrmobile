@@ -25,6 +25,16 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderRadius: COMPONENT_HIGHT / 2
     },
+    inputWithCalendar: {
+        paddingLeft: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: COMPONENT_HIGHT,
+        width: DEVICE_WIDTH - 50,
+        backgroundColor: 'white',
+        justifyContent: 'space-between',
+        borderRadius: COMPONENT_HIGHT / 2
+    },
     input: {
         paddingLeft: 15,
         alignItems: 'center',

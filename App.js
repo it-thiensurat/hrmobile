@@ -49,6 +49,7 @@ const Stack = createStackNavigator();
 import Main from './screen/MainScreen'
 import Login from './screen/LoginScreen'
 import Leave from './screen/LeaveScreen'
+import LeaveStatus from './screen/LeaveStatusScreen'
 
 function MyStack() {
   return (
@@ -58,6 +59,7 @@ function MyStack() {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="Leave" component={Leave} />
+      <Stack.Screen name="LeaveStatus" component={LeaveStatus} />
     </Stack.Navigator>
   );
 }

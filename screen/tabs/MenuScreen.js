@@ -34,7 +34,7 @@ class MenuScreen extends React.Component {
     ComponentCenter = () => {
         return (
             <View style={[styles.center]}>
-                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`เมนูใช้งาน`}</Text>
+                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`เมนู`}</Text>
             </View>
         );
     }
@@ -80,50 +80,63 @@ class MenuScreen extends React.Component {
                         shadowOpacity: 0,
                     }} />
                 <View style={{ flex: 1, alignItems: 'center', backgroundColor: 'white' }}>
-                    <View style={{ flexDirection: 'row', padding: 10 }}>
-                        {/* <View style={{ width: 150, height: 150, borderColor: primaryColor, borderWidth: 1, borderRadius: 10 }}>
-                            <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center' }}
-                                onPress={
-                                    async () => {
-                                        // await this.props.navigation.replace('Login')
-                                    }
-                                }>
-                                <Icon name="briefcase" color={darkColor} size={50} />
-                            </TouchableOpacity>
-                        </View> */}
+                    <View style={{ flexDirection: 'row', padding: 10, marginTop: 10 }}>
                         <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
                                 () => {
-                                    this.props.navigation.navigate('Leave')
+                                    this.props.navigation.navigate('LeaveStatus')
                                 }
                             }>
-                            <LinearGradient colors={['#A2D9CE', '#36D2C7', '#76D7C4']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                                <Icon name="briefcase" color={'white'} size={50} />
+                            <LinearGradient colors={['#6BB588', '#419B89', '#2B7F83']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                <Icon name="address-book" color={'white'} size={50} />
                                 <Text style={[styles.bold, { color: 'white' }]}>ขออนุมัติลา</Text>
                             </LinearGradient>
                         </TouchableOpacity>
                         <View style={{ width: 20 }} />
-                        {/* <TouchableOpacity style={{ width: 150, height: 150 }}
+                        <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
                                 () => {
-                                    this.props.navigation.navigate('Leave')
+                                    // this.props.navigation.navigate('Leave')
                                 }
                             }>
-                            <LinearGradient colors={['#A2D9CE', '#36D2C7', '#76D7C4']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                                <Icon name="briefcase" color={'white'} size={50} />
+                            <LinearGradient colors={['#86A8E7','#5C7EC1', '#496499']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                <Icon name="history" color={'white'} size={50} />
+                                <Text style={[styles.bold, { color: 'white' }]}>เวลาเข้า/ออก</Text>
                             </LinearGradient>
-                        </TouchableOpacity> */}
-                        <View style={{ width: 150, height: 150 }}>
-                            
-                        </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ flexDirection: 'row', padding: 10 }}>
+                        <TouchableOpacity style={{ width: 150, height: 150 }}
+                            onPress={
+                                () => {
+                                    // this.props.navigation.navigate('Leave')
+                                }
+                            }>
+                            <LinearGradient colors={['#FFB6A2', '#FFACB9', '#EEA8C7']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                <Icon name="calendar" color={'white'} size={50} />
+                                <Text style={[styles.bold, { color: 'white' }]}>ปฏิทิน</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
+                        <View style={{ width: 20 }} />
+                        <TouchableOpacity style={{ width: 150, height: 150 }}
+                            onPress={
+                                () => {
+                                    // this.props.navigation.navigate('Leave')
+                                }
+                            }>
+                            <LinearGradient colors={['#54EFD1', '#10E2E6', '#00D3F3']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                <Icon name="sitemap" color={'white'} size={50} />
+                                <Text style={[styles.bold, { color: 'white' }]}>องค์กร</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
                     </View>
                     <View style={[styles.center, { position: 'absolute', bottom: 20 }]}>
-                        <Text style={[styles.bold, { fontSize: 12 }]}>{`\tแอพพลิเคชั่น สร้างขึ้นเพื่อใช้เป็นแผนสำรองสำหรับ บริษัท เธียรสุรัตน์ จำกัด (มหาชน) โดยมีขั้นตอนการใช้งาน ดังนี้\n`}</Text>
+                        {/* <Text style={[styles.bold, { fontSize: 12 }]}>{`\tแอพพลิเคชั่น สร้างขึ้นเพื่อใช้เป็นแผนสำรองสำหรับ บริษัท เธียรสุรัตน์ จำกัด (มหาชน) โดยมีขั้นตอนการใช้งาน ดังนี้\n`}</Text>
                         <Text style={{ fontSize: 12 }}>{`1. เมื่อถึงเวลางานที่กำหนด ให้พนักงานกดปุ่ม CHECK IN เพื่อบันทึกเวลาเข้างาน (หน้าจอสีเขียว)`}</Text>
                         <Text style={{ fontSize: 12 }}>{`2. เมื่อบันทึกเวลาเข้างานแล้ว หน้าจอจะเปลี่ยนเป็นสีแดง`}</Text>
                         <Text style={{ fontSize: 12 }}>{`3. ไม่ควรกดปุ่ม CHECK IN หรือ CHECK OUT ซ้ำๆ กันหลายครั้ง เพราะจะทำให้ข้อมูลเกิดความผิดพลาดได้`}</Text>
                         <Text style={{ fontSize: 12 }}>{`4. เมื่อถึงเวลาเลิกงาน ให้พนักงานกดปุ่ม CHECK OUT เพื่อบันทึกเวลาเลิกงาน (หน้าจอสีแดง)`}</Text>
-                        <Text style={{ fontSize: 12 }}>{`5. แอพพลิเคชั่นจะมีการบันทึกตำแหน่งล่าสุดของคุณด้วย`}</Text>
+                        <Text style={{ fontSize: 12 }}>{`5. แอพพลิเคชั่นจะมีการบันทึกตำแหน่งล่าสุดของคุณด้วย`}</Text> */}
                         <Text style={{ fontSize: 14, color: primaryColor }}>{`v ${VersionCheck.getCurrentVersion()}`}</Text>
                         <Text style={{ fontSize: 14, color: primaryColor }}>{`Powered by IT of Thiensurat Public Company Limited`}</Text>
                     </View>
