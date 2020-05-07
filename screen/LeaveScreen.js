@@ -134,19 +134,19 @@ class LeaveScreen extends React.Component {
                             <View style={{ marginBottom: 5 }}>
                                 <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`วันที่ขอลา`}</Text>
                             </View>
-                            <TouchableOpacity style={[styles.shadow, styles.inputContainer, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
+                            <TouchableOpacity style={[styles.shadow, styles.inputWithCalendar, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
                                 onPress={
                                     () => this._showDateTimePicker()
                                 }>
+                                <Icon name={'calendar'} size={26} color={secondaryColor} style={{ marginRight: 14 }} />
                                 <TextInput
                                     placeholder='วันที่ขอลา'
                                     ref={(input) => { this.leaveDate = input; }}
                                     autoCapitalize={'none'}
                                     returnKeyType={'next'}
                                     value={Moment(this.state.leaveDate).format("DD/MM/YYYY")}
-                                    style={[styles.inputWithCalendar, styles.shadow, { color: 'black' }]}
+                                    style={{ color: 'black' }}
                                     editable={false} />
-                                <Icon name={'calendar'} size={30} color={secondaryColor} style={{ marginLeft: 6 }} />
                             </TouchableOpacity>
                         </View>
                         <View style={{ marginBottom: 10 }}>
@@ -175,38 +175,38 @@ class LeaveScreen extends React.Component {
                             <View style={{ marginBottom: 5 }}>
                                 <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`ลาตั้งแต่วันที่`}</Text>
                             </View>
-                            <TouchableOpacity style={[styles.shadow, styles.inputContainer, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
+                            <TouchableOpacity style={[styles.shadow, styles.inputWithCalendar, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
                                 onPress={
                                     () => this._showDateTimePicker()
                                 }>
+                                <Icon name={'calendar'} size={26} color={secondaryColor} style={{ marginRight: 14 }} />
                                 <TextInput
                                     placeholder='ลาตั้งแต่วันที่'
                                     ref={(input) => { this.leaveFrom = input; }}
                                     autoCapitalize={'none'}
                                     returnKeyType={'next'}
                                     value={Moment(this.state.leaveFrom).format("DD/MM/YYYY")}
-                                    style={[styles.inputWithCalendar, styles.shadow, { color: 'black' }]}
+                                    style={{ color: 'black' }}
                                     editable={false} />
-                                <Icon name={'calendar'} size={30} color={secondaryColor} style={{ marginLeft: 6 }} />
                             </TouchableOpacity>
                         </View>
                         <View style={{ marginBottom: 10 }}>
                             <View style={{ marginBottom: 5 }}>
                                 <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`ถึงวันที่`}</Text>
                             </View>
-                            <TouchableOpacity style={[styles.shadow, styles.inputContainer, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
+                            <TouchableOpacity style={[styles.shadow, styles.inputWithCalendar, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
                                 onPress={
                                     () => this._showDateTimePicker()
                                 }>
+                                <Icon name={'calendar'} size={26} color={secondaryColor} style={{ marginRight: 14 }} />
                                 <TextInput
                                     placeholder='ถึงวันที่'
                                     ref={(input) => { this.leaveTo = input; }}
                                     autoCapitalize={'none'}
                                     returnKeyType={'next'}
                                     value={Moment(this.state.leaveTo).format("DD/MM/YYYY")}
-                                    style={[styles.inputWithCalendar, styles.shadow, { color: 'black' }]}
+                                    style={{ color: 'black' }}
                                     editable={false} />
-                                <Icon name={'calendar'} size={30} color={secondaryColor} style={{ marginLeft: 6 }} />
                             </TouchableOpacity>
                         </View>
                         <View style={{ marginBottom: 10 }}>
