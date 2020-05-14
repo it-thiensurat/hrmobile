@@ -50,6 +50,7 @@ import Main from './screen/MainScreen'
 import Login from './screen/LoginScreen'
 import Leave from './screen/LeaveScreen'
 import LeaveStatus from './screen/LeaveStatusScreen'
+import Times from './screen/TimeScreen'
 
 function MyStack() {
   return (
@@ -60,6 +61,7 @@ function MyStack() {
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="Leave" component={Leave} />
       <Stack.Screen name="LeaveStatus" component={LeaveStatus} />
+      <Stack.Screen name="Times" component={Times} />
     </Stack.Navigator>
   );
 }

@@ -53,6 +53,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderRadius: COMPONENT_HIGHT / 2
     },
+    inputVerySmall: {
+        paddingLeft: 15,
+        alignItems: 'center',
+        height: COMPONENT_HIGHT,
+        width: 120,
+        backgroundColor: 'white',
+        justifyContent: 'space-between',
+        borderRadius: COMPONENT_HIGHT / 2
+    },
     inputContainer: {
         width: DEVICE_WIDTH - 80,
         height: COMPONENT_HIGHT - 5,

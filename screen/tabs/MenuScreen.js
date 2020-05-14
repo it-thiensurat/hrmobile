@@ -96,7 +96,7 @@ class MenuScreen extends React.Component {
                         <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
                                 () => {
-                                    // this.props.navigation.navigate('Leave')
+                                    this.props.navigation.navigate('Times')
                                 }
                             }>
                             <LinearGradient colors={['#86A8E7','#5C7EC1', '#496499']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
