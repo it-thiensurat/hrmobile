@@ -48,9 +48,12 @@ const Stack = createStackNavigator();
 
 import Main from './screen/MainScreen'
 import Login from './screen/LoginScreen'
+import CheckIn from './screen/CheckinScreen'
+import CheckOut from './screen/CheckoutScreen'
 import Leave from './screen/LeaveScreen'
 import LeaveStatus from './screen/LeaveStatusScreen'
 import Times from './screen/TimeScreen'
+import ChangeTime from './screen/ChangeTimeScreen'
 
 function MyStack() {
   return (
@@ -59,9 +62,12 @@ function MyStack() {
       initialRouteName='Login'>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Main" component={Main} />
+      <Stack.Screen name="CheckIn" component={CheckIn} />
+      <Stack.Screen name="CheckOut" component={CheckOut} />
       <Stack.Screen name="Leave" component={Leave} />
       <Stack.Screen name="LeaveStatus" component={LeaveStatus} />
       <Stack.Screen name="Times" component={Times} />
+      <Stack.Screen name="ChangeTime" component={ChangeTime} />
     </Stack.Navigator>
   );
 }

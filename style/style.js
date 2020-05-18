@@ -181,6 +181,15 @@ const styles = StyleSheet.create({
         backgroundColor: secondaryColor,
         // top: (DEVICE_HIGHT / 4) - 100
     },
+    buttonCheckSmall: {
+        borderWidth: 4,
+        borderColor: 'white',
+        width: DEVICE_WIDTH - 210,
+        height: DEVICE_WIDTH - 210,
+        borderRadius: DEVICE_WIDTH / 2, 
+        backgroundColor: secondaryColor,
+        // top: (DEVICE_HIGHT / 4) - 100
+    },
     loadingIndicator: {
         position: 'absolute',
         left: 0,

@@ -95,7 +95,7 @@ class TimeScreen extends React.Component {
             <TouchableOpacity key={index} style={{ flexDirection: 'row' }}
                 onPress={
                     () => {
-                        // this.props.navigation.navigate('Leave')
+                        this.props.navigation.navigate('ChangeTime')
                     }
                 }>
                 <View style={{ flex: 30, paddingLeft: 8 }}>

@@ -31,17 +31,17 @@ import {
     CHECK_KEY,
     CHECK_TIME,
     TIMESTAMP
-} from '../../utils/contants'
+} from '../utils/contants'
 
 import {
     CheckTypeControll,
     indicatorControll
-} from '../../actions'
+} from '../actions'
 
-import styles from '../../style/style'
+import styles from '../style/style'
 
-import Helper from '../../utils/Helper'
-import StorageService from '../../utils/StorageServies'
+import Helper from '../utils/Helper'
+import StorageService from '../utils/StorageServies'
 
 class CheckinScreen extends React.Component {
 
@@ -60,7 +60,8 @@ class CheckinScreen extends React.Component {
         let type = ''
         let that = this
         const props = that.props
-        type = !props.reducer.checkType ? 'I' : 'O'
+        // type = !props.reducer.checkType ? 'I' : 'O'
+        type = 'I'
         const { latitude, longitude, currentTime } = that.state
         let header = {
             'Authorization': props.reducer.token,
@@ -184,7 +185,9 @@ class CheckinScreen extends React.Component {
     ComponentLeft = () => {
         return (
             <View>
-
+                <TouchableOpacity onPress={() => this.handleBack()} style={{ paddingLeft: 10 }}>
+                    <Icon name='chevron-left' size={22} color='white' />
+                </TouchableOpacity>
             </View>
         );
     }
@@ -193,20 +196,21 @@ class CheckinScreen extends React.Component {
         const props = this.props.reducer
         return (
             <View style={[styles.center]}>
-                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`${props.checkType ? 'CHECK OUT' : 'CHECK IN'}`}</Text>
+                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`CHECK IN`}</Text>
             </View>
         );
     }
 
     ComponentRight = () => {
         return (
-            <View>
+            <View style={{ paddingRight: 25 }}>
 
             </View>
         );
     }
 
     handleBack = () => {
+        this.props.navigation.pop();
         return true
     }
 
@@ -250,30 +254,29 @@ class CheckinScreen extends React.Component {
                     componentCenter={this.ComponentCenter}
                     componentRight={this.ComponentRight}
                     navigationBarStyle={{
-                        backgroundColor: props.checkType ? darkColor : primaryColor,
+                        backgroundColor: primaryColor,
                         elevation: 0,
                         shadowOpacity: 0,
                     }}
                     statusBarStyle={{
-                        backgroundColor: props.checkType ? darknessColor : secondaryColor,
+                        backgroundColor: secondaryColor,
                         elevation: 0,
                         shadowOpacity: 0,
                     }} />
                 <View style={{ flex: 1, alignItems: 'center' }}>
                     <View style={[styles.cruveContainer]}>
-                        <View style={[styles.cruveView, { backgroundColor: props.checkType ? darkColor : primaryColor }]} />
+                        <View style={[styles.cruveView, { backgroundColor: primaryColor }]} />
                     </View>
                     <View style={[styles.imageContainer, { borderColor: 'white' }]}>
-                        <Icon name="user" color={props.checkType ? darkColor : primaryColor} size={60} />
+                        <Icon name="user" color={primaryColor} size={60} />
                     </View>
-                    {/* <Image source={{ uri: 'https://via.placeholder.com/300' }} style={[styles.imageContainer]} /> */}
-                    <Text style={[styles.bold, { fontSize: 30, color: props.checkType ? darkColor : primaryColor, width: '100%', textAlign: 'center' }]}>{`${props.userInfo.title}${props.userInfo.firstname} ${props.userInfo.lastname}`}</Text>
-                    <Text style={{ fontSize: 24, color: props.checkType ? darkColor : primaryColor, width: '100%', textAlign: 'center' }}>{`${props.userInfo.position}`}</Text>
+                    <Text style={[styles.bold, { fontSize: 30, color: primaryColor, width: '100%', textAlign: 'center' }]}>{`${props.userInfo.title}${props.userInfo.firstname} ${props.userInfo.lastname}`}</Text>
+                    <Text style={{ fontSize: 24, color: primaryColor, width: '100%', textAlign: 'center' }}>{`${props.userInfo.position}`}</Text>
                     <View style={[styles.center]}>
-                        <TouchableOpacity disabled={this.state.check} style={[styles.buttonCheck, styles.shadow, styles.center, { backgroundColor: this.state.check ? 'gray' : props.checkType ? darkColor : secondaryColor }]}
+                        <TouchableOpacity style={[styles.buttonCheck, styles.shadow, styles.center, { backgroundColor: secondaryColor }]}
                             onPress={() => this.onCheck()
                             }>
-                            <Text style={{ fontSize: 24, color: 'white' }}>{`${props.checkType ? 'CHECK OUT' : 'CHECK IN'}`}</Text>
+                            <Text style={{ fontSize: 24, color: 'white' }}>{`CHECK IN / ลงเวลาเข้างาน`}</Text>
                             <View style={styles.marginBetweenVertical}></View>
                             <Text style={{ fontSize: 28, color: 'white' }}>{`${moment(new Date()).format('LL')}`}</Text>
                             <View style={styles.marginBetweenVertical}></View>

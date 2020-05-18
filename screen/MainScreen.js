@@ -15,7 +15,7 @@ import {
 } from '../utils/contants'
 import styles from '../style/style'
 
-import Checkin from './tabs/CheckinScreen'
+import Selectinout from './tabs/SelectinoutScreen'
 import Menu from './tabs/MenuScreen'
 import Profile from './tabs/ProfileScreen'
 
@@ -23,7 +23,7 @@ const Tab = createBottomTabNavigator();
 export default function MainTab() {
     return (
         <Tab.Navigator
-            initialRouteName="Checkin"
+            initialRouteName="Selectinout"
             tabBarOptions={{
                 activeTintColor: primaryColor,
                 inactiveTintColor: 'gray'
@@ -41,8 +41,8 @@ export default function MainTab() {
                     ),
                 }} />
             <Tab.Screen
-                name="Checkin"
-                component={Checkin}
+                name="Selectinout"
+                component={Selectinout}
                 options={{
                     tabBarLabel: '',
                     tabBarIcon: ({ color }) => (
