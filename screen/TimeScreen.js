@@ -316,7 +316,7 @@ class TimeScreen extends React.Component {
                                 <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>18/05/2563</Text>
                             </View>
                             <View style={{ flex: 15, paddingLeft: 4 }}>
-                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>8:00</Text>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>7:52</Text>
                             </View>
                             <View style={{ flex: 15, paddingLeft: 4 }}>
                                 <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}></Text>
