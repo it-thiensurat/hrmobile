@@ -34,6 +34,7 @@ class LeaveScreen extends React.Component {
     state = {
         isDatePickerVisible: false,
         leaveCode: '',
+        leaveType: '',
         leaveDate: new Date(),
         leaveFrom: new Date(),
         leaveTo: new Date(),
@@ -98,6 +99,10 @@ class LeaveScreen extends React.Component {
         // }
     }
 
+    onSelectLeave(index, value) {
+        this.setState({ leaveType: value })
+    }
+
     handleBack = () => {
         this.props.navigation.pop();
         return true;
@@ -134,10 +139,7 @@ class LeaveScreen extends React.Component {
                             <View style={{ marginBottom: 5 }}>
                                 <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`วันที่ขอลา`}</Text>
                             </View>
-                            <TouchableOpacity style={[styles.shadow, styles.inputWithCalendar, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
-                                onPress={
-                                    () => this._showDateTimePicker()
-                                }>
+                            <View style={[styles.shadow, styles.inputWithCalendar, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}>
                                 <Icon name={'calendar'} size={26} color={secondaryColor} style={{ marginRight: 14 }} />
                                 <TextInput
                                     placeholder='วันที่ขอลา'
@@ -147,7 +149,7 @@ class LeaveScreen extends React.Component {
                                     value={Moment(this.state.leaveDate).format("DD/MM/YYYY")}
                                     style={{ color: 'black' }}
                                     editable={false} />
-                            </TouchableOpacity>
+                            </View>
                         </View>
                         <View style={{ marginBottom: 10 }}>
                             <View style={{ marginBottom: 5 }}>
