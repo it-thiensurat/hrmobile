@@ -78,17 +78,25 @@ class LeaveStatusScreen extends React.Component {
         // }
     }
 
+    async testSelectYear(value) {
+        await this.setState({ yearfilter: value });
+        // alert(JSON.stringify(this.state.month))
+    }
+
     _renderItem = ({ item, index }) => {
         return (
             <View key={index} style={{ flexDirection: 'row' }}>
-                <View style={{ flex: 30, paddingLeft: 8 }}>
+                <View style={{ flex: 35, paddingLeft: 8 }}>
                     <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>Date From</Text>
                 </View>
-                <View style={{ flex: 30 }}>
+                <View style={{ flex: 35, paddingLeft: 4 }}>
                     <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>Date To</Text>
                 </View>
-                <View style={{ flex: 40 }}>
+                <View style={{ flex: 40, paddingLeft: 4 }}>
                     <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>Leave Type</Text>
+                </View>
+                <View style={{ flex: 40, paddingLeft: 4 }}>
+                    <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>Status</Text>
                 </View>
             </View>
         )
@@ -175,23 +183,28 @@ class LeaveStatusScreen extends React.Component {
                                 itemTextStyle={{ color: 'gray', fontSize: 24 }}
                                 style={[{ color: 'gray', width: '100%' }]}
                                 selectedValue={this.state.yearfilter}
-                                onValueChange={(value, index) => this.onSelectYear(value)} >
-                                {
-                                    // title.map((value, index) => {
-                                    //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
-                                    // })
-                                }
+                                // onValueChange={(value, index) => this.onSelectYear(value)} >
+                                // {
+                                //     title.map((value, index) => {
+                                //         return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
+                                //     })
+                                // }
+                                onValueChange={this.testSelectYear.bind(this)} >
+                                <Picker.Item label="2563" value="2563" />
                             </Picker>
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', height: 50, alignItems: 'center', backgroundColor: '#F5F5F5' }}>
-                        <View style={{ flex: 30, paddingLeft: 8 }}>
+                        <View style={{ flex: 35, paddingLeft: 8 }}>
                             <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>From</Text>
                         </View>
-                        <View style={{ flex: 30 }}>
+                        <View style={{ flex: 35, paddingLeft: 4 }}>
                             <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>To</Text>
                         </View>
-                        <View style={{ flex: 40 }}>
+                        <View style={{ flex: 30, paddingLeft: 4 }}>
+                            <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>Leave</Text>
+                        </View>
+                        <View style={{ flex: 30, paddingLeft: 4 }}>
                             <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>Status</Text>
                         </View>
                     </View>
@@ -203,6 +216,52 @@ class LeaveStatusScreen extends React.Component {
                             initialNumToRender={10}
                             style={{ padding: 2 }}
                         />
+
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ flex: 35, paddingLeft: 8 }}>
+                                <Text style={{ fontSize: 22, fontFamily: 'DBMed' }}>12/05/2563</Text>
+                            </View>
+                            <View style={{ flex: 35, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 22, fontFamily: 'DBMed' }}>12/05/2563</Text>
+                            </View>
+                            <View style={{ flex: 30, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 22, fontFamily: 'DBMed' }}>ลากิจ</Text>
+                            </View>
+                            <View style={{ flex: 30, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 22, fontFamily: 'DBMed', color: 'green' }}>อนุมัติ</Text>
+                            </View>
+                        </View>
+                        <View style={{ height: 10 }}/>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ flex: 35, paddingLeft: 8 }}>
+                                <Text style={{ fontSize: 22, fontFamily: 'DBMed' }}>14/05/2563</Text>
+                            </View>
+                            <View style={{ flex: 35, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 22, fontFamily: 'DBMed' }}>14/05/2563</Text>
+                            </View>
+                            <View style={{ flex: 30, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 22, fontFamily: 'DBMed' }}>ลาป่วย</Text>
+                            </View>
+                            <View style={{ flex: 30, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 22, fontFamily: 'DBMed', color: 'green' }}>อนุมัติ</Text>
+                            </View>
+                        </View>
+                        <View style={{ height: 10 }}/>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ flex: 35, paddingLeft: 8 }}>
+                                <Text style={{ fontSize: 22, fontFamily: 'DBMed' }}>22/05/2563</Text>
+                            </View>
+                            <View style={{ flex: 35, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 22, fontFamily: 'DBMed' }}>22/05/2563</Text>
+                            </View>
+                            <View style={{ flex: 30, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 22, fontFamily: 'DBMed' }}>ลาพักร้อน</Text>
+                            </View>
+                            <View style={{ flex: 30, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 22, fontFamily: 'DBMed', color: '#347C98' }}>รออนุมัติ</Text>
+                            </View>
+                        </View>
+
                     </ScrollView>
 
                     <TouchableOpacity activeOpacity={0.5} style={{ position: 'absolute', width: 55, height: 55, alignItems: 'center', justifyContent: 'center', right: 25, bottom: 25 }}

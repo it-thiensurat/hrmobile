@@ -33,10 +33,11 @@ class ChangeTimeScreen extends React.Component {
 
     state = {
         isDatePickerVisible: false,
-        leaveCode: '',
-        leaveDate: new Date(),
-        leaveFrom: new Date(),
-        leaveTo: new Date(),
+        ChangeDate: new Date(),
+        ChangeDateFrom: new Date(),
+        ChangeDateTo: new Date(),
+        ChangeTimeFrom: '',
+        ChangeTimeTo: '',
         scheduleCode: '',
         scheduleFrom: '',
         scheduleTo: '',
@@ -130,7 +131,147 @@ class ChangeTimeScreen extends React.Component {
                     }} />
                 <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps={'never'} keyboardDismissMode='on-drag'>
                     <View style={{ flex: 1, padding: 10 }}>
-                        
+                        <View style={{ marginBottom: 10 }}>
+                            <View style={{ marginBottom: 5 }}>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`วันที่ต้องการปรับปรุงเวลา`}</Text>
+                            </View>
+                            <TouchableOpacity style={[styles.shadow, styles.inputWithCalendar, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
+                                onPress={
+                                    () => this._showDateTimePicker()
+                                }>
+                                <Icon name={'calendar'} size={26} color={secondaryColor} style={{ marginRight: 14 }} />
+                                <TextInput
+                                    placeholder='วันที่ต้องการปรับปรุงเวลา'
+                                    ref={(input) => { this.ChangeTime = input; }}
+                                    autoCapitalize={'none'}
+                                    returnKeyType={'next'}
+                                    value={Moment(this.state.ChangeTime).format("DD/MM/YYYY")}
+                                    style={{ color: 'black' }}
+                                    editable={false} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ marginBottom: 10 }}>
+                            <View style={{ marginBottom: 5 }}>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`รหัสกะ`}</Text>
+                            </View>
+                            <View style={[styles.input, styles.shadow, styles.center]}>
+                                <Picker
+                                    mode="dropdown"
+                                    placeholder=""
+                                    textStyle={{ fontSize: 18 }}
+                                    itemStyle={{ marginLeft: 0, paddingLeft: 10 }}
+                                    itemTextStyle={{ color: 'gray', fontSize: 18 }}
+                                    style={[{ color: 'gray', width: '100%' }]}
+                                    selectedValue={this.state.scheduleCode}
+                                    onValueChange={(value, index) => this.onSelectSchedule(value)} >
+                                    {
+                                        // title.map((value, index) => {
+                                        //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
+                                        // })
+                                    }
+                                </Picker>
+                            </View>
+                        </View>
+                        <View style={{ marginBottom: 10 }}>
+                            <View style={{ marginBottom: 5 }}>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`วันที่เริ่ม`}</Text>
+                            </View>
+                            <TouchableOpacity style={[styles.shadow, styles.inputWithCalendar, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
+                                onPress={
+                                    () => this._showDateTimePicker()
+                                }>
+                                <Icon name={'calendar'} size={26} color={secondaryColor} style={{ marginRight: 14 }} />
+                                <TextInput
+                                    placeholder='วันที่เริ่ม'
+                                    ref={(input) => { this.ChangeDateFrom = input; }}
+                                    autoCapitalize={'none'}
+                                    returnKeyType={'next'}
+                                    value={Moment(this.state.ChangeDateFrom).format("DD/MM/YYYY")}
+                                    style={{ color: 'black' }}
+                                    editable={false} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ marginBottom: 10 }}>
+                            <View style={{ marginBottom: 5 }}>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`เวลาเริ่ม`}</Text>
+                            </View>
+                            <View style={[styles.input, styles.shadow, styles.center]}>
+                                <Picker
+                                    mode="dropdown"
+                                    placeholder=""
+                                    textStyle={{ fontSize: 18 }}
+                                    itemStyle={{ marginLeft: 0, paddingLeft: 10 }}
+                                    itemTextStyle={{ color: 'gray', fontSize: 18 }}
+                                    style={[{ color: 'gray', width: '100%' }]}
+                                    selectedValue={this.state.ChangeTimeFrom}
+                                    onValueChange={(value, index) => this.onSelectChangeTimeFrom(value)} >
+                                    {
+                                        // title.map((value, index) => {
+                                        //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
+                                        // })
+                                    }
+                                </Picker>
+                            </View>
+                        </View>
+                        <View style={{ marginBottom: 10 }}>
+                            <View style={{ marginBottom: 5 }}>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`วันที่สิ้นสุด`}</Text>
+                            </View>
+                            <TouchableOpacity style={[styles.shadow, styles.inputWithCalendar, { justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }]}
+                                onPress={
+                                    () => this._showDateTimePicker()
+                                }>
+                                <Icon name={'calendar'} size={26} color={secondaryColor} style={{ marginRight: 14 }} />
+                                <TextInput
+                                    placeholder='วันที่สิ้นสุด'
+                                    ref={(input) => { this.ChangeDateTo = input; }}
+                                    autoCapitalize={'none'}
+                                    returnKeyType={'next'}
+                                    value={Moment(this.state.ChangeDateTo).format("DD/MM/YYYY")}
+                                    style={{ color: 'black' }}
+                                    editable={false} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ marginBottom: 10 }}>
+                            <View style={{ marginBottom: 5 }}>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`เวลาสิ้นสุด`}</Text>
+                            </View>
+                            <View style={[styles.input, styles.shadow, styles.center]}>
+                                <Picker
+                                    mode="dropdown"
+                                    placeholder=""
+                                    textStyle={{ fontSize: 18 }}
+                                    itemStyle={{ marginLeft: 0, paddingLeft: 10 }}
+                                    itemTextStyle={{ color: 'gray', fontSize: 18 }}
+                                    style={[{ color: 'gray', width: '100%' }]}
+                                    selectedValue={this.state.ChangeTimeTo}
+                                    onValueChange={(value, index) => this.onSelectChangeTimeTo(value)} >
+                                    {
+                                        // title.map((value, index) => {
+                                        //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
+                                        // })
+                                    }
+                                </Picker>
+                            </View>
+                        </View>
+                        <View style={{ marginBottom: 10 }}>
+                            <View style={{ marginBottom: 5 }}>
+                                <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`หมายเหตุ`}</Text>
+                            </View>
+                            <TextInput style={[styles.input, styles.shadow, styles.center]}
+                                ref={(input) => { this.comment = input; }}
+                                placeholder=""
+                                returnKeyType='next'
+                                onBlur={false}
+                                autoCapitalize={false}
+                                value={this.state.comment}
+                                onChangeText={(text) => this.setState({ comment: text })} />
+                        </View>
+                        <View style={styles.marginBetweenVertical}></View>
+                        <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: DEVICE_WIDTH - 20, backgroundColor: secondaryColor, borderRadius: 50 / 2 }]}
+                            onPress={() => this.onSaveLeave()} >
+                            <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`บันทึกข้อมูลการขอปรับปรุงเวลา`}</Text>
+                        </TouchableOpacity>
                     </View>
                 </ScrollView>
                 <DateTimePickerModal

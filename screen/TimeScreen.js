@@ -77,6 +77,11 @@ class TimeScreen extends React.Component {
         // }
     }
 
+    async testSelectYear(value) {
+        await this.setState({ yearfilter: value });
+        // alert(JSON.stringify(this.state.month))
+    }
+
     onSelectMonth(value) {
         // if (value != '999') {
         //     const props = this.props.reducer
@@ -88,6 +93,11 @@ class TimeScreen extends React.Component {
         // } else {
         //     this.setState({ titleId: '', titleName: '' })
         // }
+    }
+
+    async testSelectMonth(value) {
+        await this.setState({ monthfilter: value });
+        // alert(JSON.stringify(this.state.month))
     }
 
     _renderItem = ({ item, index }) => {
@@ -115,7 +125,9 @@ class TimeScreen extends React.Component {
     }
 
     _showDateTimePicker = () =>
-        this.setState({ isDatePickerVisible: true });
+        this.setState({
+            isDatePickerVisible: true
+        });
 
     _hideDateTimePicker = (date) => {
         this.setState({
@@ -180,12 +192,14 @@ class TimeScreen extends React.Component {
                                     itemTextStyle={{ color: 'gray', fontSize: 24 }}
                                     style={[{ color: 'gray', width: '100%' }]}
                                     selectedValue={this.state.yearfilter}
-                                    onValueChange={(value, index) => this.onSelectYear(value)} >
-                                    {
-                                        // title.map((value, index) => {
-                                        //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
-                                        // })
-                                    }
+                                    // onValueChange={(value, index) => this.onSelectYear(value)} >
+                                    // {
+                                    //     title.map((value, index) => {
+                                    //         return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
+                                    //     })
+                                    // }
+                                    onValueChange={this.testSelectYear.bind(this)} >
+                                    <Picker.Item label="2563" value="2563" />
                                 </Picker>
                             </View>
                         </View>
@@ -200,27 +214,41 @@ class TimeScreen extends React.Component {
                                     itemTextStyle={{ color: 'gray', fontSize: 24 }}
                                     style={[{ color: 'gray', width: '100%' }]}
                                     selectedValue={this.state.monthfilter}
-                                    onValueChange={(value, index) => this.onSelectMonth(value)} >
-                                    {
-                                        // title.map((value, index) => {
-                                        //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
-                                        // })
-                                    }
+                                    // onValueChange={(value, index) => this.onSelectMonth(value)} >
+                                    // {
+                                    //     title.map((value, index) => {
+                                    //         return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
+                                    //     })
+                                    // }
+                                    onValueChange={this.testSelectMonth.bind(this)} >
+                                    <Picker.Item label="เลือกเดือน" value="00" />
+                                    <Picker.Item label="มกราคม" value="01" />
+                                    <Picker.Item label="กุมภาพันธ์" value="02" />
+                                    <Picker.Item label="มีนาคม" value="03" />
+                                    <Picker.Item label="เมษายน" value="04" />
+                                    <Picker.Item label="พฤษภาคม" value="05" />
+                                    <Picker.Item label="มิถุนายน" value="06" />
+                                    <Picker.Item label="กรกฎาคม" value="07" />
+                                    <Picker.Item label="สิงหาคม" value="08" />
+                                    <Picker.Item label="กันยายน" value="09" />
+                                    <Picker.Item label="ตุลาคม" value="10" />
+                                    <Picker.Item label="พฤศจิกายน" value="11" />
+                                    <Picker.Item label="ธันวาคม" value="12" />
                                 </Picker>
                             </View>
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', height: 50, alignItems: 'center', backgroundColor: '#F5F5F5' }}>
-                        <View style={{ flex: 30, paddingLeft: 8 }}>
+                        <View style={{ flex: 35, paddingLeft: 8 }}>
                             <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>Date</Text>
                         </View>
-                        <View style={{ flex: 30, paddingLeft: 8 }}>
+                        <View style={{ flex: 15, paddingLeft: 4 }}>
                             <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>From</Text>
                         </View>
-                        <View style={{ flex: 30 }}>
+                        <View style={{ flex: 15, paddingLeft: 4 }}>
                             <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>To</Text>
                         </View>
-                        <View style={{ flex: 30 }}>
+                        <View style={{ flex: 40, paddingLeft: 4 }}>
                             <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>Status</Text>
                         </View>
                     </View>
@@ -232,6 +260,72 @@ class TimeScreen extends React.Component {
                             initialNumToRender={10}
                             style={{ padding: 2 }}
                         />
+
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flex: 35, paddingLeft: 8 }}>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>15/05/2563</Text>
+                            </View>
+                            <View style={{ flex: 15, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>8:15</Text>
+                            </View>
+                            <View style={{ flex: 15, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>17:30</Text>
+                            </View>
+                            <View style={{ flex: 40, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 16, fontFamily: 'DBMed', color: 'red' }}></Text>
+                            </View>
+                        </View>
+                        <View style={{ height: 10 }} />
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flex: 35, paddingLeft: 8 }}>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>16/05/2563</Text>
+                            </View>
+                            <View style={{ flex: 15, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}></Text>
+                            </View>
+                            <View style={{ flex: 15, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}></Text>
+                            </View>
+                            <View style={{ flex: 40, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 18, fontFamily: 'DBMed', color: 'gray' }}>วันหยุดประจำสัปดาห์</Text>
+                            </View>
+                        </View>
+                        <View style={{ height: 10 }} />
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flex: 35, paddingLeft: 8 }}>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>17/05/2563</Text>
+                            </View>
+                            <View style={{ flex: 15, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}></Text>
+                            </View>
+                            <View style={{ flex: 15, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}></Text>
+                            </View>
+                            <View style={{ flex: 40, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 18, fontFamily: 'DBMed', color: 'gray' }}>วันหยุดประจำสัปดาห์</Text>
+                            </View>
+                        </View>
+                        <View style={{ height: 10 }} />
+                        <TouchableOpacity style={{ flexDirection: 'row' }}
+                            onPress={
+                                () => {
+                                    this.props.navigation.navigate('ChangeTime')
+                                }
+                            }>
+                            <View style={{ flex: 35, paddingLeft: 8 }}>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>18/05/2563</Text>
+                            </View>
+                            <View style={{ flex: 15, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}>8:00</Text>
+                            </View>
+                            <View style={{ flex: 15, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 24, fontFamily: 'DBMed' }}></Text>
+                            </View>
+                            <View style={{ flex: 40, paddingLeft: 4 }}>
+                                <Text style={{ fontSize: 18, fontFamily: 'DBMed', color: 'red' }}>ลืมรูดบัตรออก</Text>
+                            </View>
+                        </TouchableOpacity>
+
                     </ScrollView>
                 </View>
             </View >
