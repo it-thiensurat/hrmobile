@@ -6,7 +6,8 @@ import {
     Platform,
     ScrollView,
     BackHandler,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from 'react-native'
 import { connect } from 'react-redux'
 import { NavigationBar } from 'navigationbar-react-native'
@@ -23,12 +24,14 @@ import {
 import styles from '../../style/style'
 import StorageService from '../../utils/StorageServies'
 
+const DEVICE_WIDTH = Dimensions.get('window').width;
+
 class ProfileScreen extends React.Component {
 
     ComponentLeft = () => {
         return (
-            <View style={[styles.center, { padding: 6 }]}>
-                <Text>{` `}</Text>
+            <View>
+                
             </View>
         );
     }
@@ -44,16 +47,8 @@ class ProfileScreen extends React.Component {
 
     ComponentRight = () => {
         return (
-            <View style={[styles.center, { padding: 6 }]}>
-                <TouchableOpacity
-                    onPress={
-                        async () => {
-                            await StorageService.remove(TOKEN_KEY)
-                            await this.props.navigation.replace('Login')
-                        }
-                    }>
-                    <Icon name="power-off" color={darkColor} size={24} />
-                </TouchableOpacity>
+            <View>
+
             </View>
         );
     }
@@ -105,15 +100,24 @@ class ProfileScreen extends React.Component {
                 </View>
                 <ScrollView style={{ flex: 1, backgroundColor: primaryColor }}>
                     <View style={{ padding: 10 }}>
-                        <View style={{ padding: 4, borderBottomWidth: 0.5, borderBottomColor: 'white', marginBottom: 15}}>
+                        <View style={{ padding: 4, borderBottomWidth: 0.5, borderBottomColor: 'white', marginBottom: 15 }}>
                             <Text style={[styles.bold, { color: 'white', fontSize: 24 }]}>{`ชื่อ - นามสกุล`}</Text>
                             <Text style={[{ color: 'white', fontSize: 24, textAlignVertical: 'bottom' }]}>{`${props.userInfo.title}${props.userInfo.firstname} ${props.userInfo.lastname}`}</Text>
                         </View>
-                        <View style={{ padding: 4, borderBottomWidth: 0.5, borderBottomColor: 'white', marginBottom: 15}}>
+                        <View style={{ padding: 4, borderBottomWidth: 0.5, borderBottomColor: 'white', marginBottom: 15 }}>
                             <Text style={[styles.bold, { color: 'white', fontSize: 24 }]}>{`ตำแหน่ง`}</Text>
                             <Text style={[{ color: 'white', fontSize: 24, textAlignVertical: 'bottom' }]}>{`${props.userInfo.position}`}</Text>
                         </View>
                     </View>
+                    <TouchableOpacity style={{ height: 50, width: DEVICE_WIDTH - 100, backgroundColor: secondaryColor, borderRadius: 26, alignSelf: 'center', justifyContent: 'center' }}
+                            onPress={
+                                async () => {
+                                    await StorageService.remove(TOKEN_KEY)
+                                    await this.props.navigation.replace('Login')
+                                }
+                            }>
+                            <Text style={[{ color: 'white', fontSize: 26, alignSelf: 'center'}, styles.bold]}>{`ออกจากระบบ`}</Text>
+                    </TouchableOpacity>
                 </ScrollView>
             </View>
         )

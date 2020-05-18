@@ -89,7 +89,7 @@ class CheckoutScreen extends React.Component {
     }
 
     checkLocationEnable() {
-        RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({interval: 10000, fastInterval: 5000})
+        RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
             .then(data => {
                 this.requestLocationPermission()
             }).catch(err => {
@@ -184,9 +184,10 @@ class CheckoutScreen extends React.Component {
 
     ComponentLeft = () => {
         return (
-            <View>
-                <TouchableOpacity onPress={() => this.handleBack()} style={{ paddingLeft: 10 }}>
-                    <Icon name='chevron-left' size={22} color='white' />
+            <View style={[styles.center, { paddingLeft: 4 }]}>
+                <TouchableOpacity style={{ width: 35, height: 35, alignItems: 'center', justifyContent: 'center' }}
+                    onPress={() => this.handleBack()}>
+                    <Icon name='chevron-left' size={28} color='#F1948A' />
                 </TouchableOpacity>
             </View>
         );
@@ -203,7 +204,7 @@ class CheckoutScreen extends React.Component {
 
     ComponentRight = () => {
         return (
-            <View style={{ paddingRight: 25 }}>
+            <View style={{ paddingRight: 36 }}>
 
             </View>
         );
@@ -238,7 +239,7 @@ class CheckoutScreen extends React.Component {
         } else {
             this.requestLocationPermission()
         }
-        
+
         AppState.addEventListener('change', this._handleAppStateChange)
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)
     }

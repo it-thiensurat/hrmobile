@@ -41,9 +41,10 @@ class LeaveStatusScreen extends React.Component {
 
     ComponentLeft = () => {
         return (
-            <View>
-                <TouchableOpacity onPress={() => this.handleBack()} style={{ paddingLeft: 8 }}>
-                    <Icon name='chevron-left' size={22} color='white' />
+            <View style={[styles.center, { paddingLeft: 4 }]}>
+                <TouchableOpacity style={{ width: 35, height: 35, alignItems: 'center', justifyContent: 'center' }}
+                onPress={() => this.handleBack()}>
+                    <Icon name='chevron-left' size={28} color={secondaryColor} />
                 </TouchableOpacity>
             </View>
         );
@@ -59,7 +60,7 @@ class LeaveStatusScreen extends React.Component {
 
     ComponentRight = () => {
         return (
-            <View style={{ paddingRight: 8 }}>
+            <View style={{ paddingRight: 36 }}>
 
             </View>
         );
