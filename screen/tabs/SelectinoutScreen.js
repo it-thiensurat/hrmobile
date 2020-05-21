@@ -228,7 +228,7 @@ class SelectinoutScreen extends React.Component {
                     }} />
                 <View style={{ flex: 1, alignItems: 'center' }}>
                     <View style={[styles.cruveContainer]}>
-                        <View style={[styles.cruveView, { backgroundColor: props.checkType ? darkColor : primaryColor }]} />
+                        <View style={[styles.cruveView, { backgroundColor: primaryColor }]} />
                     </View>
                     <View style={[styles.imageContainer, { borderColor: 'white' }]}>
                         <Icon name="user" color={primaryColor} size={60} />

@@ -40,7 +40,7 @@ class ProfileScreen extends React.Component {
         const props = this.props.reducer
         return (
             <View style={[styles.center]}>
-                <Text style={[styles.bold, { color: primaryColor, fontSize: 26 }]}>{`PROFILE`}</Text>
+                <Text style={[styles.bold, { color: primaryColor, fontSize: 26 }]}>{`ข้อมูลพนักงาน`}</Text>
             </View>
         );
     }

@@ -48,7 +48,7 @@ class LeaveScreen extends React.Component {
         return (
             <View style={[styles.center, { paddingLeft: 4 }]}>
                 <TouchableOpacity style={{ width: 35, height: 35, alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.handleBack()}>
+                    onPress={() => this.handleBack()}>
                     <Icon name='chevron-left' size={28} color={secondaryColor} />
                 </TouchableOpacity>
             </View>
@@ -238,44 +238,84 @@ class LeaveScreen extends React.Component {
                             <View style={{ marginBottom: 5 }}>
                                 <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`ตั้งแต่เวลา`}</Text>
                             </View>
-                            <View style={[styles.input, styles.shadow, styles.center]}>
-                                <Picker
-                                    mode="dropdown"
-                                    placeholder=""
-                                    textStyle={{ fontSize: 18 }}
-                                    itemStyle={{ marginLeft: 0, paddingLeft: 10 }}
-                                    itemTextStyle={{ color: 'gray', fontSize: 18 }}
-                                    style={[{ color: 'gray', width: '100%' }]}
-                                    selectedValue={this.state.scheduleFrom}
-                                    onValueChange={(value, index) => this.onSelectScheduleFrom(value)} >
-                                    {
-                                        // title.map((value, index) => {
-                                        //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
-                                        // })
-                                    }
-                                </Picker>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.inputTime, styles.shadow, styles.center]}>
+                                    <Picker
+                                        mode="dropdown"
+                                        placeholder=""
+                                        textStyle={{ fontSize: 18 }}
+                                        itemStyle={{ marginLeft: 0, paddingLeft: 10 }}
+                                        itemTextStyle={{ color: 'gray', fontSize: 18 }}
+                                        style={[{ color: 'gray', width: '100%' }]}
+                                        selectedValue={this.state.scheduleFrom}
+                                        onValueChange={(value, index) => this.onSelectScheduleFrom(value)} >
+                                        {
+                                            // title.map((value, index) => {
+                                            //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
+                                            // })
+                                        }
+                                    </Picker>
+                                </View>
+                                <View style={{ width: 10 }} />
+                                <View style={[styles.inputTime, styles.shadow, styles.center]}>
+                                    <Picker
+                                        mode="dropdown"
+                                        placeholder=""
+                                        textStyle={{ fontSize: 18 }}
+                                        itemStyle={{ marginLeft: 0, paddingLeft: 10 }}
+                                        itemTextStyle={{ color: 'gray', fontSize: 18 }}
+                                        style={[{ color: 'gray', width: '100%' }]}
+                                        selectedValue={this.state.scheduleFrom}
+                                        onValueChange={(value, index) => this.onSelectScheduleFrom(value)} >
+                                        {
+                                            // title.map((value, index) => {
+                                            //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
+                                            // })
+                                        }
+                                    </Picker>
+                                </View>
                             </View>
                         </View>
                         <View style={{ marginBottom: 10 }}>
                             <View style={{ marginBottom: 5 }}>
                                 <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`ถึงเวลา`}</Text>
                             </View>
-                            <View style={[styles.input, styles.shadow, styles.center]}>
-                                <Picker
-                                    mode="dropdown"
-                                    placeholder=""
-                                    textStyle={{ fontSize: 18 }}
-                                    itemStyle={{ marginLeft: 0, paddingLeft: 10 }}
-                                    itemTextStyle={{ color: 'gray', fontSize: 18 }}
-                                    style={[{ color: 'gray', width: '100%' }]}
-                                    selectedValue={this.state.scheduleTo}
-                                    onValueChange={(value, index) => this.onSelectScheduleTo(value)} >
-                                    {
-                                        // title.map((value, index) => {
-                                        //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
-                                        // })
-                                    }
-                                </Picker>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.inputTime, styles.shadow, styles.center]}>
+                                    <Picker
+                                        mode="dropdown"
+                                        placeholder=""
+                                        textStyle={{ fontSize: 18 }}
+                                        itemStyle={{ marginLeft: 0, paddingLeft: 10 }}
+                                        itemTextStyle={{ color: 'gray', fontSize: 18 }}
+                                        style={[{ color: 'gray', width: '100%' }]}
+                                        selectedValue={this.state.scheduleTo}
+                                        onValueChange={(value, index) => this.onSelectScheduleTo(value)} >
+                                        {
+                                            // title.map((value, index) => {
+                                            //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
+                                            // })
+                                        }
+                                    </Picker>
+                                </View>
+                                <View style={{ width: 10 }} />
+                                <View style={[styles.inputTime, styles.shadow, styles.center]}>
+                                    <Picker
+                                        mode="dropdown"
+                                        placeholder=""
+                                        textStyle={{ fontSize: 18 }}
+                                        itemStyle={{ marginLeft: 0, paddingLeft: 10 }}
+                                        itemTextStyle={{ color: 'gray', fontSize: 18 }}
+                                        style={[{ color: 'gray', width: '100%' }]}
+                                        selectedValue={this.state.scheduleTo}
+                                        onValueChange={(value, index) => this.onSelectScheduleTo(value)} >
+                                        {
+                                            // title.map((value, index) => {
+                                            //     return (<Picker.Item key={index} label={value.NameTh} value={value.Id} />);
+                                            // })
+                                        }
+                                    </Picker>
+                                </View>
                             </View>
                         </View>
                         <View style={{ marginBottom: 10 }}>
@@ -337,7 +377,9 @@ class LeaveScreen extends React.Component {
                         </View>
                         <View style={styles.marginBetweenVertical}></View>
                         <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: DEVICE_WIDTH - 20, backgroundColor: secondaryColor, borderRadius: 50 / 2 }]}
-                            onPress={() => this.onSaveLeave()} >
+                            onPress={() => {
+                                // this.onSaveLeave()
+                            }}>
                             <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`บันทึกข้อมูลการลา`}</Text>
                         </TouchableOpacity>
                     </View>

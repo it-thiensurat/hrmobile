@@ -81,6 +81,7 @@ class CheckinScreen extends React.Component {
                 await props.CheckTypeControll(type == 'I' ? true : false)
                 await props.indicatorControll(false)
                 await that.setState({ check: true })
+                await that.handleBack()
             } else {
                 props.indicatorControll(false)
                 alert(`${results.message}`)
@@ -197,7 +198,7 @@ class CheckinScreen extends React.Component {
         const props = this.props.reducer
         return (
             <View style={[styles.center]}>
-                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`CHECK IN`}</Text>
+                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`ลงเวลาเข้างาน`}</Text>
             </View>
         );
     }

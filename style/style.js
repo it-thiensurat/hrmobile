@@ -67,6 +67,14 @@ const styles = StyleSheet.create({
         height: COMPONENT_HIGHT - 5,
         backgroundColor: 'transparent',
     },
+    inputTime: {
+        paddingLeft: 15,
+        alignItems: 'center',
+        height: COMPONENT_HIGHT,
+        width: 165,
+        backgroundColor: 'white',
+        borderRadius: COMPONENT_HIGHT / 2
+    },
     mainButton: {
         height: COMPONENT_HIGHT,
         width: DEVICE_WIDTH - 40,
