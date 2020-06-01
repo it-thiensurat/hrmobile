@@ -196,11 +196,11 @@ class SelectinoutScreen extends React.Component {
         //     })
         // }, this.state.checkTime)
 
-        if (Platform.OS == 'android') {
-            this.checkLocationEnable()
-        } else {
-            this.requestLocationPermission()
-        }
+        // if (Platform.OS == 'android') {          <-- Close Test Present
+        //     this.checkLocationEnable()
+        // } else {
+        //     this.requestLocationPermission()
+        // }
         
         // AppState.addEventListener('change', this._handleAppStateChange)
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)

@@ -55,7 +55,7 @@ class CheckoutScreen extends React.Component {
     }
 
     async onCheck() {
-        await this.requestLocationPermission()
+        // await this.requestLocationPermission()           <-- Close Test Present
 
         let type = ''
         let that = this
@@ -222,24 +222,24 @@ class CheckoutScreen extends React.Component {
     }
 
     componentDidMount() {
-        setInterval(() => {
-            this.setState({
-                currentTime: new Date(),
-                checkTime: this.state.check ? this.state.checkTime - 1 : 600000
-            })
-        }, 1000)
+        // setInterval(() => {              <-- Close Test Present
+        //     this.setState({
+        //         currentTime: new Date(),
+        //         checkTime: this.state.check ? this.state.checkTime - 1 : 600000
+        //     })
+        // }, 1000)
 
-        setInterval(() => {
-            this.setState({
-                check: false
-            })
-        }, this.state.checkTime)
+        // setInterval(() => {
+        //     this.setState({
+        //         check: false
+        //     })
+        // }, this.state.checkTime)
 
-        if (Platform.OS == 'android') {
-            this.checkLocationEnable()
-        } else {
-            this.requestLocationPermission()
-        }
+        // if (Platform.OS == 'android') {
+        //     this.checkLocationEnable()
+        // } else {
+        //     this.requestLocationPermission()
+        // }
 
         AppState.addEventListener('change', this._handleAppStateChange)
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)

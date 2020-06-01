@@ -42,7 +42,7 @@ class TimeScreen extends React.Component {
         return (
             <View style={[styles.center, { paddingLeft: 4 }]}>
                 <TouchableOpacity style={{ width: 35, height: 35, alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => this.handleBack()}>
+                    onPress={() => this.handleBack()}>
                     <Icon name='chevron-left' size={28} color={secondaryColor} />
                 </TouchableOpacity>
             </View>
@@ -59,8 +59,21 @@ class TimeScreen extends React.Component {
 
     ComponentRight = () => {
         return (
-            <View style={{ paddingRight: 36 }}>
+            // <View style={{ paddingRight: 36 }}>
 
+            // </View>
+            <View style={[styles.center, { paddingRight: 4 }]}>
+                <TouchableOpacity style={{ width: 35, height: 35, alignItems: 'center', justifyContent: 'center' }}
+                    onPress={
+                        null
+                        // async () => {
+                        //     await this.setState({ register: [], reg_month: '0', reg_all: '0' });
+                        //     await this.getData();
+                        //     await this.getPeriod();
+                        // }
+                    }>
+                    <Icon name="retweet" size={26} color={secondaryColor} />
+                </TouchableOpacity>
             </View>
         );
     }

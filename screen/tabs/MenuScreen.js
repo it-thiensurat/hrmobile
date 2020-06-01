@@ -81,7 +81,7 @@ class MenuScreen extends React.Component {
                     }} />
                 <View style={{ flex: 1, alignItems: 'center', backgroundColor: 'white' }}>
                     <View style={{ flexDirection: 'row', padding: 10, marginTop: 10 }}>
-                        <TouchableOpacity style={{ width: 150, height: 150 }}
+                        <TouchableOpacity style={{ width: 150, height: 150 }} disabled={true}
                             onPress={
                                 () => {
                                     this.props.navigation.navigate('LeaveStatus')
@@ -93,20 +93,20 @@ class MenuScreen extends React.Component {
                             </LinearGradient>
                         </TouchableOpacity>
                         <View style={{ width: 20 }} />
-                        <TouchableOpacity style={{ width: 150, height: 150 }}
+                        <TouchableOpacity style={{ width: 150, height: 150 }} disabled={true}
                             onPress={
                                 () => {
                                     this.props.navigation.navigate('Times')
                                 }
                             }>
-                            <LinearGradient colors={['#86A8E7','#5C7EC1', '#496499']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                            <LinearGradient colors={['#86A8E7', '#5C7EC1', '#496499']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                                 <Icon name="history" color={'white'} size={50} />
                                 <Text style={[styles.bold, { color: 'white' }]}>เวลาเข้า/ออก</Text>
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
                     <View style={{ flexDirection: 'row', padding: 10 }}>
-                        <TouchableOpacity style={{ width: 150, height: 150 }}
+                        <TouchableOpacity style={{ width: 150, height: 150 }} disabled={true}
                             onPress={
                                 () => {
                                     // this.props.navigation.navigate('Leave')
@@ -118,7 +118,7 @@ class MenuScreen extends React.Component {
                             </LinearGradient>
                         </TouchableOpacity>
                         <View style={{ width: 20 }} />
-                        <TouchableOpacity style={{ width: 150, height: 150 }}
+                        <TouchableOpacity style={{ width: 150, height: 150 }} disabled={true}
                             onPress={
                                 () => {
                                     // this.props.navigation.navigate('Leave')
@@ -130,6 +130,23 @@ class MenuScreen extends React.Component {
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
+                    {/* <View style={{ flexDirection: 'row', padding: 10 }}>
+                        <TouchableOpacity style={{ width: 150, height: 150 }} disabled={true}
+                            onPress={
+                                () => {
+                                    this.props.navigation.navigate('ListConsider')
+                                }
+                            }>
+                            <LinearGradient colors={['#AD82F7', '#8867C1', '#523E74']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                <Icon name="check" color={'white'} size={50} />
+                                <Text style={[styles.bold, { color: 'white' }]}>อนุมัติการลา</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
+                        <View style={{ width: 20 }} />
+                        <View style={{ width: 150, height: 150 }}>
+
+                        </View>
+                    </View> */}
                     <View style={[styles.center, { position: 'absolute', bottom: 20 }]}>
                         {/* <Text style={[styles.bold, { fontSize: 12 }]}>{`\tแอพพลิเคชั่น สร้างขึ้นเพื่อใช้เป็นแผนสำรองสำหรับ บริษัท เธียรสุรัตน์ จำกัด (มหาชน) โดยมีขั้นตอนการใช้งาน ดังนี้\n`}</Text>
                         <Text style={{ fontSize: 12 }}>{`1. เมื่อถึงเวลางานที่กำหนด ให้พนักงานกดปุ่ม CHECK IN เพื่อบันทึกเวลาเข้างาน (หน้าจอสีเขียว)`}</Text>
