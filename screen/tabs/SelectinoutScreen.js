@@ -236,24 +236,24 @@ class SelectinoutScreen extends React.Component {
                     <Text style={[styles.bold, { fontSize: 30, color: primaryColor, width: '100%', textAlign: 'center' }]}>{`${props.userInfo.title}${props.userInfo.firstname} ${props.userInfo.lastname}`}</Text>
                     <Text style={{ fontSize: 24, color: primaryColor, width: '100%', textAlign: 'center' }}>{`${props.userInfo.position}`}</Text>
                     <View style={{ flex:1, flexDirection: 'row', alignItems: 'center' }}>
-                        <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: secondaryColor }]}
+                        <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
                             onPress={
                                 () => {
                                     this.props.navigation.navigate('CheckIn')
                                 }
                             }>
-                            <Text style={{ fontSize: 26, color: 'white' }}>{`CHECK IN`}</Text>
-                            <Text style={{ fontSize: 24, color: 'white' }}>{`ลงเวลาเข้างาน`}</Text>
+                            <Text style={{ fontSize: 26, color: secondaryColor }}>{`CHECK IN`}</Text>
+                            <Text style={{ fontSize: 24, color: secondaryColor }}>{`ลงเวลาเข้างาน`}</Text>
                         </TouchableOpacity>
                         <View style={{ width: 20 }}/>
-                        <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: darkColor }]}
+                        <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
                             onPress={
                                 () => {
                                     this.props.navigation.navigate('CheckOut')
                                 }
                             }>
-                            <Text style={{ fontSize: 26, color: 'white' }}>{`CHECK OUT`}</Text>
-                            <Text style={{ fontSize: 24, color: 'white' }}>{`ลงเวลาออกงาน`}</Text>
+                            <Text style={{ fontSize: 26, color: darkColor }}>{`CHECK OUT`}</Text>
+                            <Text style={{ fontSize: 24, color: darkColor }}>{`ลงเวลาออกงาน`}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

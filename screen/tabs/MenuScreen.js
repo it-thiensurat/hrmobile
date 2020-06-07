@@ -80,7 +80,7 @@ class MenuScreen extends React.Component {
                         shadowOpacity: 0,
                     }} />
                 <View style={{ flex: 1, alignItems: 'center', backgroundColor: 'white' }}>
-                    <View style={{ flexDirection: 'row', padding: 10, marginTop: 10 }}>
+                    {/* <View style={{ flexDirection: 'row', padding: 10, marginTop: 10 }}>
                         <TouchableOpacity style={{ width: 150, height: 150 }} disabled={true}
                             onPress={
                                 () => {
@@ -104,8 +104,8 @@ class MenuScreen extends React.Component {
                                 <Text style={[styles.bold, { color: 'white' }]}>เวลาเข้า/ออก</Text>
                             </LinearGradient>
                         </TouchableOpacity>
-                    </View>
-                    <View style={{ flexDirection: 'row', padding: 10 }}>
+                    </View> */}
+                    {/* <View style={{ flexDirection: 'row', padding: 10 }}>
                         <TouchableOpacity style={{ width: 150, height: 150 }} disabled={true}
                             onPress={
                                 () => {
@@ -129,7 +129,7 @@ class MenuScreen extends React.Component {
                                 <Text style={[styles.bold, { color: 'white' }]}>องค์กร</Text>
                             </LinearGradient>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                     {/* <View style={{ flexDirection: 'row', padding: 10 }}>
                         <TouchableOpacity style={{ width: 150, height: 150 }} disabled={true}
                             onPress={
@@ -147,13 +147,13 @@ class MenuScreen extends React.Component {
 
                         </View>
                     </View> */}
-                    <View style={[styles.center, { position: 'absolute', bottom: 20 }]}>
-                        {/* <Text style={[styles.bold, { fontSize: 12 }]}>{`\tแอพพลิเคชั่น สร้างขึ้นเพื่อใช้เป็นแผนสำรองสำหรับ บริษัท เธียรสุรัตน์ จำกัด (มหาชน) โดยมีขั้นตอนการใช้งาน ดังนี้\n`}</Text>
-                        <Text style={{ fontSize: 12 }}>{`1. เมื่อถึงเวลางานที่กำหนด ให้พนักงานกดปุ่ม CHECK IN เพื่อบันทึกเวลาเข้างาน (หน้าจอสีเขียว)`}</Text>
-                        <Text style={{ fontSize: 12 }}>{`2. เมื่อบันทึกเวลาเข้างานแล้ว หน้าจอจะเปลี่ยนเป็นสีแดง`}</Text>
-                        <Text style={{ fontSize: 12 }}>{`3. ไม่ควรกดปุ่ม CHECK IN หรือ CHECK OUT ซ้ำๆ กันหลายครั้ง เพราะจะทำให้ข้อมูลเกิดความผิดพลาดได้`}</Text>
-                        <Text style={{ fontSize: 12 }}>{`4. เมื่อถึงเวลาเลิกงาน ให้พนักงานกดปุ่ม CHECK OUT เพื่อบันทึกเวลาเลิกงาน (หน้าจอสีแดง)`}</Text>
-                        <Text style={{ fontSize: 12 }}>{`5. แอพพลิเคชั่นจะมีการบันทึกตำแหน่งล่าสุดของคุณด้วย`}</Text> */}
+                    <View style={[styles.center, { padding: 10 }]}>
+                        <Text style={[styles.bold, { fontSize: 16 }]}>{`\tแอพพลิเคชั่น สร้างขึ้นเพื่อใช้เป็นแผนสำรองสำหรับ บริษัท เธียรสุรัตน์ จำกัด (มหาชน) โดยมีขั้นตอนการใช้งาน ดังนี้\n`}</Text>
+                        {/* <Text style={{ fontSize: 16 }}>{`1. เมื่อถึงเวลางานที่กำหนด ให้พนักงานกดปุ่ม CHECK IN เพื่อบันทึกเวลาเข้างาน (หน้าจอสีเขียว)`}</Text>
+                        <Text style={{ fontSize: 16 }}>{`2. เมื่อบันทึกเวลาเข้างานแล้ว หน้าจอจะเปลี่ยนเป็นสีแดง`}</Text> */}
+                        {/* <Text style={{ fontSize: 16 }}>{`3. ไม่ควรกดปุ่ม CHECK IN หรือ CHECK OUT ซ้ำๆ กันหลายครั้ง เพราะจะทำให้ข้อมูลเกิดความผิดพลาดได้`}</Text> */}
+                        <Text style={{ fontSize: 18 }}>{`1. เมื่อถึงเวลางานที่กำหนด ให้พนักงานกดปุ่ม CHECK IN เพื่อบันทึกเวลาเข้างาน (หน้าจอสีเขียว)\n2. เมื่อบันทึกเวลาเข้างานแล้ว หน้าจอจะเปลี่ยนเป็นสีแดง\n3. ไม่ควรกดปุ่ม CHECK IN หรือ CHECK OUT ซ้ำๆ กันหลายครั้ง เพราะจะทำให้ข้อมูลเกิดความผิดพลาดได้\n4. เมื่อถึงเวลาเลิกงาน ให้พนักงานกดปุ่ม CHECK OUT เพื่อบันทึกเวลาเลิกงาน (หน้าจอสีแดง)\n5. แอพพลิเคชั่นจะมีการบันทึกตำแหน่งล่าสุดของคุณด้วย`}</Text>
+                        {/* <Text style={{ fontSize: 16 }}>{`5. แอพพลิเคชั่นจะมีการบันทึกตำแหน่งล่าสุดของคุณด้วย`}</Text> */}
                         <Text style={{ fontSize: 14, color: primaryColor }}>{`v ${VersionCheck.getCurrentVersion()}`}</Text>
                         <Text style={{ fontSize: 14, color: primaryColor }}>{`Powered by IT of Thiensurat Public Company Limited`}</Text>
                     </View>
