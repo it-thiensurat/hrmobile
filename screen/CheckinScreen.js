@@ -55,7 +55,7 @@ class CheckinScreen extends React.Component {
     }
 
     async onCheck() {
-        // await this.requestLocationPermission()       <-- Close Test Present
+        await this.requestLocationPermission()
 
         let type = ''
         let that = this
@@ -81,10 +81,26 @@ class CheckinScreen extends React.Component {
                 await props.CheckTypeControll(type == 'I' ? true : false)
                 await props.indicatorControll(false)
                 await that.setState({ check: true })
-                await that.handleBack()
+                // await alert(`${results.message}`)
+                await Alert.alert(
+                    'ข้อความ',
+                    `${results.message}`,
+                    [
+                        { text: 'OK', onPress: () => that.handleBack() },
+                    ],
+                    { cancelable: false }
+                )
             } else {
-                props.indicatorControll(false)
-                alert(`${results.message}`)
+                await props.indicatorControll(false)
+                // await alert(`${results.message}`)
+                await Alert.alert(
+                    'คำเตือน',
+                    `${results.message}`,
+                    [
+                        { text: 'OK', onPress: () => null },
+                    ],
+                    { cancelable: false }
+                )
             }
         })
     }
@@ -222,24 +238,24 @@ class CheckinScreen extends React.Component {
     }
 
     componentDidMount() {
-        // setInterval(() => {          <-- Close Test Present
-        //     this.setState({
-        //         currentTime: new Date(),
-        //         checkTime: this.state.check ? this.state.checkTime - 1 : 600000
-        //     })
-        // }, 1000)
+        setInterval(() => {
+            this.setState({
+                currentTime: new Date(),
+                checkTime: this.state.check ? this.state.checkTime - 1 : 600000
+            })
+        }, 1000)
 
-        // setInterval(() => {
-        //     this.setState({
-        //         check: false
-        //     })
-        // }, this.state.checkTime)
+        setInterval(() => {
+            this.setState({
+                check: false
+            })
+        }, this.state.checkTime)
 
-        // if (Platform.OS == 'android') {
-        //     this.checkLocationEnable()
-        // } else {
-        //     this.requestLocationPermission()
-        // }
+        if (Platform.OS == 'android') {
+            this.checkLocationEnable()
+        } else {
+            this.requestLocationPermission()
+        }
 
         AppState.addEventListener('change', this._handleAppStateChange)
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)
