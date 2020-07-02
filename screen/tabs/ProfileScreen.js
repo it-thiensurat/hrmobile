@@ -31,7 +31,7 @@ class ProfileScreen extends React.Component {
     ComponentLeft = () => {
         return (
             <View>
-                
+
             </View>
         );
     }
@@ -108,15 +108,24 @@ class ProfileScreen extends React.Component {
                             <Text style={[styles.bold, { color: 'white', fontSize: 24 }]}>{`ตำแหน่ง`}</Text>
                             <Text style={[{ color: 'white', fontSize: 24, textAlignVertical: 'bottom' }]}>{`${props.userInfo.position}`}</Text>
                         </View>
+                        {
+                            props.userInfo.branchName != null ?
+                            <View style={{ padding: 4, borderBottomWidth: 0.5, borderBottomColor: 'white', marginBottom: 15 }}>
+                                <Text style={[styles.bold, { color: 'white', fontSize: 24 }]}>{`สาขา`}</Text>
+                                <Text style={[{ color: 'white', fontSize: 24, textAlignVertical: 'bottom' }]}>{`${props.userInfo.branchName}`}</Text>
+                            </View>
+                            : 
+                            null
+                        }
                     </View>
                     <TouchableOpacity style={{ height: 50, width: DEVICE_WIDTH - 100, backgroundColor: secondaryColor, borderRadius: 26, alignSelf: 'center', justifyContent: 'center' }}
-                            onPress={
-                                async () => {
-                                    await StorageService.remove(TOKEN_KEY)
-                                    await this.props.navigation.replace('Login')
-                                }
-                            }>
-                            <Text style={[{ color: 'white', fontSize: 26, alignSelf: 'center'}, styles.bold]}>{`ออกจากระบบ`}</Text>
+                        onPress={
+                            async () => {
+                                await StorageService.remove(TOKEN_KEY)
+                                await this.props.navigation.replace('Login')
+                            }
+                        }>
+                        <Text style={[{ color: 'white', fontSize: 26, alignSelf: 'center' }, styles.bold]}>{`ออกจากระบบ`}</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </View>

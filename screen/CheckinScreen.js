@@ -16,6 +16,7 @@ import { connect } from 'react-redux'
 import RNExitApp from 'react-native-exit-app'
 import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
+import ImagePicker from 'react-native-image-crop-picker'
 import Geolocation from '@react-native-community/geolocation'
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler'
 
@@ -30,7 +31,8 @@ import {
     CHECK_URL,
     CHECK_KEY,
     CHECK_TIME,
-    TIMESTAMP
+    TIMESTAMP,
+    CHECK_LOC
 } from '../utils/contants'
 
 import {
@@ -46,15 +48,16 @@ import StorageService from '../utils/StorageServies'
 class CheckinScreen extends React.Component {
 
     state = {
+        ImageSource: [],
         latitude: '',
         longitude: '',
         checkTime: 600000,
         currentTime: new Date(),
-        check: false,
+        check: true,
         appState: AppState.currentState
     }
 
-    async onCheck() {
+    async onSave() {
         await this.requestLocationPermission()
 
         let type = ''
@@ -68,10 +71,25 @@ class CheckinScreen extends React.Component {
             'x-api-key': API_KEY
         }
         let formData = new FormData();
-        formData.append('checkTime', moment(currentTime).format('L').split("/").reverse().join("-") + ' ' + moment(currentTime).format('LTS'));
-        formData.append('latitude', latitude);
-        formData.append('longitude', longitude);
-        formData.append('type', type);
+        if (props.reducer.userInfo.cameraCheck == '1') {
+            formData.append('checkTime', moment(currentTime).format('L').split("/").reverse().join("-") + ' ' + moment(currentTime).format('LTS'));
+            formData.append('latitude', latitude);
+            formData.append('longitude', longitude);
+            formData.append('type', type);
+            that.state.ImageSource.map((v, i) => {
+                let gallerys = {
+                  uri: v.url,
+                  type: v.type,
+                  name: 'name_' + i + '.jpg',
+                };
+                formData.append('empimg[' + i + ']', gallerys);
+              });
+        } else {
+            formData.append('checkTime', moment(currentTime).format('L').split("/").reverse().join("-") + ' ' + moment(currentTime).format('LTS'));
+            formData.append('latitude', latitude);
+            formData.append('longitude', longitude);
+            formData.append('type', type);
+        }
 
         props.indicatorControll(true)
         await Helper.post(BASEURL + CHECK_URL, formData, header, async (results) => {
@@ -80,7 +98,6 @@ class CheckinScreen extends React.Component {
                 await StorageService.set(CHECK_TIME, JSON.stringify(moment(new Date()).format('L')))
                 await props.CheckTypeControll(type == 'I' ? true : false)
                 await props.indicatorControll(false)
-                await that.setState({ check: true })
                 // await alert(`${results.message}`)
                 await Alert.alert(
                     'ข้อความ',
@@ -105,34 +122,103 @@ class CheckinScreen extends React.Component {
         })
     }
 
-    checkLocationEnable() {
-        RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
-            .then(data => {
-                this.requestLocationPermission()
-            }).catch(err => {
-                RNExitApp.exitApp()
-            });
-    }
+    onCheck(lat, lon) {
+        // await this.requestLocationPermission()
 
-    async checkIOSLocationEnable() {
-        const locationServicesAvailable = await ConnectivityManager.areLocationServicesEnabled()
-        if (!locationServicesAvailable) {
-            Alert.alert(
-                'คำเตือน',
-                'กรุณาให้แอพพลิเคชั่น TSR HR Mobile เข้าถึงการระบุตำแหน่ง',
-                [
-                    { text: 'Cancel', onPress: () => RNExitApp.exitApp(), style: 'cancel' },
-                    { text: 'OK', onPress: () => Linking.openURL('app-settings:') },
-                ],
-                { cancelable: false }
-            )
+        let that = this
+        const props = that.props
+        // const { latitude, longitude } = that.state
+
+        if (props.reducer.userInfo.distanceCheck == '1') {
+
+            let header = {
+                'Authorization': props.reducer.token,
+                'x-api-key': API_KEY
+            }
+            let formData = new FormData();
+            formData.append('latitude', lat);
+            formData.append('longitude', lon);
+            formData.append('destlatitude', props.reducer.userInfo.latitude);
+            formData.append('destlongitude', props.reducer.userInfo.longitude);
+
+            // props.indicatorControll(true)
+            Helper.post(BASEURL + CHECK_LOC, formData, header, (results) => {
+                // alert(JSON.stringify(results))
+                // return
+                if (results.status == 'SUCCESS') {
+                    // await props.indicatorControll(false)
+                    that.setState({ check: results.data })
+                } else {
+                    // await props.indicatorControll(false)
+                    that.setState({ check: results.data })
+                }
+            })
+        } else {
+            that.setState({ check: false })
         }
     }
+
+    onTakePicture() {
+
+        let that = this
+        const props = that.props
+
+        if (props.reducer.userInfo.cameraCheck == '1') {
+
+            ImagePicker.openCamera({
+                multiple: false,
+                useFrontCamera: true,
+                includeBase64: true,
+                width: 200,
+                height: 200
+            }).then(images => {
+                // console.log(images);
+                // alert(JSON.stringify(images));
+                let img = []
+                img.push({
+                    url: images.path,
+                    type: images.mime
+                })
+                that.setState({
+                    ImageSource: [...that.state.ImageSource, ...img]
+                });
+                that.onSave()
+            });
+        } else {
+            that.onSave()
+        }
+    }
+
+    // checkLocationEnable() {
+    //     RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
+    //         .then(async data => {
+    //             await this.requestLocationPermission()
+    //             // await this.onCheck()
+    //         }).catch(err => {
+    //             RNExitApp.exitApp()
+    //         });
+    // }
+
+    // async checkIOSLocationEnable() {
+    //     const locationServicesAvailable = await ConnectivityManager.areLocationServicesEnabled()
+    //     if (!locationServicesAvailable) {
+    //         Alert.alert(
+    //             'คำเตือน',
+    //             'กรุณาให้แอพพลิเคชั่น TSR HR Mobile เข้าถึงการระบุตำแหน่ง',
+    //             [
+    //                 { text: 'Cancel', onPress: () => RNExitApp.exitApp(), style: 'cancel' },
+    //                 { text: 'OK', onPress: () => Linking.openURL('app-settings:') },
+    //             ],
+    //             { cancelable: false }
+    //         )
+    //     }
+    // }
 
     async requestLocationPermission() {
         if (Platform.OS == 'ios') {
             this.watchID = Geolocation.watchPosition(position => {
                 this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+                this.onCheck(position.coords.latitude, position.coords.longitude)
             }, (error) => null,
                 { enableHighAccuracy: true, timeout: 2000, maximumAge: 1000, distanceFilter: 10 },
             );
@@ -147,12 +233,14 @@ class CheckinScreen extends React.Component {
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     this.watchID = Geolocation.watchPosition(position => {
                         this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+                        this.onCheck(position.coords.latitude, position.coords.longitude)
                     }, (error) => null,
                         { enableHighAccuracy: true, timeout: 2000, maximumAge: 1000, distanceFilter: 10 },
                     );
 
                     Geolocation.getCurrentPosition(position => {
                         this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+                        this.onCheck(position.coords.latitude, position.coords.longitude)
                     })
                 } else {
                     Alert.alert(
@@ -179,25 +267,25 @@ class CheckinScreen extends React.Component {
         }
     }
 
-    _handleAppStateChange = (nextAppState) => {
-        if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-            console.log('IF: ' + nextAppState)
-            StorageService.get(TIMESTAMP).then(obj => {
-                if (obj !== null) {
-                    let time = JSON.parse(obj)
-                    this.setState({ checkTime: time, check: time > 0 ? true : false })
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-        } else {
-            console.log('ELSE: ' + nextAppState)
-            if (this.state.check) {
-                StorageService.set(TIMESTAMP, JSON.stringify(this.state.checkTime))
-            }
-        }
-        this.setState({ appState: nextAppState });
-    }
+    // _handleAppStateChange = (nextAppState) => {
+    //     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+    //         console.log('IF: ' + nextAppState)
+    //         StorageService.get(TIMESTAMP).then(obj => {
+    //             if (obj !== null) {
+    //                 let time = JSON.parse(obj)
+    //                 this.setState({ checkTime: time, check: time > 0 ? true : false })
+    //             }
+    //         }).catch(function (error) {
+    //             console.log(error);
+    //         });
+    //     } else {
+    //         console.log('ELSE: ' + nextAppState)
+    //         if (this.state.check) {
+    //             StorageService.set(TIMESTAMP, JSON.stringify(this.state.checkTime))
+    //         }
+    //     }
+    //     this.setState({ appState: nextAppState });
+    // }
 
     ComponentLeft = () => {
         return (
@@ -233,31 +321,34 @@ class CheckinScreen extends React.Component {
     }
 
     componentWillUnmount() {
-        AppState.removeEventListener('change', this._handleAppStateChange)
+        // AppState.removeEventListener('change', this._handleAppStateChange)
         BackHandler.removeEventListener('hardwareBackPress', this.handleBack)
     }
 
     componentDidMount() {
-        setInterval(() => {
-            this.setState({
-                currentTime: new Date(),
-                checkTime: this.state.check ? this.state.checkTime - 1 : 600000
-            })
-        }, 1000)
+        // setInterval(() => {
+        //     this.setState({
+        //         currentTime: new Date(),
+        //         checkTime: this.state.check ? this.state.checkTime - 1 : 600000
+        //     })
+        // }, 1000)
 
-        setInterval(() => {
-            this.setState({
-                check: false
-            })
-        }, this.state.checkTime)
+        // setInterval(() => {
+        //     this.setState({
+        //         check: false
+        //     })
+        // }, this.state.checkTime)
 
-        if (Platform.OS == 'android') {
-            this.checkLocationEnable()
-        } else {
-            this.requestLocationPermission()
-        }
+        // if (Platform.OS == 'android') {
+        //     await this.checkLocationEnable()
+        // } else {
+        //     await this.requestLocationPermission()
+        //     await this.onCheck()
+        // }
 
-        AppState.addEventListener('change', this._handleAppStateChange)
+        this.requestLocationPermission()
+
+        // AppState.addEventListener('change', this._handleAppStateChange)
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)
     }
 
@@ -291,8 +382,8 @@ class CheckinScreen extends React.Component {
                     <Text style={[styles.bold, { fontSize: 30, color: primaryColor, width: '100%', textAlign: 'center' }]}>{`${props.userInfo.title}${props.userInfo.firstname} ${props.userInfo.lastname}`}</Text>
                     <Text style={{ fontSize: 24, color: primaryColor, width: '100%', textAlign: 'center' }}>{`${props.userInfo.position}`}</Text>
                     <View style={[styles.center]}>
-                        <TouchableOpacity style={[styles.buttonCheck, styles.shadow, styles.center, { backgroundColor: secondaryColor }]}
-                            onPress={() => this.onCheck()
+                        <TouchableOpacity disabled={this.state.check} style={[styles.buttonCheck, styles.shadow, styles.center, { backgroundColor: this.state.check != true ? secondaryColor : 'gray' }]}
+                            onPress={() => this.onTakePicture()
                             }>
                             <Text style={{ fontSize: 24, color: 'white' }}>{`CHECK IN / ลงเวลาเข้างาน`}</Text>
                             <View style={styles.marginBetweenVertical}></View>
