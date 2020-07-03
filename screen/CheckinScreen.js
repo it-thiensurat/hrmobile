@@ -169,8 +169,8 @@ class CheckinScreen extends React.Component {
                 multiple: false,
                 useFrontCamera: true,
                 includeBase64: true,
-                width: 200,
-                height: 200
+                compressImageMaxWidth: 200,
+                compressImageMaxHeight: 200
             }).then(images => {
                 // console.log(images);
                 // alert(JSON.stringify(images));
