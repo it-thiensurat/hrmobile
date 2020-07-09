@@ -294,7 +294,7 @@ class CheckoutScreen extends React.Component {
                         <TouchableOpacity style={[styles.buttonCheck, styles.shadow, styles.center, { backgroundColor: darkColor }]}
                             onPress={() => this.onCheck()
                             }>
-                            <Text style={{ fontSize: 24, color: 'white' }}>{`CHECK OUT / ลงเวลาออกงาน`}</Text>
+                            <Text style={{ fontSize: 26, color: 'white' }}>{`กดปุ่มเพื่อลงเวลาออกงาน`}</Text>
                             <View style={styles.marginBetweenVertical}></View>
                             <Text style={{ fontSize: 28, color: 'white' }}>{`${moment(new Date()).format('LL')}`}</Text>
                             <View style={styles.marginBetweenVertical}></View>

@@ -55,7 +55,7 @@ class SelectinoutScreen extends React.Component {
     }
 
     checkLocationEnable() {
-        RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({interval: 10000, fastInterval: 5000})
+        RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
             .then(data => {
                 this.requestLocationPermission()
             }).catch(err => {
@@ -201,7 +201,7 @@ class SelectinoutScreen extends React.Component {
         } else {
             this.requestLocationPermission()
         }
-        
+
         // AppState.addEventListener('change', this._handleAppStateChange)
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)
     }
@@ -235,26 +235,32 @@ class SelectinoutScreen extends React.Component {
                     </View>
                     <Text style={[styles.bold, { fontSize: 30, color: primaryColor, width: '100%', textAlign: 'center' }]}>{`${props.userInfo.title}${props.userInfo.firstname} ${props.userInfo.lastname}`}</Text>
                     <Text style={{ fontSize: 24, color: primaryColor, width: '100%', textAlign: 'center' }}>{`${props.userInfo.position}`}</Text>
-                    <View style={{ flex:1, flexDirection: 'row', alignItems: 'center' }}>
-                        <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
-                            onPress={
-                                () => {
-                                    this.props.navigation.navigate('CheckIn')
-                                }
-                            }>
-                            <Text style={{ fontSize: 26, color: secondaryColor }}>{`CHECK IN`}</Text>
-                            <Text style={{ fontSize: 24, color: secondaryColor }}>{`ลงเวลาเข้างาน`}</Text>
-                        </TouchableOpacity>
-                        <View style={{ width: 20 }}/>
-                        <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
-                            onPress={
-                                () => {
-                                    this.props.navigation.navigate('CheckOut')
-                                }
-                            }>
-                            <Text style={{ fontSize: 26, color: darkColor }}>{`CHECK OUT`}</Text>
-                            <Text style={{ fontSize: 24, color: darkColor }}>{`ลงเวลาออกงาน`}</Text>
-                        </TouchableOpacity>
+                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                        <View>
+                            <Text style={{ fontSize: 28, color: secondaryColor, width: '100%', textAlign: 'center', marginBottom: 10 }}>{`08:30:00`}</Text>
+                            <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
+                                onPress={
+                                    () => {
+                                        this.props.navigation.navigate('CheckIn')
+                                    }
+                                }>
+                                <Text style={{ fontSize: 26, color: secondaryColor }}>{`CHECK IN`}</Text>
+                                <Text style={{ fontSize: 24, color: secondaryColor }}>{`ลงเวลาเข้างาน`}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ width: 20 }} />
+                        <View>
+                            <Text style={{ fontSize: 28, color: darkColor, width: '100%', textAlign: 'center', marginBottom: 10 }}>{`17:00:00`}</Text>
+                            <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
+                                onPress={
+                                    () => {
+                                        this.props.navigation.navigate('CheckOut')
+                                    }
+                                }>
+                                <Text style={{ fontSize: 26, color: darkColor }}>{`CHECK OUT`}</Text>
+                                <Text style={{ fontSize: 24, color: darkColor }}>{`ลงเวลาออกงาน`}</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </View>

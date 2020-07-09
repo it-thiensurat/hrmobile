@@ -140,6 +140,7 @@ class CheckinScreen extends React.Component {
             formData.append('longitude', lon);
             formData.append('destlatitude', props.reducer.userInfo.latitude);
             formData.append('destlongitude', props.reducer.userInfo.longitude);
+            formData.append('distance', props.reducer.userInfo.distance ? props.reducer.userInfo.distance : '0');
 
             // props.indicatorControll(true)
             Helper.post(BASEURL + CHECK_LOC, formData, header, (results) => {
@@ -385,7 +386,7 @@ class CheckinScreen extends React.Component {
                         <TouchableOpacity disabled={this.state.check} style={[styles.buttonCheck, styles.shadow, styles.center, { backgroundColor: this.state.check != true ? secondaryColor : 'gray' }]}
                             onPress={() => this.onTakePicture()
                             }>
-                            <Text style={{ fontSize: 24, color: 'white' }}>{`CHECK IN / ลงเวลาเข้างาน`}</Text>
+                            <Text style={{ fontSize: 26, color: 'white' }}>{`กดปุ่มเพื่อลงเวลาเข้างาน`}</Text>
                             <View style={styles.marginBetweenVertical}></View>
                             <Text style={{ fontSize: 28, color: 'white' }}>{`${moment(new Date()).format('LL')}`}</Text>
                             <View style={styles.marginBetweenVertical}></View>
