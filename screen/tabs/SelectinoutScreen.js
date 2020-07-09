@@ -237,7 +237,14 @@ class SelectinoutScreen extends React.Component {
                     <Text style={{ fontSize: 24, color: primaryColor, width: '100%', textAlign: 'center' }}>{`${props.userInfo.position}`}</Text>
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                         <View>
-                            <Text style={{ fontSize: 28, color: secondaryColor, width: '100%', textAlign: 'center', marginBottom: 10 }}>{`08:30:00`}</Text>
+                            <Text style={{ fontSize: 20, color: secondaryColor, width: '100%', textAlign: 'center' }}>
+                                {`เวลาเข้างานที่บันทึก`}
+                                {/* {``} */}
+                                </Text>
+                            <Text style={{ fontSize: 22, color: secondaryColor, width: '100%', textAlign: 'center', marginBottom: 15 }}>
+                                {`08:12`}
+                                {/* {``} */}
+                                </Text>
                             <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
                                 onPress={
                                     () => {
@@ -250,7 +257,14 @@ class SelectinoutScreen extends React.Component {
                         </View>
                         <View style={{ width: 20 }} />
                         <View>
-                            <Text style={{ fontSize: 28, color: darkColor, width: '100%', textAlign: 'center', marginBottom: 10 }}>{`17:00:00`}</Text>
+                            <Text style={{ fontSize: 20, color: darkColor, width: '100%', textAlign: 'center' }}>
+                                {`เวลาออกงานที่บันทึก`}
+                                {/* {``} */}
+                                </Text>
+                            <Text style={{ fontSize: 22, color: darkColor, width: '100%', textAlign: 'center', marginBottom: 15 }}>
+                                {`17:26`}
+                                {/* {``} */}
+                                </Text>
                             <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
                                 onPress={
                                     () => {
