@@ -95,7 +95,7 @@ class CheckinScreen extends React.Component {
         await Helper.post(BASEURL + CHECK_URL, formData, header, async (results) => {
             if (results.status == 'SUCCESS') {
                 await StorageService.set(CHECK_KEY, JSON.stringify(type))
-                await StorageService.set(CHECK_TIME, JSON.stringify(moment(new Date()).format('L')))
+                await StorageService.set(CHECK_TIME, JSON.stringify(new Date()))
                 await props.CheckTypeControll(type == 'I' ? true : false)
                 await props.indicatorControll(false)
                 // await alert(`${results.message}`)

@@ -30,6 +30,7 @@ import {
     CHECK_URL,
     CHECK_KEY,
     CHECK_TIME,
+    CHECK_OUT,
     TIMESTAMP
 } from '../utils/contants'
 
@@ -54,7 +55,7 @@ class CheckoutScreen extends React.Component {
         appState: AppState.currentState
     }
 
-    async onCheck() {
+    async onSave() {
         await this.requestLocationPermission()
 
         let type = ''
@@ -77,8 +78,8 @@ class CheckoutScreen extends React.Component {
         await Helper.post(BASEURL + CHECK_URL, formData, header, async (results) => {
             if (results.status == 'SUCCESS') {
                 await StorageService.set(CHECK_KEY, JSON.stringify(type))
-                await StorageService.set(CHECK_TIME, JSON.stringify(moment(new Date()).format('L')))
-                await props.CheckTypeControll(type == 'I' ? true : false)
+                await StorageService.set(CHECK_OUT, JSON.stringify(new Date()))
+                await props.CheckTypeControll(type == 'O' ? true : false)
                 await props.indicatorControll(false)
                 await that.setState({ check: true })
                 // await alert(`${results.message}`)
@@ -292,7 +293,7 @@ class CheckoutScreen extends React.Component {
                     <Text style={{ fontSize: 24, color: darkColor, width: '100%', textAlign: 'center' }}>{`${props.userInfo.position}`}</Text>
                     <View style={[styles.center]}>
                         <TouchableOpacity style={[styles.buttonCheck, styles.shadow, styles.center, { backgroundColor: darkColor }]}
-                            onPress={() => this.onCheck()
+                            onPress={() => this.onSave()
                             }>
                             <Text style={{ fontSize: 26, color: 'white' }}>{`กดปุ่มเพื่อลงเวลาออกงาน`}</Text>
                             <View style={styles.marginBetweenVertical}></View>

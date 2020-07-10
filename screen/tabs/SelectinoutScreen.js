@@ -30,7 +30,8 @@ import {
     CHECK_URL,
     CHECK_KEY,
     CHECK_TIME,
-    TIMESTAMP
+    TIMESTAMP,
+    CHECK_OUT
 } from '../../utils/contants'
 
 import {
@@ -48,6 +49,8 @@ class SelectinoutScreen extends React.Component {
     state = {
         latitude: '',
         longitude: '',
+        checkInTime: '',
+        checkOutTime: '',
         checkTime: 600000,
         currentTime: new Date(),
         check: false,
@@ -148,6 +151,62 @@ class SelectinoutScreen extends React.Component {
         this.setState({ appState: nextAppState });
     }
 
+    checkInDate() {
+        let that = this
+        try {
+            StorageService.get(CHECK_TIME).then(obj => {
+                if (obj !== null) {
+                    let date = (JSON.parse(obj))
+                    let now = moment(new Date()).format('L')
+                    let chkIn = moment(date).format('LT')
+                    // alert(JSON.stringify(test))
+                    // return
+                    if (date < now) {
+                        console.log('Check date < : true')
+                        StorageService.remove(CHECK_TIME)
+                    } else {
+                        that.setState({ checkInTime: chkIn })
+                        console.log('Check date < : false')
+                    }
+                } else {
+                    null
+                }
+            }).catch(function (error) {
+
+            });
+        } catch (error) {
+
+        }
+    }
+
+    checkOutDate() {
+        let that = this
+        try {
+            StorageService.get(CHECK_OUT).then(obj => {
+                if (obj !== null) {
+                    let date = (JSON.parse(obj))
+                    let now = moment(new Date()).format('L')
+                    let chkOut = moment(date).format('LT')
+                    // alert(JSON.stringify(test))
+                    // return
+                    if (date < now) {
+                        console.log('Check date < : true')
+                        StorageService.remove(CHECK_OUT)
+                    } else {
+                        that.setState({ checkOutTime: chkOut })
+                        console.log('Check date < : false')
+                    }
+                } else {
+                    null
+                }
+            }).catch(function (error) {
+
+            });
+        } catch (error) {
+
+        }
+    }
+
     ComponentLeft = () => {
         return (
             <View>
@@ -177,6 +236,13 @@ class SelectinoutScreen extends React.Component {
         return true
     }
 
+    componentWillUpdate() {
+        this.props.navigation.addListener('focus', () => {
+            this.checkInDate()
+            this.checkOutDate()
+        })
+    }
+
     componentWillUnmount() {
         // AppState.removeEventListener('change', this._handleAppStateChange)
         BackHandler.removeEventListener('hardwareBackPress', this.handleBack)
@@ -201,6 +267,8 @@ class SelectinoutScreen extends React.Component {
         } else {
             this.requestLocationPermission()
         }
+        this.checkInDate()
+        this.checkOutDate()
 
         // AppState.addEventListener('change', this._handleAppStateChange)
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)
@@ -238,13 +306,11 @@ class SelectinoutScreen extends React.Component {
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                         <View>
                             <Text style={{ fontSize: 20, color: secondaryColor, width: '100%', textAlign: 'center' }}>
-                                {`เวลาเข้างานที่บันทึก`}
-                                {/* {``} */}
-                                </Text>
+                                {`${(this.state.checkInTime) ? 'เวลาเข้างานที่บันทึก' : ''}`}
+                            </Text>
                             <Text style={{ fontSize: 22, color: secondaryColor, width: '100%', textAlign: 'center', marginBottom: 15 }}>
-                                {`08:12`}
-                                {/* {``} */}
-                                </Text>
+                                {`${(this.state.checkInTime) ? this.state.checkInTime : ''}`}
+                            </Text>
                             <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
                                 onPress={
                                     () => {
@@ -258,13 +324,11 @@ class SelectinoutScreen extends React.Component {
                         <View style={{ width: 20 }} />
                         <View>
                             <Text style={{ fontSize: 20, color: darkColor, width: '100%', textAlign: 'center' }}>
-                                {`เวลาออกงานที่บันทึก`}
-                                {/* {``} */}
-                                </Text>
+                                {`${(this.state.checkOutTime) ? 'เวลาออกงานที่บันทึก' : ' '}`}
+                            </Text>
                             <Text style={{ fontSize: 22, color: darkColor, width: '100%', textAlign: 'center', marginBottom: 15 }}>
-                                {`17:26`}
-                                {/* {``} */}
-                                </Text>
+                                {`${(this.state.checkOutTime) ? this.state.checkOutTime : ' '}`}
+                            </Text>
                             <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
                                 onPress={
                                     () => {
