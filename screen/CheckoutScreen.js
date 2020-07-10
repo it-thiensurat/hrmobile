@@ -106,29 +106,29 @@ class CheckoutScreen extends React.Component {
         })
     }
 
-    checkLocationEnable() {
-        RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
-            .then(data => {
-                this.requestLocationPermission()
-            }).catch(err => {
-                RNExitApp.exitApp()
-            });
-    }
+    // checkLocationEnable() {
+    //     RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
+    //         .then(data => {
+    //             this.requestLocationPermission()
+    //         }).catch(err => {
+    //             RNExitApp.exitApp()
+    //         });
+    // }
 
-    async checkIOSLocationEnable() {
-        const locationServicesAvailable = await ConnectivityManager.areLocationServicesEnabled()
-        if (!locationServicesAvailable) {
-            Alert.alert(
-                'คำเตือน',
-                'กรุณาให้แอพพลิเคชั่น TSR HR Mobile เข้าถึงการระบุตำแหน่ง',
-                [
-                    { text: 'Cancel', onPress: () => RNExitApp.exitApp(), style: 'cancel' },
-                    { text: 'OK', onPress: () => Linking.openURL('app-settings:') },
-                ],
-                { cancelable: false }
-            )
-        }
-    }
+    // async checkIOSLocationEnable() {
+    //     const locationServicesAvailable = await ConnectivityManager.areLocationServicesEnabled()
+    //     if (!locationServicesAvailable) {
+    //         Alert.alert(
+    //             'คำเตือน',
+    //             'กรุณาให้แอพพลิเคชั่น TSR HR Mobile เข้าถึงการระบุตำแหน่ง',
+    //             [
+    //                 { text: 'Cancel', onPress: () => RNExitApp.exitApp(), style: 'cancel' },
+    //                 { text: 'OK', onPress: () => Linking.openURL('app-settings:') },
+    //             ],
+    //             { cancelable: false }
+    //         )
+    //     }
+    // }
 
     async requestLocationPermission() {
         if (Platform.OS == 'ios') {
@@ -180,25 +180,25 @@ class CheckoutScreen extends React.Component {
         }
     }
 
-    _handleAppStateChange = (nextAppState) => {
-        if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-            console.log('IF: ' + nextAppState)
-            StorageService.get(TIMESTAMP).then(obj => {
-                if (obj !== null) {
-                    let time = JSON.parse(obj)
-                    this.setState({ checkTime: time, check: time > 0 ? true : false })
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-        } else {
-            console.log('ELSE: ' + nextAppState)
-            if (this.state.check) {
-                StorageService.set(TIMESTAMP, JSON.stringify(this.state.checkTime))
-            }
-        }
-        this.setState({ appState: nextAppState });
-    }
+    // _handleAppStateChange = (nextAppState) => {
+    //     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+    //         console.log('IF: ' + nextAppState)
+    //         StorageService.get(TIMESTAMP).then(obj => {
+    //             if (obj !== null) {
+    //                 let time = JSON.parse(obj)
+    //                 this.setState({ checkTime: time, check: time > 0 ? true : false })
+    //             }
+    //         }).catch(function (error) {
+    //             console.log(error);
+    //         });
+    //     } else {
+    //         console.log('ELSE: ' + nextAppState)
+    //         if (this.state.check) {
+    //             StorageService.set(TIMESTAMP, JSON.stringify(this.state.checkTime))
+    //         }
+    //     }
+    //     this.setState({ appState: nextAppState });
+    // }
 
     ComponentLeft = () => {
         return (
@@ -239,26 +239,26 @@ class CheckoutScreen extends React.Component {
     }
 
     componentDidMount() {
-        setInterval(() => { 
-            this.setState({
-                currentTime: new Date(),
-                checkTime: this.state.check ? this.state.checkTime - 1 : 600000
-            })
-        }, 1000)
+        // setInterval(() => { 
+        //     this.setState({
+        //         currentTime: new Date(),
+        //         checkTime: this.state.check ? this.state.checkTime - 1 : 600000
+        //     })
+        // }, 1000)
 
-        setInterval(() => {
-            this.setState({
-                check: false
-            })
-        }, this.state.checkTime)
+        // setInterval(() => {
+        //     this.setState({
+        //         check: false
+        //     })
+        // }, this.state.checkTime)
 
-        if (Platform.OS == 'android') {
-            this.checkLocationEnable()
-        } else {
-            this.requestLocationPermission()
-        }
+        // if (Platform.OS == 'android') {
+        //     this.checkLocationEnable()
+        // } else {
 
-        AppState.addEventListener('change', this._handleAppStateChange)
+        // }
+        this.requestLocationPermission()
+        // AppState.addEventListener('change', this._handleAppStateChange)
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)
     }
 

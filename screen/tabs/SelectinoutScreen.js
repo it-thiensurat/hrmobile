@@ -162,11 +162,11 @@ class SelectinoutScreen extends React.Component {
                     // alert(JSON.stringify(test))
                     // return
                     if (date < now) {
-                        console.log('Check date < : true')
+                        // console.log('Check date < : true')
                         StorageService.remove(CHECK_TIME)
                     } else {
                         that.setState({ checkInTime: chkIn })
-                        console.log('Check date < : false')
+                        // console.log('Check date < : false')
                     }
                 } else {
                     null
@@ -190,11 +190,11 @@ class SelectinoutScreen extends React.Component {
                     // alert(JSON.stringify(test))
                     // return
                     if (date < now) {
-                        console.log('Check date < : true')
+                        // console.log('Check date < : true')
                         StorageService.remove(CHECK_OUT)
                     } else {
                         that.setState({ checkOutTime: chkOut })
-                        console.log('Check date < : false')
+                        // console.log('Check date < : false')
                     }
                 } else {
                     null
