@@ -191,20 +191,7 @@ class SelectinoutScreen extends React.Component {
 
     _handleAppStateChange = (nextAppState) => {
         if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-            console.log('IF: ' + nextAppState)
-            StorageService.get(TIMESTAMP).then(obj => {
-                if (obj !== null) {
-                    let time = JSON.parse(obj)
-                    this.setState({ checkTime: time, check: time > 0 ? true : false })
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-        } else {
-            console.log('ELSE: ' + nextAppState)
-            if (this.state.check) {
-                StorageService.set(TIMESTAMP, JSON.stringify(this.state.checkTime))
-            }
+            this.checkVersion()
         }
         this.setState({ appState: nextAppState });
     }
@@ -217,9 +204,9 @@ class SelectinoutScreen extends React.Component {
                     let date = (JSON.parse(obj))
                     let now = moment(new Date()).format('L')
                     let chkIn = moment(date).format('LT')
-                    // alert(JSON.stringify(test))
+                    // alert(JSON.stringify(date + ' , ' + now + ' , ' + chkIn))
                     // return
-                    if (date < now) {
+                    if (moment(date).format('L') < now) {
                         // console.log('Check date < : true')
                         StorageService.remove(CHECK_TIME)
                     } else {
@@ -247,7 +234,7 @@ class SelectinoutScreen extends React.Component {
                     let chkOut = moment(date).format('LT')
                     // alert(JSON.stringify(test))
                     // return
-                    if (date < now) {
+                    if (moment(date).format('L') < now) {
                         // console.log('Check date < : true')
                         StorageService.remove(CHECK_OUT)
                     } else {
@@ -294,15 +281,9 @@ class SelectinoutScreen extends React.Component {
         return true
     }
 
-    componentWillUpdate() {
-        this.props.navigation.addListener('focus', () => {
-            this.checkInDate()
-            this.checkOutDate()
-        })
-    }
-
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBack)
+        AppState.removeEventListener('change', this._handleAppStateChange)
     }
 
     async componentDidMount() {
@@ -315,7 +296,14 @@ class SelectinoutScreen extends React.Component {
         this.checkInDate()
         this.checkOutDate()
 
+        this.props.navigation.addListener('focus', () => {
+            this.checkInDate()
+            this.checkOutDate()
+        })
+
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)
+        AppState.addEventListener('change', this._handleAppStateChange)
+
     }
 
     render() {
