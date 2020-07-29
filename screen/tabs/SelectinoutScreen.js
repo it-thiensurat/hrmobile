@@ -58,10 +58,14 @@ class SelectinoutScreen extends React.Component {
         appState: AppState.currentState
     }
 
-    checkVersion = () => {
-        let current = VersionCheck.getCurrentVersion();
+    onUpdate(url) {
+        Linking.openURL(url);
+    }
+
+    checkVersion = async () => {
+        let current = await VersionCheck.getCurrentVersion();
         if (Platform.OS == 'android') {
-            VersionCheck.getLatestVersion({
+            await VersionCheck.getLatestVersion({
                 provider: 'playStore'
             }).then(latestVersion => {
                 if (latestVersion > current) {
@@ -85,7 +89,7 @@ class SelectinoutScreen extends React.Component {
                 }
             });
         } else {
-            VersionCheck.getLatestVersion({
+            await VersionCheck.getLatestVersion({
                 provider: 'appStore'
             }).then(latestVersion => {
                 if (latestVersion > current) {
@@ -301,8 +305,8 @@ class SelectinoutScreen extends React.Component {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBack)
     }
 
-    componentDidMount() {
-        this.checkVersion()
+    async componentDidMount() {
+        await this.checkVersion();
         if (Platform.OS == 'android') {
             this.checkLocationEnable()
         } else {
