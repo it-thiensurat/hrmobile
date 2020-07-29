@@ -51,6 +51,7 @@ class CheckinScreen extends React.Component {
         ImageSource: [],
         latitude: '',
         longitude: '',
+        checkStatus: '',
         checkTime: 600000,
         currentTime: new Date(),
         check: true,
@@ -148,10 +149,10 @@ class CheckinScreen extends React.Component {
                 // return
                 if (results.status == 'SUCCESS') {
                     // await props.indicatorControll(false)
-                    that.setState({ check: results.data })
+                    that.setState({ check: results.data, checkStatus: '' })
                 } else {
                     // await props.indicatorControll(false)
-                    that.setState({ check: results.data })
+                    that.setState({ check: results.data, checkStatus: 'คุณอยู่นอกระยะทางสำหรับการลงเวลา' })
                 }
             })
         } else {
@@ -393,6 +394,9 @@ class CheckinScreen extends React.Component {
                             <Text style={{ fontSize: 75, color: 'white' }}>{`${moment(this.state.currentTime).format('LT')}`}</Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={styles.marginBetweenVertical}></View>
+                    <View style={styles.marginBetweenVertical}></View>
+                    <Text style={{ fontSize: 26, color: darkColor, width: '100%', textAlign: 'center' }}>{`${this.state.checkStatus}`}</Text>
                 </View>
             </View>
         )

@@ -18,6 +18,7 @@ import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import Geolocation from '@react-native-community/geolocation'
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler'
+import VersionCheck from 'react-native-version-check';
 
 import {
     darkColor,
@@ -55,6 +56,59 @@ class SelectinoutScreen extends React.Component {
         currentTime: new Date(),
         check: false,
         appState: AppState.currentState
+    }
+
+    checkVersion = () => {
+        let current = VersionCheck.getCurrentVersion();
+        if (Platform.OS == 'android') {
+            VersionCheck.getLatestVersion({
+                provider: 'playStore'
+            }).then(latestVersion => {
+                if (latestVersion > current) {
+                    Alert.alert(
+                        `คำเตือน`,
+                        `แอพฯ ของคุณเก่าเกินไป กรุณาอัพเดท`,
+                        [
+                            {
+                                text: 'ไม่, ขอบคุณ',
+                                onPress: () => { RNExitApp.exitApp() },
+                                style: 'cancel',
+                            },
+                            {
+                                text: 'อัพเดท', onPress: () => {
+                                    this.onUpdate('https://play.google.com/store/apps/details?id=com.hrmobile');
+                                }
+                            },
+                        ],
+                        { cancelable: false },
+                    );
+                }
+            });
+        } else {
+            VersionCheck.getLatestVersion({
+                provider: 'appStore'
+            }).then(latestVersion => {
+                if (latestVersion > current) {
+                    Alert.alert(
+                        `คำเตือน`,
+                        `แอพฯ ของคุณเก่าเกินไป กรุณาอัพเดท`,
+                        [
+                            {
+                                text: 'ไม่, ขอบคุณ',
+                                onPress: () => { RNExitApp.exitApp() },
+                                style: 'cancel',
+                            },
+                            {
+                                text: 'อัพเดท', onPress: () => {
+                                    this.onUpdate('https://itunes.apple.com/');
+                                }
+                            },
+                        ],
+                        { cancelable: false },
+                    );
+                }
+            });
+        }
     }
 
     checkLocationEnable() {
@@ -244,24 +298,11 @@ class SelectinoutScreen extends React.Component {
     }
 
     componentWillUnmount() {
-        // AppState.removeEventListener('change', this._handleAppStateChange)
         BackHandler.removeEventListener('hardwareBackPress', this.handleBack)
     }
 
     componentDidMount() {
-        // setInterval(() => {
-        //     this.setState({
-        //         currentTime: new Date(),
-        //         checkTime: this.state.check ? this.state.checkTime - 1 : 600000
-        //     })
-        // }, 1000)
-
-        // setInterval(() => {
-        //     this.setState({
-        //         check: false
-        //     })
-        // }, this.state.checkTime)
-
+        this.checkVersion()
         if (Platform.OS == 'android') {
             this.checkLocationEnable()
         } else {
@@ -270,7 +311,6 @@ class SelectinoutScreen extends React.Component {
         this.checkInDate()
         this.checkOutDate()
 
-        // AppState.addEventListener('change', this._handleAppStateChange)
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)
     }
 
@@ -309,7 +349,7 @@ class SelectinoutScreen extends React.Component {
                                 {`${(this.state.checkInTime) ? 'เวลาเข้างานที่บันทึก' : ''}`}
                             </Text>
                             <Text style={{ fontSize: 22, color: secondaryColor, width: '100%', textAlign: 'center', marginBottom: 15 }}>
-                                {`${(this.state.checkInTime) ? this.state.checkInTime : ''}`}
+                                {`${(this.state.checkInTime) ? this.state.checkInTime : ' '}`}
                             </Text>
                             <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
                                 onPress={
@@ -324,7 +364,7 @@ class SelectinoutScreen extends React.Component {
                         <View style={{ width: 20 }} />
                         <View>
                             <Text style={{ fontSize: 20, color: darkColor, width: '100%', textAlign: 'center' }}>
-                                {`${(this.state.checkOutTime) ? 'เวลาออกงานที่บันทึก' : ' '}`}
+                                {`${(this.state.checkOutTime) ? 'เวลาออกงานที่บันทึก' : ''}`}
                             </Text>
                             <Text style={{ fontSize: 22, color: darkColor, width: '100%', textAlign: 'center', marginBottom: 15 }}>
                                 {`${(this.state.checkOutTime) ? this.state.checkOutTime : ' '}`}
