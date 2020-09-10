@@ -16,7 +16,10 @@ import {
     darkColor,
     lightColor,
     primaryColor,
-    secondaryColor
+    secondaryColor,
+    LEAVE01,
+    LEAVE05,
+    OT02
 } from '../../utils/contants'
 
 import styles from '../../style/style'
@@ -80,11 +83,11 @@ class MenuScreen extends React.Component {
                         shadowOpacity: 0,
                     }} />
                 <View style={{ flex: 1, alignItems: 'center', backgroundColor: 'white' }}>
-                    {/* <View style={{ flexDirection: 'row', padding: 10, marginTop: 10 }}>
+                    <View style={{ flexDirection: 'row', padding: 10, marginTop: 10 }}>
                         <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
                                 () => {
-                                    this.props.navigation.navigate('LeaveStatus')
+                                    this.props.navigation.navigate('Webview', { pageid: LEAVE01 })
                                 }
                             }>
                             <LinearGradient colors={['#6BB588', '#419B89', '#2B7F83']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
@@ -96,12 +99,12 @@ class MenuScreen extends React.Component {
                         <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
                                 () => {
-                                    this.props.navigation.navigate('Times')
+                                    this.props.navigation.navigate('Webview', { pageid: OT02 })
                                 }
                             }>
                             <LinearGradient colors={['#86A8E7', '#5C7EC1', '#496499']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                                 <Icon name="history" color={'white'} size={50} />
-                                <Text style={[styles.bold, { color: 'white' }]}>เวลาเข้า/ออก</Text>
+                                <Text style={[styles.bold, { color: 'white' }]}>ขอแก้ไขการลงเวลา</Text>
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
@@ -134,7 +137,7 @@ class MenuScreen extends React.Component {
                         <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
                                 () => {
-                                    this.props.navigation.navigate('ListConsider')
+                                    this.props.navigation.navigate('Webview', { pageid: LEAVE05 })
                                 }
                             }>
                             <LinearGradient colors={['#AD82F7', '#8867C1', '#523E74']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
@@ -146,13 +149,13 @@ class MenuScreen extends React.Component {
                         <View style={{ width: 150, height: 150 }}>
 
                         </View>
-                    </View> */}
-                    <View style={[styles.center, { padding: 10 }]}>
+                    </View>
+                    {/* <View style={[styles.center, { padding: 10 }]}>
                         <Text style={[styles.bold, { fontSize: 16 }]}>{`\tแอพพลิเคชั่น สร้างขึ้นเพื่อใช้เป็นแผนสำรองสำหรับ บริษัท เธียรสุรัตน์ จำกัด (มหาชน) โดยมีขั้นตอนการใช้งาน ดังนี้\n`}</Text>
                         <Text style={{ fontSize: 18 }}>{`1. เมื่อถึงเวลาเข้างานที่กำหนด ให้พนักงานกดปุ่ม CHECK IN / ลงเวลาเข้างาน เพื่อเข้าหน้าลงเวลาเข้างาน (หน้าจอสีเขียว) แล้วกดที่ปุ่ม กดปุ่มเพื่อลงเวลาเข้างาน (บันทึกเวลาเข้างาน)\n2. เมื่อบันทึกเวลาเข้างานแล้ว หน้าจอจะแสดงข้อความ "บันทึกเวลางานเรียบร้อย" แล้วจะพากลับมาที่หน้าหลัก (หน้าจอจะแสดงเวลาที่กดเข้างาน)\n3. เมื่อถึงเวลาเลิกงาน ให้พนักงานกดปุ่ม CHECK OUT เพื่อเข้าหน้าลงเวลาออกงาน (หน้าจอสีแดง) แล้วกดที่ปุ่ม กดปุ่มเพื่อลงเวลาออกงาน (บันทึกเวลาออกงาน)\n4. เมื่อบันทึกเวลาออกงานแล้ว หน้าจอจะแสดงข้อความ "บันทึกเวลางานเรียบร้อย" แล้วจะพากลับมาที่หน้าหลัก (หน้าจอจะแสดงเวลาที่กดออกงาน)\n5. ไม่ควรกดปุ่ม CHECK IN หรือ CHECK OUT ซ้ำๆ กันหลายครั้ง เพราะจะทำให้ข้อมูลเกิดความผิดพลาดได้\n6. แอพพลิเคชั่นจะมีการบันทึกตำแหน่งล่าสุดของคุณด้วย`}</Text>
                         <Text style={{ fontSize: 14, color: primaryColor }}>{`v ${VersionCheck.getCurrentVersion()}`}</Text>
                         <Text style={{ fontSize: 14, color: primaryColor }}>{`Powered by IT of Thiensurat Public Company Limited`}</Text>
-                    </View>
+                    </View> */}
                 </View>
             </View>
         )

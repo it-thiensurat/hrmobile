@@ -56,6 +56,7 @@ import Times from './screen/TimeScreen'
 import ChangeTime from './screen/ChangeTimeScreen'
 import ListConsider from './screen/ListConsiderScreen'
 import Consider from './screen/ConsiderScreen'
+import Webview from './screen/WebViewScreen'
 
 function MyStack() {
   return (
@@ -72,6 +73,7 @@ function MyStack() {
       <Stack.Screen name="ChangeTime" component={ChangeTime} />
       <Stack.Screen name="ListConsider" component={ListConsider} />
       <Stack.Screen name="Consider" component={Consider} />
+      <Stack.Screen name="Webview" component={Webview} />
     </Stack.Navigator>
   );
 }

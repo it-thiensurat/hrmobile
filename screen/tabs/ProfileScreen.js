@@ -122,6 +122,7 @@ class ProfileScreen extends React.Component {
                         onPress={
                             async () => {
                                 await StorageService.remove(TOKEN_KEY)
+                                await StorageService.clear()
                                 await this.props.navigation.replace('Login')
                             }
                         }>

@@ -44,6 +44,8 @@ target 'hrmobile' do
 
   pod 'react-native-connectivity-status', :path => '../node_modules/react-native-connectivity-status'
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   target 'hrmobileTests' do
     inherit! :search_paths
     # Pods for testing
