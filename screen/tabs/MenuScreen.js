@@ -19,7 +19,8 @@ import {
     secondaryColor,
     LEAVE01,
     LEAVE05,
-    OT02
+    OT02,
+    OT07
 } from '../../utils/contants'
 
 import styles from '../../style/style'
@@ -67,7 +68,7 @@ class MenuScreen extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: secondaryColor }}>
+            <View style={{ flex: 1 }}>
                 <NavigationBar
                     componentLeft={this.ComponentLeft}
                     componentCenter={this.ComponentCenter}
@@ -82,7 +83,7 @@ class MenuScreen extends React.Component {
                         elevation: 0,
                         shadowOpacity: 0,
                     }} />
-                <View style={{ flex: 1, alignItems: 'center', backgroundColor: 'white' }}>
+                <View style={{ flex: 1, alignItems: 'center' }}>
                     <View style={{ flexDirection: 'row', padding: 10, marginTop: 10 }}>
                         <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
@@ -108,11 +109,11 @@ class MenuScreen extends React.Component {
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ flexDirection: 'row', padding: 10 }}>
+                    {/* <View style={{ flexDirection: 'row', padding: 10 }}>
                         <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
                                 () => {
-                                    // this.props.navigation.navigate('Leave')
+                                    this.props.navigation.navigate('Leave')
                                 }
                             }>
                             <LinearGradient colors={['#FFB6A2', '#FFACB9', '#EEA8C7']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
@@ -124,7 +125,7 @@ class MenuScreen extends React.Component {
                         <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
                                 () => {
-                                    // this.props.navigation.navigate('Leave')
+                                    this.props.navigation.navigate('Leave')
                                 }
                             }>
                             <LinearGradient colors={['#54EFD1', '#10E2E6', '#00D3F3']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
@@ -132,7 +133,7 @@ class MenuScreen extends React.Component {
                                 <Text style={[styles.bold, { color: 'white' }]}>องค์กร</Text>
                             </LinearGradient>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                     <View style={{ flexDirection: 'row', padding: 10 }}>
                         <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
@@ -146,9 +147,20 @@ class MenuScreen extends React.Component {
                             </LinearGradient>
                         </TouchableOpacity>
                         <View style={{ width: 20 }} />
-                        <View style={{ width: 150, height: 150 }}>
+                        {/* <View style={{ width: 150, height: 150 }}>
 
-                        </View>
+                        </View> */}
+                        <TouchableOpacity style={{ width: 150, height: 150 }}
+                            onPress={
+                                () => {
+                                    this.props.navigation.navigate('Webview', { pageid: OT07 })
+                                }
+                            }>
+                            <LinearGradient colors={['#0099cc', '#0077cc', '#0066cc']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                <Icon name="check" color={'white'} size={50} />
+                                <Text style={[styles.bold, { color: 'white' }]}>อนุมัติแก้ไขการลงเวลา</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
                     </View>
                     {/* <View style={[styles.center, { padding: 10 }]}>
                         <Text style={[styles.bold, { fontSize: 16 }]}>{`\tแอพพลิเคชั่น สร้างขึ้นเพื่อใช้เป็นแผนสำรองสำหรับ บริษัท เธียรสุรัตน์ จำกัด (มหาชน) โดยมีขั้นตอนการใช้งาน ดังนี้\n`}</Text>

@@ -95,6 +95,9 @@ class ProfileScreen extends React.Component {
                     <View style={[styles.imageContainer, { borderColor: primaryColor }]}>
                         <Icon name="user" color={secondaryColor} size={60} />
                     </View>
+                    <View style={{ alignItems: 'center', marginTop: 10 }}>
+                        <Text style={[styles.bold, { color: 'white', fontSize: 28 }]}>{`รหัส  ${props.userInfo.empId}`}</Text>
+                    </View>
 
                     {/* <Image source={{ uri: 'https://via.placeholder.com/300' }} style={[styles.imageContainer, { borderColor: primaryColor }]} /> */}
                 </View>
@@ -110,12 +113,12 @@ class ProfileScreen extends React.Component {
                         </View>
                         {
                             props.userInfo.branchName != null ?
-                            <View style={{ padding: 4, borderBottomWidth: 0.5, borderBottomColor: 'white', marginBottom: 15 }}>
-                                <Text style={[styles.bold, { color: 'white', fontSize: 24 }]}>{`สาขา`}</Text>
-                                <Text style={[{ color: 'white', fontSize: 24, textAlignVertical: 'bottom' }]}>{`${props.userInfo.branchName}`}</Text>
-                            </View>
-                            : 
-                            null
+                                <View style={{ padding: 4, borderBottomWidth: 0.5, borderBottomColor: 'white', marginBottom: 15 }}>
+                                    <Text style={[styles.bold, { color: 'white', fontSize: 24 }]}>{`สาขา`}</Text>
+                                    <Text style={[{ color: 'white', fontSize: 24, textAlignVertical: 'bottom' }]}>{`${props.userInfo.branchName}`}</Text>
+                                </View>
+                                :
+                                null
                         }
                     </View>
                     <TouchableOpacity style={{ height: 50, width: DEVICE_WIDTH - 100, backgroundColor: secondaryColor, borderRadius: 26, alignSelf: 'center', justifyContent: 'center' }}
