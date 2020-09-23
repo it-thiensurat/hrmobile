@@ -72,7 +72,7 @@ class CheckinScreen extends React.Component {
             'x-api-key': API_KEY
         }
         let formData = new FormData();
-        if (props.reducer.userInfo.cameraCheck == '1') {
+        if (props.reducer.userInfo.CameraCheckIn == '1') {
             formData.append('checkTime', moment(currentTime).format('L').split("/").reverse().join("-") + ' ' + moment(currentTime).format('LTS'));
             formData.append('latitude', latitude);
             formData.append('longitude', longitude);
@@ -130,7 +130,7 @@ class CheckinScreen extends React.Component {
         const props = that.props
         // const { latitude, longitude } = that.state
 
-        if (props.reducer.userInfo.distanceCheck == '1') {
+        if (props.reducer.userInfo.DistanceCheckIn == '1') {
 
             let header = {
                 'Authorization': props.reducer.token,
@@ -141,7 +141,7 @@ class CheckinScreen extends React.Component {
             formData.append('longitude', lon);
             formData.append('destlatitude', props.reducer.userInfo.latitude);
             formData.append('destlongitude', props.reducer.userInfo.longitude);
-            formData.append('distance', props.reducer.userInfo.distance ? props.reducer.userInfo.distance : '0');
+            formData.append('distance', props.reducer.userInfo.DistanceIn ? props.reducer.userInfo.DistanceIn : '0');
 
             // props.indicatorControll(true)
             Helper.post(BASEURL + CHECK_LOC, formData, header, (results) => {
@@ -152,7 +152,7 @@ class CheckinScreen extends React.Component {
                     that.setState({ check: results.data, checkStatus: '' })
                 } else {
                     // await props.indicatorControll(false)
-                    that.setState({ check: results.data, checkStatus: 'คุณอยู่นอกระยะทางสำหรับการลงเวลา' })
+                    that.setState({ check: results.data, checkStatus: 'คุณอยู่นอกพื้นที่ไม่สามารถลงเวลาได้' })
                 }
             })
         } else {
@@ -165,7 +165,7 @@ class CheckinScreen extends React.Component {
         let that = this
         const props = that.props
 
-        if (props.reducer.userInfo.cameraCheck == '1') {
+        if (props.reducer.userInfo.CameraCheckIn == '1') {
 
             ImagePicker.openCamera({
                 multiple: false,

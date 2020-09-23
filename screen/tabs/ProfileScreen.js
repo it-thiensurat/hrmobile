@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux'
 import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
+import VersionCheck from 'react-native-version-check'
 
 import {
     TOKEN_KEY,
@@ -132,6 +133,9 @@ class ProfileScreen extends React.Component {
                         <Text style={[{ color: 'white', fontSize: 26, alignSelf: 'center' }, styles.bold]}>{`ออกจากระบบ`}</Text>
                     </TouchableOpacity>
                 </ScrollView>
+                <View style={{ position: 'absolute', bottom: 0, padding: 4, alignSelf: 'flex-end' }}>
+                    <Text style={{ fontSize: 14, color: 'white' }}>{`version ${VersionCheck.getCurrentVersion()}`}</Text>
+                </View>
             </View>
         )
     }

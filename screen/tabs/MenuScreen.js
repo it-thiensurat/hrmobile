@@ -4,7 +4,8 @@ import {
     Text,
     Platform,
     BackHandler,
-    TouchableOpacity
+    TouchableOpacity,
+    Linking
 } from 'react-native'
 import { connect } from 'react-redux'
 import VersionCheck from 'react-native-version-check'
@@ -17,10 +18,16 @@ import {
     lightColor,
     primaryColor,
     secondaryColor,
+    WEBURL,
+    COMPCODE,
+    EMPID,
+    PAGEID,
+    VERIFY,
     LEAVE01,
     LEAVE05,
     OT02,
-    OT07
+    OT07,
+    OTHER01
 } from '../../utils/contants'
 
 import styles from '../../style/style'
@@ -67,6 +74,7 @@ class MenuScreen extends React.Component {
     }
 
     render() {
+        const users = this.props.reducer.userInfo
         return (
             <View style={{ flex: 1 }}>
                 <NavigationBar
@@ -147,9 +155,6 @@ class MenuScreen extends React.Component {
                             </LinearGradient>
                         </TouchableOpacity>
                         <View style={{ width: 20 }} />
-                        {/* <View style={{ width: 150, height: 150 }}>
-
-                        </View> */}
                         <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
                                 () => {
@@ -161,6 +166,35 @@ class MenuScreen extends React.Component {
                                 <Text style={[styles.bold, { color: 'white' }]}>อนุมัติแก้ไขการลงเวลา</Text>
                             </LinearGradient>
                         </TouchableOpacity>
+                    </View>
+                    <View style={{ flexDirection: 'row', padding: 10 }}>
+                        <TouchableOpacity style={{ width: 150, height: 150 }}
+                            onPress={
+                                () => {
+                                    // this.props.navigation.navigate('Webview', { pageid: OTHER01 })
+                                    let uri = ''
+                                    uri = WEBURL + COMPCODE + users.companyId + EMPID + users.empForWeb + PAGEID + OTHER01 + VERIFY
+                                    Linking.openURL(uri)
+                                }
+                            }>
+                            <LinearGradient colors={['#F1948A', '#EC7063', '#E74C3C']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                <Icon name="money" color={'white'} size={50} />
+                                <Text style={[styles.bold, { color: 'white' }]}>ใบสำคัญรับเงินเดือน</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
+                        <View style={{ width: 20 }} />
+                        <View style={{ width: 150, height: 150 }}></View>
+                        {/* <TouchableOpacity style={{ width: 150, height: 150 }}
+                            onPress={
+                                () => {
+                                    this.props.navigation.navigate('Webview', { pageid: OT07 })
+                                }
+                            }>
+                            <LinearGradient colors={['#0099cc', '#0077cc', '#0066cc']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                <Icon name="check" color={'white'} size={50} />
+                                <Text style={[styles.bold, { color: 'white' }]}>อนุมัติแก้ไขการลงเวลา</Text>
+                            </LinearGradient>
+                        </TouchableOpacity> */}
                     </View>
                     {/* <View style={[styles.center, { padding: 10 }]}>
                         <Text style={[styles.bold, { fontSize: 16 }]}>{`\tแอพพลิเคชั่น สร้างขึ้นเพื่อใช้เป็นแผนสำรองสำหรับ บริษัท เธียรสุรัตน์ จำกัด (มหาชน) โดยมีขั้นตอนการใช้งาน ดังนี้\n`}</Text>
@@ -175,7 +209,7 @@ class MenuScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-
+    reducer: state.fetchReducer
 })
 
 const mapDispatchToProps = {

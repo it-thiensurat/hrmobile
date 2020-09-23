@@ -16,6 +16,7 @@ import { connect } from 'react-redux'
 import RNExitApp from 'react-native-exit-app'
 import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
+import ImagePicker from 'react-native-image-crop-picker'
 import Geolocation from '@react-native-community/geolocation'
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler'
 
@@ -31,6 +32,7 @@ import {
     CHECK_KEY,
     CHECK_TIME,
     CHECK_OUT,
+    CHECK_LOC,
     TIMESTAMP
 } from '../utils/contants'
 
@@ -47,11 +49,13 @@ import StorageService from '../utils/StorageServies'
 class CheckoutScreen extends React.Component {
 
     state = {
+        ImageSource: [],
         latitude: '',
         longitude: '',
+        checkStatus: '',
         checkTime: 600000,
         currentTime: new Date(),
-        check: false,
+        check: true,
         appState: AppState.currentState
     }
 
@@ -69,10 +73,25 @@ class CheckoutScreen extends React.Component {
             'x-api-key': API_KEY
         }
         let formData = new FormData();
-        formData.append('checkTime', moment(currentTime).format('L').split("/").reverse().join("-") + ' ' + moment(currentTime).format('LTS'));
-        formData.append('latitude', latitude);
-        formData.append('longitude', longitude);
-        formData.append('type', type);
+        if (props.reducer.userInfo.CameraCheckOut == '1') {
+            formData.append('checkTime', moment(currentTime).format('L').split("/").reverse().join("-") + ' ' + moment(currentTime).format('LTS'));
+            formData.append('latitude', latitude);
+            formData.append('longitude', longitude);
+            formData.append('type', type);
+            that.state.ImageSource.map((v, i) => {
+                let gallerys = {
+                    uri: v.url,
+                    type: v.type,
+                    name: 'name_' + i + '.jpg',
+                };
+                formData.append('empimg[' + i + ']', gallerys);
+            });
+        } else {
+            formData.append('checkTime', moment(currentTime).format('L').split("/").reverse().join("-") + ' ' + moment(currentTime).format('LTS'));
+            formData.append('latitude', latitude);
+            formData.append('longitude', longitude);
+            formData.append('type', type);
+        }
 
         props.indicatorControll(true)
         await Helper.post(BASEURL + CHECK_URL, formData, header, async (results) => {
@@ -81,7 +100,7 @@ class CheckoutScreen extends React.Component {
                 await StorageService.set(CHECK_OUT, JSON.stringify(new Date()))
                 await props.CheckTypeControll(type == 'O' ? true : false)
                 await props.indicatorControll(false)
-                await that.setState({ check: true })
+                // await that.setState({ check: true })
                 // await alert(`${results.message}`)
                 await Alert.alert(
                     'ข้อความ',
@@ -104,6 +123,74 @@ class CheckoutScreen extends React.Component {
                 )
             }
         })
+    }
+
+    onCheck(lat, lon) {
+        // await this.requestLocationPermission()
+
+        let that = this
+        const props = that.props
+        // const { latitude, longitude } = that.state
+
+        if (props.reducer.userInfo.DistanceCheckOut == '1') {
+
+            let header = {
+                'Authorization': props.reducer.token,
+                'x-api-key': API_KEY
+            }
+            let formData = new FormData();
+            formData.append('latitude', lat);
+            formData.append('longitude', lon);
+            formData.append('destlatitude', props.reducer.userInfo.latitude);
+            formData.append('destlongitude', props.reducer.userInfo.longitude);
+            formData.append('distance', props.reducer.userInfo.DistanceOut ? props.reducer.userInfo.DistanceOut : '0');
+
+            // props.indicatorControll(true)
+            Helper.post(BASEURL + CHECK_LOC, formData, header, (results) => {
+                // alert(JSON.stringify(results))
+                // return
+                if (results.status == 'SUCCESS') {
+                    // await props.indicatorControll(false)
+                    that.setState({ check: results.data, checkStatus: '' })
+                } else {
+                    // await props.indicatorControll(false)
+                    that.setState({ check: results.data, checkStatus: 'คุณอยู่นอกพื้นที่ไม่สามารถลงเวลาได้' })
+                }
+            })
+        } else {
+            that.setState({ check: false })
+        }
+    }
+
+    onTakePicture() {
+
+        let that = this
+        const props = that.props
+
+        if (props.reducer.userInfo.CameraCheckOut == '1') {
+
+            ImagePicker.openCamera({
+                multiple: false,
+                useFrontCamera: true,
+                includeBase64: true,
+                compressImageMaxWidth: 200,
+                compressImageMaxHeight: 200
+            }).then(images => {
+                // console.log(images);
+                // alert(JSON.stringify(images));
+                let img = []
+                img.push({
+                    url: images.path,
+                    type: images.mime
+                })
+                that.setState({
+                    ImageSource: [...that.state.ImageSource, ...img]
+                });
+                that.onSave()
+            });
+        } else {
+            that.onSave()
+        }
     }
 
     // checkLocationEnable() {
@@ -134,6 +221,7 @@ class CheckoutScreen extends React.Component {
         if (Platform.OS == 'ios') {
             this.watchID = Geolocation.watchPosition(position => {
                 this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+                this.onCheck(position.coords.latitude, position.coords.longitude)
             }, (error) => null,
                 { enableHighAccuracy: true, timeout: 2000, maximumAge: 1000, distanceFilter: 10 },
             );
@@ -148,12 +236,14 @@ class CheckoutScreen extends React.Component {
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     this.watchID = Geolocation.watchPosition(position => {
                         this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+                        this.onCheck(position.coords.latitude, position.coords.longitude)
                     }, (error) => null,
                         { enableHighAccuracy: true, timeout: 2000, maximumAge: 1000, distanceFilter: 10 },
                     );
 
                     Geolocation.getCurrentPosition(position => {
                         this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+                        this.onCheck(position.coords.latitude, position.coords.longitude)
                     })
                 } else {
                     Alert.alert(
@@ -234,7 +324,7 @@ class CheckoutScreen extends React.Component {
     }
 
     componentWillUnmount() {
-        AppState.removeEventListener('change', this._handleAppStateChange)
+        // AppState.removeEventListener('change', this._handleAppStateChange)
         BackHandler.removeEventListener('hardwareBackPress', this.handleBack)
     }
 
@@ -292,8 +382,9 @@ class CheckoutScreen extends React.Component {
                     <Text style={[styles.bold, { fontSize: 30, color: darkColor, width: '100%', textAlign: 'center' }]}>{`${props.userInfo.title}${props.userInfo.firstname} ${props.userInfo.lastname}`}</Text>
                     <Text style={{ fontSize: 24, color: darkColor, width: '100%', textAlign: 'center' }}>{`${props.userInfo.position}`}</Text>
                     <View style={[styles.center]}>
-                        <TouchableOpacity style={[styles.buttonCheck, styles.shadow, styles.center, { backgroundColor: darkColor }]}
-                            onPress={() => this.onSave()
+                        <TouchableOpacity disabled={this.state.check} style={[styles.buttonCheck, styles.shadow, styles.center, { backgroundColor: this.state.check != true ? darkColor : 'gray' }]}
+                            // onPress={() => this.onSave()
+                            onPress={() => this.onTakePicture()
                             }>
                             <Text style={{ fontSize: 26, color: 'white' }}>{`กดปุ่มเพื่อลงเวลาออกงาน`}</Text>
                             <View style={styles.marginBetweenVertical}></View>
@@ -302,6 +393,9 @@ class CheckoutScreen extends React.Component {
                             <Text style={{ fontSize: 75, color: 'white' }}>{`${moment(this.state.currentTime).format('LT')}`}</Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={styles.marginBetweenVertical}></View>
+                    <View style={styles.marginBetweenVertical}></View>
+                    <Text style={{ fontSize: 26, color: darkColor, width: '100%', textAlign: 'center' }}>{`${this.state.checkStatus}`}</Text>
                 </View>
             </View>
         )
