@@ -60,6 +60,10 @@ class CheckoutScreen extends React.Component {
         appState: AppState.currentState
     }
 
+    onUpdate(url) {
+        Linking.openURL(url);
+    }
+
     async onSave() {
         await this.requestLocationPermission()
 
@@ -123,7 +127,7 @@ class CheckoutScreen extends React.Component {
                         {
                             text: 'OK', onPress: () => {
                                 if (results.data == 'oldversion') {
-                                    RNExitApp.exitApp()
+                                    this.onUpdate('https://play.google.com/store/apps/details?id=com.hrmobile');
                                 } else {
                                     null
                                 }
