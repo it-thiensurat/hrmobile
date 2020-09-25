@@ -19,6 +19,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import ImagePicker from 'react-native-image-crop-picker'
 import Geolocation from '@react-native-community/geolocation'
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler'
+import VersionCheck from 'react-native-version-check'
 
 import {
     darkColor,
@@ -78,6 +79,7 @@ class CheckoutScreen extends React.Component {
             formData.append('latitude', latitude);
             formData.append('longitude', longitude);
             formData.append('type', type);
+            formData.append('version', VersionCheck.getCurrentVersion());
             that.state.ImageSource.map((v, i) => {
                 let gallerys = {
                     uri: v.url,
@@ -91,6 +93,7 @@ class CheckoutScreen extends React.Component {
             formData.append('latitude', latitude);
             formData.append('longitude', longitude);
             formData.append('type', type);
+            formData.append('version', VersionCheck.getCurrentVersion());
         }
 
         props.indicatorControll(true)
@@ -117,7 +120,15 @@ class CheckoutScreen extends React.Component {
                     'คำเตือน',
                     `${results.message}`,
                     [
-                        { text: 'OK', onPress: () => null },
+                        {
+                            text: 'OK', onPress: () => {
+                                if (results.data == 'oldversion') {
+                                    RNExitApp.exitApp()
+                                } else {
+                                    null
+                                }
+                            }
+                        },
                     ],
                     { cancelable: false }
                 )

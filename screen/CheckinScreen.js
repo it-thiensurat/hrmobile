@@ -19,6 +19,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import ImagePicker from 'react-native-image-crop-picker'
 import Geolocation from '@react-native-community/geolocation'
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler'
+import VersionCheck from 'react-native-version-check'
 
 import {
     darkColor,
@@ -77,19 +78,21 @@ class CheckinScreen extends React.Component {
             formData.append('latitude', latitude);
             formData.append('longitude', longitude);
             formData.append('type', type);
+            formData.append('version', VersionCheck.getCurrentVersion());
             that.state.ImageSource.map((v, i) => {
                 let gallerys = {
-                  uri: v.url,
-                  type: v.type,
-                  name: 'name_' + i + '.jpg',
+                    uri: v.url,
+                    type: v.type,
+                    name: 'name_' + i + '.jpg',
                 };
                 formData.append('empimg[' + i + ']', gallerys);
-              });
+            });
         } else {
             formData.append('checkTime', moment(currentTime).format('L').split("/").reverse().join("-") + ' ' + moment(currentTime).format('LTS'));
             formData.append('latitude', latitude);
             formData.append('longitude', longitude);
             formData.append('type', type);
+            formData.append('version', VersionCheck.getCurrentVersion());
         }
 
         props.indicatorControll(true)
@@ -115,7 +118,15 @@ class CheckinScreen extends React.Component {
                     'คำเตือน',
                     `${results.message}`,
                     [
-                        { text: 'OK', onPress: () => null },
+                        {
+                            text: 'OK', onPress: () => {
+                                if (results.data == 'oldversion') {
+                                    RNExitApp.exitApp()
+                                } else {
+                                    null
+                                }
+                            }
+                        },
                     ],
                     { cancelable: false }
                 )
