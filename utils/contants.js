@@ -36,7 +36,7 @@ export const TIMESTAMP          = 'TIMESTAMP'
 /**
  * Api
  */
-export const SERVER         = 'UAT' // Production
+export const SERVER         = 'Production' // UAT
 export const BASEURL        = 'http://toss.thiensurat.co.th'
 export const LOGIN_URL      = '/ServicesPHP/' + SERVER + '/HR/Authen'
 export const CHECK_URL      = '/ServicesPHP/' + SERVER + '/HR/CheckInOut'
