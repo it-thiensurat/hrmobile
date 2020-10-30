@@ -183,16 +183,16 @@ class MenuScreen extends React.Component {
                             </LinearGradient>
                         </TouchableOpacity>
                         <View style={{ width: 20 }} />
-                        <View style={{ width: 150, height: 150 }}></View>
+                        <View style={{ width: 150, height: 150 }} />
                         {/* <TouchableOpacity style={{ width: 150, height: 150 }}
                             onPress={
                                 () => {
-                                    this.props.navigation.navigate('Webview', { pageid: OT07 })
+                                    this.props.navigation.navigate('Commission')
                                 }
                             }>
-                            <LinearGradient colors={['#0099cc', '#0077cc', '#0066cc']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                                <Icon name="check" color={'white'} size={50} />
-                                <Text style={[styles.bold, { color: 'white' }]}>อนุมัติแก้ไขการลงเวลา</Text>
+                            <LinearGradient colors={['#F9D976', '#F39F86', '#D7816A']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                <Icon name="paste" color={'white'} size={50} />
+                                <Text style={[styles.bold, { color: 'white' }]}>รายงานค่าคอมมิชชั่น</Text>
                             </LinearGradient>
                         </TouchableOpacity> */}
                     </View>

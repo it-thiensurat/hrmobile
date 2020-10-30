@@ -57,6 +57,8 @@ import ChangeTime from './screen/ChangeTimeScreen'
 import ListConsider from './screen/ListConsiderScreen'
 import Consider from './screen/ConsiderScreen'
 import Webview from './screen/WebViewScreen'
+import Commission from './screen/CommissionScreen'
+import CommissionWebView from './screen/CommissionWebView'
 
 function MyStack() {
   return (
@@ -74,6 +76,8 @@ function MyStack() {
       <Stack.Screen name="ListConsider" component={ListConsider} />
       <Stack.Screen name="Consider" component={Consider} />
       <Stack.Screen name="Webview" component={Webview} />
+      <Stack.Screen name="Commission" component={Commission} />
+      <Stack.Screen name="CommissionWebView" component={CommissionWebView} />
     </Stack.Navigator>
   );
 }

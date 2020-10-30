@@ -36,7 +36,7 @@ export const TIMESTAMP          = 'TIMESTAMP'
 /**
  * Api
  */
-export const SERVER         = 'Production' // UAT
+export const SERVER         = 'UAT' // Production
 export const BASEURL        = 'http://toss.thiensurat.co.th'
 export const LOGIN_URL      = '/ServicesPHP/' + SERVER + '/HR/Authen'
 export const CHECK_URL      = '/ServicesPHP/' + SERVER + '/HR/CheckInOut'
@@ -65,6 +65,15 @@ export const TRAINING03     = 'training_03'
 export const OTHER01        = 'other_01'
 export const OTHER02        = 'other_02'
 export const HEAD01         = 'head_01'
+
+export const YEARCOMM       = 'http://app.thiensurat.co.th/assanee/SALE_SLIPS_SYSTEM/yers_intro.php'
+export const FORTNIGHTCOMM  = 'http://app.thiensurat.co.th/assanee/SALE_SLIPS_SYSTEM/yers.php?year='
+export const CONTNO_FN      = 'http://app.thiensurat.co.th/assanee/SALE_SLIPS_SYSTEM/cycle.php?fnno='
+export const CONTNO_YR      = '&year='
+export const COMMPDF_CZ     = 'https://app.thiensurat.co.th/tsr_saleCom/idcommission/getReportData?citizenidP='
+export const COMMPDF_FN     = '&fnnoP='
+export const COMMPDF_YR     = '&fnyearP='
+export const COMMPDF_PD     = '&paydateP='
  /**
   * End
   */

@@ -6,6 +6,8 @@ buildscript {
         minSdkVersion = 16
         compileSdkVersion = 28
         targetSdkVersion = 28
+
+//        pdfViewer = "2.8.2"
     }
     repositories {
         google()
