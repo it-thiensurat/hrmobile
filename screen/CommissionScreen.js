@@ -19,6 +19,7 @@ import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import { Picker } from "native-base"
 import DateTimePickerModal from "react-native-modal-datetime-picker"
+var RNFS = require('react-native-fs');
 
 import {
     indicatorControll
@@ -56,16 +57,28 @@ class CommissionScreen extends React.Component {
         linkpdf: ''
     }
 
+    // deleteFile = () => {
+    //     let file = RNFS.DownloadDirectoryPath + '/getReportData.pdf'
+    //     if (RNFS.exists(file)) {
+    //         RNFS.unlink(file)
+    //             .then(() => {
+    //                 console.log('FILE DELETED');
+    //             }).catch((err) => {
+    //                 console.log(err.message);
+    //             });
+    //     }
+    // }
+
     getYear() {
 
         let that = this
         const props = that.props
 
         props.indicatorControll(true)
-        Helper.get(YEARCOMM, (results) => {
+        Helper.get(YEARCOMM, async (results) => {
             // alert(JSON.stringify(results))
-            that.setState({ yearfilter: that.state.yearfilter.concat(results) })
-            props.indicatorControll(false)
+            await that.setState({ yearfilter: that.state.yearfilter.concat(results) })
+            await props.indicatorControll(false)
         })
     }
 
@@ -75,10 +88,10 @@ class CommissionScreen extends React.Component {
         const props = that.props
 
         props.indicatorControll(true)
-        Helper.get(FORTNIGHTCOMM + value, (results) => {
+        Helper.get(FORTNIGHTCOMM + value, async (results) => {
             // alert(JSON.stringify(results))
-            that.setState({ fortnight: that.state.fortnight.concat(results) })
-            props.indicatorControll(false)
+            await that.setState({ fortnight: that.state.fortnight.concat(results) })
+            await props.indicatorControll(false)
         })
     }
 
@@ -88,44 +101,44 @@ class CommissionScreen extends React.Component {
         const props = that.props
 
         props.indicatorControll(true)
-        Helper.get(CONTNO_FN + fn + CONTNO_YR + yr, (results) => {
+        Helper.get(CONTNO_FN + fn + CONTNO_YR + yr, async (results) => {
             // alert(JSON.stringify(results))
-            that.setState({ contno: results })
-            props.indicatorControll(false)
+            await that.setState({ contno: results[0].contno })
+            await props.indicatorControll(false)
         })
     }
 
-    getCommission(fn, yr, cn) {
+    // getCommission(fn, yr, cn) {
 
-        let that = this
-        const props = that.props
-        let cardID = props.reducer.userInfo.cardid
-        let link = COMMPDF_CZ + cardID + COMMPDF_FN + fn + COMMPDF_YR + yr + COMMPDF_PD + cn
-        if (cn) {
-            this.setState({ linkpdf: link })
-        } else {
-            Alert.alert(
-                'ข้อความ',
-                `Test`,
-                [
-                    { text: 'OK', onPress: () => null },
-                ],
-                { cancelable: false }
-            )
-        }
-    }
+    //     let that = this
+    //     const props = that.props
+    //     let cardID = props.reducer.userInfo.cardid
+    //     let link = COMMPDF_CZ + cardID + COMMPDF_FN + fn + COMMPDF_YR + yr + COMMPDF_PD + cn
+    //     if (cn) {
+    //         this.setState({ linkpdf: link })
+    //     } else {
+    //         Alert.alert(
+    //             'ข้อความ',
+    //             `Test`,
+    //             [
+    //                 { text: 'OK', onPress: () => null },
+    //             ],
+    //             { cancelable: false }
+    //         )
+    //     }
+    // }
 
-    onSelectYear(value) {
+    async onSelectYear(value) {
         if (value != 'กรุณาเลือกปี') {
-            this.setState({ yearselect: value })
-            this.getFortnight(value)
+            await this.setState({ yearselect: value })
+            await this.getFortnight(value)
         }
     }
 
-    onSelectFortnight(value) {
+    async onSelectFortnight(value) {
         if (value != 'กรุณาเลือกปักษ์') {
-            this.setState({ fortnightselect: value })
-            this.getContno(this.state.fortnightselect, this.state.yearselect)
+            await this.setState({ fortnightselect: value })
+            await this.getContno(value, this.state.yearselect)
         }
     }
 
@@ -197,9 +210,10 @@ class CommissionScreen extends React.Component {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBack);
-        this.getYear()
+        // await this.deleteFile()
+        await this.getYear()
     }
 
     render() {
@@ -273,7 +287,8 @@ class CommissionScreen extends React.Component {
                             // let uri = ''
                             // uri = COMMPDF_CZ + users.cardid + COMMPDF_FN + this.state.fortnightselect + COMMPDF_YR + this.state.yearselect + COMMPDF_PD + this.state.contno
                             // Linking.openURL(uri)
-                            this.props.navigation.navigate('CommissionWebView', { fortnight: this.state.fortnightselect, year: this.state.yearselect, contno: this.state.contno })
+                            // alert(JSON.stringify(this.state.contno))
+                            this.props.navigation.push('CommissionWebView', { fortnight: this.state.fortnightselect, year: this.state.yearselect, contno: this.state.contno })
                         }}>
                         <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`แสดงรายงาน`}</Text>
                     </TouchableOpacity>

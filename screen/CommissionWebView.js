@@ -5,12 +5,15 @@ import {
     Image,
     Alert,
     BackHandler,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from 'react-native'
 import { connect } from 'react-redux'
 import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import { WebView } from "react-native-webview"
+import Pdf from 'react-native-pdf';
+var RNFS = require('react-native-fs');
 
 import {
     primaryColor,
@@ -31,10 +34,20 @@ import styles from '../style/style'
 import Helper from '../utils/Helper'
 import StorageService from '../utils/StorageServies'
 
+const DEVICE_WIDTH  = Dimensions.get('window').width;
+const DEVICE_HEIGHT = Dimensions.get('window').height;
+
 class CommissionWebView extends React.Component {
 
     state = {
         url: ''
+    }
+
+    handleUrl = () => {
+        var file = RNFS.DownloadDirectoryPath + 'getReportData.pdf'
+        if (RNFS.exists(file)) {
+            alert('Downloaded')
+        }
     }
 
     ComponentLeft = () => {
@@ -88,6 +101,10 @@ class CommissionWebView extends React.Component {
 
         const props = this.props.reducer
         const users = props.userInfo
+        let uri = ''
+        const { fortnight, year, contno } = this.props.route.params
+        uri = COMMPDF_CZ + users.cardid + COMMPDF_FN + fortnight + COMMPDF_YR + year + COMMPDF_PD + contno
+        const source = {uri: uri ,cache:true};
 
         return (
             <View style={{ flex: 1 }}>
@@ -105,18 +122,21 @@ class CommissionWebView extends React.Component {
                         elevation: 0,
                         shadowOpacity: 0,
                     }} />
-                <WebView
-                        source={{ uri: 'https://drive.google.com/viewerng/viewer?embedded=true&url=' + this.state.url }}
-                        // scalesPageToFit
-                        originWhitelist={['*']}
-                        javaScriptEnabled={true}
-                        // scalesPageToFit={true}
-                        scrollEnabled={true}
-                        onLoad={() => this.props.indicatorControll(true)}
-                        onLoadEnd={() => this.props.indicatorControll(false)}
-                        onLoadStart={() => this.props.indicatorControll(true)}
-                        onResponderStart={() => this.props.indicatorControll(true)}
-                    />
+                <Pdf
+                    source={source}
+                    onLoadComplete={(numberOfPages,filePath)=>{
+                        // console.log(`number of pages: ${numberOfPages}`);
+                    }}
+                    onPageChanged={(page,numberOfPages)=>{
+                        // console.log(`current page: ${page}`);
+                    }}
+                    onError={(error)=>{
+                        console.log(error);
+                    }}
+                    onPressLink={(uri)=>{
+                        // console.log(`Link presse: ${uri}`)
+                    }}
+                    style={{flex:1, width: DEVICE_WIDTH, height: DEVICE_HEIGHT}}/>
             </View>
         )
     }
