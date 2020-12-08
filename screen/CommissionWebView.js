@@ -21,7 +21,10 @@ import {
     COMMPDF_CZ,
     COMMPDF_FN,
     COMMPDF_YR,
-    COMMPDF_PD
+    COMMPDF_PD,
+    DEBT_CZ,
+    DEBT_FN,
+    DEBT_YR
 } from '../utils/contants'
 
 import {
@@ -34,7 +37,7 @@ import styles from '../style/style'
 import Helper from '../utils/Helper'
 import StorageService from '../utils/StorageServies'
 
-const DEVICE_WIDTH  = Dimensions.get('window').width;
+const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 class CommissionWebView extends React.Component {
@@ -65,7 +68,7 @@ class CommissionWebView extends React.Component {
         const props = this.props.reducer
         return (
             <View style={[styles.center]}>
-                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`Commission`}</Text>
+                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`รายงานค่าคอมมิชชั่น / หนี้สูญ`}</Text>
             </View>
         );
     }
@@ -102,9 +105,12 @@ class CommissionWebView extends React.Component {
         const props = this.props.reducer
         const users = props.userInfo
         let uri = ''
-        const { fortnight, year, contno } = this.props.route.params
+        let uridebt = ''
+        const { fortnight, year, contno, type } = this.props.route.params
         uri = COMMPDF_CZ + users.cardid + COMMPDF_FN + fortnight + COMMPDF_YR + year + COMMPDF_PD + contno
-        const source = {uri: uri ,cache:true};
+        uridebt = DEBT_CZ + users.cardid + DEBT_FN + fortnight + DEBT_YR + year
+        const source = { uri: uri, cache: true };
+        const sourcedebt = { uri: uridebt, cache: true };
 
         return (
             <View style={{ flex: 1 }}>
@@ -122,21 +128,40 @@ class CommissionWebView extends React.Component {
                         elevation: 0,
                         shadowOpacity: 0,
                     }} />
-                <Pdf
-                    source={source}
-                    onLoadComplete={(numberOfPages,filePath)=>{
-                        // console.log(`number of pages: ${numberOfPages}`);
-                    }}
-                    onPageChanged={(page,numberOfPages)=>{
-                        // console.log(`current page: ${page}`);
-                    }}
-                    onError={(error)=>{
-                        console.log(error);
-                    }}
-                    onPressLink={(uri)=>{
-                        // console.log(`Link presse: ${uri}`)
-                    }}
-                    style={{flex:1, width: DEVICE_WIDTH, height: DEVICE_HEIGHT}}/>
+                {
+                    type == 'COMM' ?
+                        <Pdf
+                            source={source}
+                            onLoadComplete={(numberOfPages, filePath) => {
+                                // console.log(`number of pages: ${numberOfPages}`);
+                            }}
+                            onPageChanged={(page, numberOfPages) => {
+                                // console.log(`current page: ${page}`);
+                            }}
+                            onError={(error) => {
+                                console.log(error);
+                            }}
+                            onPressLink={(uri) => {
+                                // console.log(`Link presse: ${uri}`)
+                            }}
+                            style={{ flex: 1, width: DEVICE_WIDTH, height: DEVICE_HEIGHT }} />
+                        :
+                        <Pdf
+                            source={sourcedebt}
+                            onLoadComplete={(numberOfPages, filePath) => {
+                                // console.log(`number of pages: ${numberOfPages}`);
+                            }}
+                            onPageChanged={(page, numberOfPages) => {
+                                // console.log(`current page: ${page}`);
+                            }}
+                            onError={(error) => {
+                                console.log(error);
+                            }}
+                            onPressLink={(uri) => {
+                                // console.log(`Link presse: ${uri}`)
+                            }}
+                            style={{ flex: 1, width: DEVICE_WIDTH, height: DEVICE_HEIGHT }} />
+                }
             </View>
         )
     }

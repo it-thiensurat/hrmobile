@@ -19,7 +19,10 @@ import {
     COMPCODE,
     EMPID,
     PAGEID,
-    VERIFY
+    VERIFY,
+    PMSURL,
+    PMSID,
+    PMSPASSWORD
 } from '../utils/contants'
 
 import {
@@ -54,7 +57,7 @@ class WebViewScreen extends React.Component {
         const props = this.props.reducer
         return (
             <View style={[styles.center]}>
-                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`Employee Self Service`}</Text>
+                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`TSR HR ONE`}</Text>
             </View>
         );
     }
@@ -81,7 +84,11 @@ class WebViewScreen extends React.Component {
         const users = props.userInfo
         let uri = ''
         const { pageid } = this.props.route.params
-        uri = WEBURL + COMPCODE + users.companyId + EMPID + users.empForWeb + PAGEID + pageid + VERIFY
+        if (pageid == 'PMS') {
+            uri = PMSURL + PMSID + users.empId + PMSPASSWORD + 'PMSONMOBILE'
+        } else {
+            uri = WEBURL + COMPCODE + users.companyId + EMPID + users.empForWeb + PAGEID + pageid + VERIFY
+        }
         this.setState({ url: uri })
         BackHandler.addEventListener('hardwareBackPress', this.handleBack)
     }
@@ -107,18 +114,18 @@ class WebViewScreen extends React.Component {
                         elevation: 0,
                         shadowOpacity: 0,
                     }} />
-                    <WebView
-                        source={{ uri: this.state.url }}
-                        // scalesPageToFit
-                        originWhitelist={['*']}
-                        javaScriptEnabled={true}
-                        // scalesPageToFit={true}
-                        scrollEnabled={true}
-                        onLoad={() => this.props.indicatorControll(true)}
-                        onLoadEnd={() => this.props.indicatorControll(false)}
-                        onLoadStart={() => this.props.indicatorControll(true)}
-                        onResponderStart={() => this.props.indicatorControll(true)}
-                    />
+                <WebView
+                    source={{ uri: this.state.url }}
+                    // scalesPageToFit
+                    originWhitelist={['*']}
+                    javaScriptEnabled={true}
+                    // scalesPageToFit={true}
+                    scrollEnabled={true}
+                    onLoad={() => this.props.indicatorControll(true)}
+                    onLoadEnd={() => this.props.indicatorControll(false)}
+                    onLoadStart={() => this.props.indicatorControll(true)}
+                    onResponderStart={() => this.props.indicatorControll(true)}
+                />
             </View>
         )
     }

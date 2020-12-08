@@ -66,6 +66,10 @@ export const OTHER01        = 'other_01'
 export const OTHER02        = 'other_02'
 export const HEAD01         = 'head_01'
 
+export const PMSURL         = 'https://uat.thiensurat.co.th/PMS/Login?'
+export const PMSID          = 'Empid='
+export const PMSPASSWORD    = '&Password='
+
 export const YEARCOMM       = 'http://app.thiensurat.co.th/assanee/SALE_SLIPS_SYSTEM/yers_intro.php'
 export const FORTNIGHTCOMM  = 'http://app.thiensurat.co.th/assanee/SALE_SLIPS_SYSTEM/yers.php?year='
 export const CONTNO_FN      = 'http://app.thiensurat.co.th/assanee/SALE_SLIPS_SYSTEM/cycle.php?fnno='
@@ -74,6 +78,10 @@ export const COMMPDF_CZ     = 'https://app.thiensurat.co.th/tsr_saleCom/idcommis
 export const COMMPDF_FN     = '&fnnoP='
 export const COMMPDF_YR     = '&fnyearP='
 export const COMMPDF_PD     = '&paydateP='
+
+export const DEBT_CZ        = 'http://storms.thiensurat.co.th/TSR_VIEW_RTX/?citizen='
+export const DEBT_FN        = '&fnno='
+export const DEBT_YR        = '&fnyear='
  /**
   * End
   */

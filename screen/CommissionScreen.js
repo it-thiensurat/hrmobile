@@ -156,7 +156,7 @@ class CommissionScreen extends React.Component {
     ComponentCenter = () => {
         return (
             <View style={[styles.center]}>
-                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`รายงานค่าคอมมิชชั่น`}</Text>
+                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`รายงานค่าคอมมิชชั่น / หนี้สูญ`}</Text>
             </View>
         );
     }
@@ -281,17 +281,34 @@ class CommissionScreen extends React.Component {
                         </View>
                     </View>
                     <View style={styles.marginBetweenVertical}></View>
-                    <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: DEVICE_WIDTH - 20, alignSelf: 'center', backgroundColor: secondaryColor, borderRadius: 50 / 2, position: 'absolute', bottom: 0, marginBottom: 20 }]}
-                        onPress={() => {
-                            // this.getCommission(this.state.fortnightselect, this.state.yearselect, this.state.contno)
-                            // let uri = ''
-                            // uri = COMMPDF_CZ + users.cardid + COMMPDF_FN + this.state.fortnightselect + COMMPDF_YR + this.state.yearselect + COMMPDF_PD + this.state.contno
-                            // Linking.openURL(uri)
-                            // alert(JSON.stringify(this.state.contno))
-                            this.props.navigation.push('CommissionWebView', { fortnight: this.state.fortnightselect, year: this.state.yearselect, contno: this.state.contno })
-                        }}>
-                        <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`แสดงรายงาน`}</Text>
-                    </TouchableOpacity>
+                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', width: DEVICE_WIDTH, position: 'absolute', bottom: 0 }}>
+                    <View style={{ width: DEVICE_WIDTH / 2 }}>
+                        <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: '90%', alignSelf: 'center', backgroundColor: secondaryColor, borderRadius: 50 / 2, marginBottom: 20 }]}
+                            onPress={() => {
+                                // this.getCommission(this.state.fortnightselect, this.state.yearselect, this.state.contno)
+                                // let uri = ''
+                                // uri = COMMPDF_CZ + users.cardid + COMMPDF_FN + this.state.fortnightselect + COMMPDF_YR + this.state.yearselect + COMMPDF_PD + this.state.contno
+                                // Linking.openURL(uri)
+                                // alert(JSON.stringify(this.state.contno))
+                                this.props.navigation.push('CommissionWebView', { fortnight: this.state.fortnightselect, year: this.state.yearselect, contno: this.state.contno, type: 'COMM' })
+                            }}>
+                            <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`รายงานค่าคอมฯ`}</Text>
+                        </TouchableOpacity>
+                        </View>
+                        <View style={{ width: DEVICE_WIDTH / 2 }}>
+                        <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: '90%', alignSelf: 'center', backgroundColor: secondaryColor, borderRadius: 50 / 2, marginBottom: 20 }]}
+                            onPress={() => {
+                                // this.getCommission(this.state.fortnightselect, this.state.yearselect, this.state.contno)
+                                // let uri = ''
+                                // uri = COMMPDF_CZ + users.cardid + COMMPDF_FN + this.state.fortnightselect + COMMPDF_YR + this.state.yearselect + COMMPDF_PD + this.state.contno
+                                // Linking.openURL(uri)
+                                // alert(JSON.stringify(this.state.contno))
+                                this.props.navigation.push('CommissionWebView', { fortnight: this.state.fortnightselect, year: this.state.yearselect, contno: this.state.contno, type: 'DEBT' })
+                            }}>
+                            <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`รายงานหนี้สูญ`}</Text>
+                        </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
             </View >
         )
