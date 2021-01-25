@@ -59,6 +59,8 @@ import Consider from './screen/ConsiderScreen'
 import Webview from './screen/WebViewScreen'
 import Commission from './screen/CommissionScreen'
 import CommissionWebView from './screen/CommissionWebView'
+import SaleCheck from './screen/SaleCheckScreen'
+import SupApprove from './screen/SupApproveScreen'
 
 function MyStack() {
   return (
@@ -78,6 +80,8 @@ function MyStack() {
       <Stack.Screen name="Webview" component={Webview} />
       <Stack.Screen name="Commission" component={Commission} />
       <Stack.Screen name="CommissionWebView" component={CommissionWebView} />
+      <Stack.Screen name="SaleCheck" component={SaleCheck} />
+      <Stack.Screen name="SupApprove" component={SupApprove} />
     </Stack.Navigator>
   );
 }
