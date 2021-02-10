@@ -242,7 +242,7 @@ class MenuScreen extends React.Component {
                                     <LinearGradient colors={['#F1948A', '#EC7063', '#E74C3C']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                                         <Icon name="paste" color={'white'} size={45} />
                                         <Text style={[styles.bold, { fontSize: 18, color: 'white', marginTop: 5 }]}>รายงาน</Text>
-                                        <Text style={[styles.bold, { fontSize: 16, color: 'white'}]}>ค่าคอมมิชชั่น / หนี้สูญ</Text>
+                                        <Text style={[styles.bold, { fontSize: 16, color: 'white' }]}>ค่าคอมมิชชั่น / หนี้สูญ</Text>
                                     </LinearGradient>
                                 </TouchableOpacity>
                             </View>
@@ -251,42 +251,62 @@ class MenuScreen extends React.Component {
                                 <View style={{ width: 105, height: 105 }} />
                             </View>
                         </View>
-                        <View style={{ width: DEVICE_WIDTH }}>
+                        {/* <View style={{ width: DEVICE_WIDTH }}>
                             <Text style={[styles.bold, { fontSize: 22, backgroundColor: '#54EFD1', borderRadius: 20, color: secondaryColor, alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>ฝ่ายขาย    </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', padding: 2, marginTop: 5, marginLeft: 8 }}>
-                            <View style={{ flex: 0.35 }}>
-                            <TouchableOpacity style={{ width: 105, height: 105 }}
-                                    onPress={
-                                        () => {
-                                            this.props.navigation.navigate('SaleCheck')
+                        </View> */}
+                        {
+                            users.PosID == 3 || users.PosID == 4 ?
+                            <View>
+                                <View style={{ width: DEVICE_WIDTH }}>
+                                    <Text style={[styles.bold, { fontSize: 22, backgroundColor: '#54EFD1', borderRadius: 20, color: secondaryColor, alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>ฝ่ายขาย    </Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', padding: 2, marginTop: 5, marginLeft: 8 }}>
+                                    <View style={{ flex: 0.35 }}>
+                                        {
+                                            users.PosID == 3 ?
+                                                <TouchableOpacity style={{ width: 105, height: 105 }}
+                                                    onPress={
+                                                        () => {
+                                                            this.props.navigation.navigate('SaleCheck')
+                                                        }
+                                                    }>
+                                                    <LinearGradient colors={['#54EFD1', '#10E2E6', '#00D3F3']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                                        <Icon name="check-square" color={'white'} size={45} />
+                                                        <Text style={[styles.bold, { fontSize: 18, color: 'white', marginTop: 5 }]}>ลงเวลาทีมขาย</Text>
+                                                    </LinearGradient>
+                                                </TouchableOpacity>
+                                                :
+                                                null
                                         }
-                                    }>
-                                    <LinearGradient colors={['#54EFD1', '#10E2E6', '#00D3F3']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                                        <Icon name="check-square" color={'white'} size={45} />
-                                        <Text style={[styles.bold, { fontSize: 18, color: 'white', marginTop: 5 }]}>ลงเวลาทีมขาย</Text>
-                                    </LinearGradient>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ width: 5 }} />
-                            <View style={{ flex: 0.35 }}>
-                                <TouchableOpacity style={{ width: 105, height: 105 }}
-                                    onPress={
-                                        () => {
-                                            this.props.navigation.navigate('SupApprove')
+                                    </View>
+                                    <View style={{ width: 5 }} />
+                                    <View style={{ flex: 0.35 }}>
+                                        {
+                                            users.PosID == 4 ?
+                                                <TouchableOpacity style={{ width: 105, height: 105 }}
+                                                    onPress={
+                                                        () => {
+                                                            this.props.navigation.navigate('SupApprove')
+                                                        }
+                                                    }>
+                                                    <LinearGradient colors={['#54EFD1', '#10E2E6', '#00D3F3']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                                        <Icon name="edit" color={'white'} size={45} />
+                                                        <Text style={[styles.bold, { fontSize: 18, color: 'white', marginTop: 5 }]}>อนุมัติเวลาทีมขาย</Text>
+                                                    </LinearGradient>
+                                                </TouchableOpacity>
+                                                :
+                                                null
                                         }
-                                    }>
-                                    <LinearGradient colors={['#54EFD1', '#10E2E6', '#00D3F3']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                                        <Icon name="edit" color={'white'} size={45} />
-                                        <Text style={[styles.bold, { fontSize: 18, color: 'white', marginTop: 5 }]}>อนุมัติเวลาทีมขาย</Text>
-                                    </LinearGradient>
-                                </TouchableOpacity>
+                                    </View>
+                                    <View style={{ width: 5 }} />
+                                    <View style={{ flex: 0.35 }}>
+                                        <View style={{ width: 105, height: 105 }} />
+                                    </View>
+                                </View>
                             </View>
-                            <View style={{ width: 5 }} />
-                            <View style={{ flex: 0.35 }}>
-                                <View style={{ width: 105, height: 105 }} />
-                            </View>
-                        </View>
+                                :
+                                null
+                        }
                         <View style={{ width: DEVICE_WIDTH }}>
                             <Text style={[styles.bold, { fontSize: 22, backgroundColor: '#FFE4E1', borderRadius: 20, color: secondaryColor, alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>อื่นๆ    </Text>
                         </View>
