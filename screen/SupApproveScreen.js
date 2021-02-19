@@ -139,7 +139,7 @@ class SupApproveScreen extends React.Component {
         v.SwitchStatus = e ? 1 : 0
         item.WorkDetail[i] = v
         data[index] = item
-        
+
         this.setState({ team_data: data })
     }
 
@@ -283,14 +283,25 @@ class SupApproveScreen extends React.Component {
                     }
                     {
                         this.state.team_data != '' ?
-                            <View style={{ alignItems: 'center', width: DEVICE_WIDTH, position: 'absolute', bottom: 0 }}>
-                                <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: '90%', alignSelf: 'center', backgroundColor: secondaryColor, borderRadius: 50 / 2, marginBottom: 12 }]}
-                                    onPress={() => {
-                                        this.approveTeam()
-                                    }}>
-                                    <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`ยืนยันข้อมูลการลงเวลา`}</Text>
-                                </TouchableOpacity>
-                            </View>
+                                this.state.team_data[0].CostBranch != 1 ?
+                                    <View style={{ alignItems: 'center', width: DEVICE_WIDTH, position: 'absolute', bottom: 0 }}>
+                                        <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: '90%', alignSelf: 'center', backgroundColor: secondaryColor, borderRadius: 50 / 2, marginBottom: 12 }]}
+                                            onPress={() => {
+                                                this.approveTeam()
+                                            }}>
+                                            <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`ยืนยันข้อมูลการลงเวลา`}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    :
+                                    null
+                            // <View style={{ alignItems: 'center', width: DEVICE_WIDTH, position: 'absolute', bottom: 0 }}>
+                            //     <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: '90%', alignSelf: 'center', backgroundColor: secondaryColor, borderRadius: 50 / 2, marginBottom: 12 }]}
+                            //         onPress={() => {
+                            //             this.approveTeam()
+                            //         }}>
+                            //         <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`ยืนยันข้อมูลการลงเวลา`}</Text>
+                            //     </TouchableOpacity>
+                            // </View>
                             :
                             null
                     }
