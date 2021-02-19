@@ -14,7 +14,7 @@ import {
     AppState,
     PermissionsAndroid
 } from 'react-native'
-import Moment from 'moment'
+import moment from 'moment'
 import { connect } from 'react-redux'
 import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
@@ -34,7 +34,9 @@ import {
     secondaryColor,
     API_KEY,
     BASEURL,
-    SALETEAM_LIST
+    SALETEAM_LIST,
+    SALETEAM_CHECK,
+    SALETEAM_APPROVE
 } from '../utils/contants'
 
 import styles from '../style/style'
@@ -57,13 +59,14 @@ class SaleCheckScreen extends React.Component {
 
         let that = this
         const props = that.props
-        const users = this.props.reducer.userInfo
+        const users = props.reducer.userInfo
         let header = {
-            // 'Authorization': '',
+            'Authorization': props.reducer.token,
             'x-api-key': API_KEY
         }
         let formData = new FormData();
 
+        formData.append('empId', users.empId);
         formData.append('teamNo', users.TeamNo);
         formData.append('depid', users.DepID);
         formData.append('fnno', users.FnNo);
@@ -83,24 +86,72 @@ class SaleCheckScreen extends React.Component {
         })
     }
 
-    async onSave() {
+    async approveSaleTeam() {
         await this.requestLocationPermission()
 
-        let type = ''
         let that = this
         const props = that.props
-        type = 'I'
+        const users = props.reducer.userInfo
+        const { latitude, longitude } = that.state
+        let header = {
+            'Authorization': props.reducer.token,
+            'x-api-key': API_KEY
+        }
+        let formData = new FormData();
+
+        formData.append('empId', users.empId);
+        formData.append('teamNo', users.TeamNo);
+        formData.append('depid', users.DepID);
+        formData.append('fnno', users.FnNo);
+        formData.append('fnyear', users.FnYear);
+        formData.append('latitude', latitude);
+        formData.append('longitude', longitude);
+
+        props.indicatorControll(true)
+        await Helper.post(BASEURL + SALETEAM_APPROVE, formData, header, async (results) => {
+            // alert(JSON.stringify(results))
+            if (results.status == 'SUCCESS') {
+                await props.indicatorControll(false)
+                await Alert.alert(
+                    'ข้อความ',
+                    `${results.message}`,
+                    [
+                        { text: 'OK', onPress: () => that.handleBack() },
+                    ],
+                    { cancelable: false }
+                )
+            } else {
+                await props.indicatorControll(false)
+                await Alert.alert(
+                    'คำเตือน',
+                    `${results.message}`,
+                    [
+                        { text: 'OK', onPress: () => null },
+                    ],
+                    { cancelable: false }
+                )
+            }
+        })
+    }
+
+    async onSave(detailId, saleemp) {
+        await this.requestLocationPermission()
+
+        let that = this
+        const props = that.props
+        const users = props.reducer.userInfo
         const { latitude, longitude, currentTime } = that.state
         let header = {
             'Authorization': props.reducer.token,
             'x-api-key': API_KEY
         }
         let formData = new FormData();
+        formData.append('empId', users.empId);
+        formData.append('saleEmp', saleemp);
+        formData.append('detailId', detailId);
         formData.append('checkTime', moment(currentTime).format('L').split("/").reverse().join("-") + ' ' + moment(currentTime).format('LTS'));
         formData.append('latitude', latitude);
         formData.append('longitude', longitude);
-        formData.append('type', type);
-        formData.append('version', VersionCheck.getCurrentVersion());
         that.state.ImageSource.map((v, i) => {
             let gallerys = {
                 uri: v.url,
@@ -110,44 +161,33 @@ class SaleCheckScreen extends React.Component {
             formData.append('empimg[' + i + ']', gallerys);
         });
 
-        // props.indicatorControll(true)
-        // await Helper.post(BASEURL + CHECK_URL, formData, header, async (results) => {
-        //     if (results.status == 'SUCCESS') {
-        //         await StorageService.set(CHECK_KEY, JSON.stringify(type))
-        //         await StorageService.set(CHECK_TIME, JSON.stringify(new Date()))
-        //         await props.CheckTypeControll(type == 'I' ? true : false)
-        //         await props.indicatorControll(false)
-        //         await Alert.alert(
-        //             'ข้อความ',
-        //             `${results.message}`,
-        //             [
-        //                 { text: 'OK', onPress: () => that.handleBack() },
-        //             ],
-        //             { cancelable: false }
-        //         )
-        //     } else {
-        //         await props.indicatorControll(false)
-        //         await Alert.alert(
-        //             'คำเตือน',
-        //             `${results.message}`,
-        //             [
-        //                 {
-        //                     text: 'OK', onPress: () => {
-        //                         if (results.data == 'oldversion') {
-        //                             this.onUpdate('https://play.google.com/store/apps/details?id=com.hrmobile');
-        //                         } else {
-        //                             null
-        //                         }
-        //                     }
-        //                 },
-        //             ],
-        //             { cancelable: false }
-        //         )
-        //     }
-        // })
+        props.indicatorControll(true)
+        await Helper.post(BASEURL + SALETEAM_CHECK, formData, header, async (results) => {
+            if (results.status == 'SUCCESS') {
+                await props.indicatorControll(false)
+                await Alert.alert(
+                    'ข้อความ',
+                    `${results.message}`,
+                    [
+                        { text: 'OK', onPress: () => that.getSaleTeam() },
+                    ],
+                    { cancelable: false }
+                )
+            } else {
+                await props.indicatorControll(false)
+                await Alert.alert(
+                    'คำเตือน',
+                    `${results.message}`,
+                    [
+                        { text: 'OK', onPress: () => null },
+                    ],
+                    { cancelable: false }
+                )
+            }
+        })
     }
 
-    onTakePicture() {
+    onTakePicture(detailId, saleemp) {
 
         let that = this
 
@@ -157,17 +197,17 @@ class SaleCheckScreen extends React.Component {
             includeBase64: true,
             compressImageMaxWidth: 200,
             compressImageMaxHeight: 200
-        }).then(images => {
+        }).then(async images => {
             // alert(JSON.stringify(images));
             let img = []
             img.push({
                 url: images.path,
                 type: images.mime
             })
-            that.setState({
-                ImageSource: [...that.state.ImageSource, ...img]
+            await that.setState({
+                ImageSource: img
             });
-            that.onSave()
+            await that.onSave(detailId, saleemp)
         });
     }
 
@@ -225,17 +265,18 @@ class SaleCheckScreen extends React.Component {
         return (
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: 2, borderWidth: 0.1, borderRadius: 4, padding: 2 }}>
                 <View style={[styles.center, { flex: 0.2 }]}>
-                    <Icon name='grav' color={secondaryColor} size={34} />
+                    <Icon name='grav' color={item.LeadApproveStatus === 1 ? secondaryColor : darkColor} size={34} />
                 </View>
                 <View style={[{ flex: 0.65, justifyContent: 'center', paddingLeft: 2 }]}>
                     <Text style={[{ fontSize: 18 }]}>{`ชื่อ : ${item.Fullname}`}</Text>
                     <Text style={[{ fontSize: 18 }]}>{`รหัสพนักงาน : ${item.saleemp}`}</Text>
                     <Text style={[{ fontSize: 16 }]}>{`รหัสเซลล์ : ${item.salecode}`}</Text>
+                    <Text style={[{ fontSize: 16, color: item.LeadApproveStatus === 1 ? secondaryColor : darkColor }]}>{`สถานะ : ${item.LeadApproveStatus == 1 ? 'ลงเวลาแล้ว' : 'ยังไม่ลงเวลา'}`}</Text>
                     <View style={[{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 4, paddingRight: 2 }]} />
                 </View>
                 <View style={[{ flex: 0.15, justifyContent: 'center', paddingRight: 2 }]}>
                     <TouchableOpacity style={{ borderWidth: 0.3, borderRadius: 25, borderColor: secondaryColor, width: 45, height: 45, alignItems: 'center', justifyContent: 'center' }}
-                        onPress={() => this.onTakePicture()
+                        onPress={() => this.onTakePicture(item.detailId, item.saleemp)
                         }>
                         <Icon name='camera' size={18} color={secondaryColor} />
                     </TouchableOpacity>
@@ -327,12 +368,23 @@ class SaleCheckScreen extends React.Component {
                             <FlatList
                                 style={{ flex: 1, marginTop: 5 }}
                                 data={this.state.teamlist}
-                                keyExtractor={(item) => item.saleemp}
+                                keyExtractor={(item) => item.detailId}
                                 renderItem={this._renderItem} />
                             :
                             <View style={{ flex: 1 }}>
                                 <Text style={{ color: 'gray', fontSize: 26 }}>{`ไม่พบข้อมูล`}</Text>
                             </View>
+                    }
+                    {
+                        this.state.teamlist ?
+                            <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: DEVICE_WIDTH - 20, backgroundColor: secondaryColor, borderRadius: 50 / 2 }]}
+                                onPress={() => {
+                                    this.approveSaleTeam()
+                                }}>
+                                <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`ยืนยันข้อมูลการลงเวลา`}</Text>
+                            </TouchableOpacity>
+                            :
+                            null
                     }
                 </View>
             </View >
