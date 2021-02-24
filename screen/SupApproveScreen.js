@@ -33,7 +33,8 @@ import {
     API_KEY,
     BASEURL,
     SUPTEAM_LIST,
-    SUPSUBMIT
+    SUPSUBMIT,
+    INSERTZKTIME
 } from '../utils/contants'
 
 import styles from '../style/style'
@@ -104,7 +105,9 @@ class SupApproveScreen extends React.Component {
                     'ข้อความ',
                     `${results.message}`,
                     [
-                        { text: 'OK', onPress: () => that.setState({ teamselect: 'กรุณาเลือกทีมขาย', team_data: [] }) },
+                        {
+                            text: 'OK', onPress: () => that.InsertZKTime()
+                        },
                     ],
                     { cancelable: false }
                 )
@@ -119,6 +122,23 @@ class SupApproveScreen extends React.Component {
                     { cancelable: false }
                 )
             }
+        })
+    }
+
+    InsertZKTime() {
+        let that = this
+        const props = that.props
+        let header = {
+            'Authorization': props.reducer.token,
+            'x-api-key': API_KEY
+        }
+        let formData = new FormData();
+        formData.append('workdetail', JSON.stringify(that.state.team_data[0].WorkDetail));
+
+        props.indicatorControll(true)
+        Helper.post(BASEURL + INSERTZKTIME, formData, header, (results) => {
+            props.indicatorControll(false)
+            that.setState({ teamselect: 'กรุณาเลือกทีมขาย', team_data: [] })
         })
     }
 
@@ -283,17 +303,17 @@ class SupApproveScreen extends React.Component {
                     }
                     {
                         this.state.team_data != '' ?
-                                this.state.team_data[0].CostBranch != 1 ?
-                                    <View style={{ alignItems: 'center', width: DEVICE_WIDTH, position: 'absolute', bottom: 0 }}>
-                                        <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: '90%', alignSelf: 'center', backgroundColor: secondaryColor, borderRadius: 50 / 2, marginBottom: 12 }]}
-                                            onPress={() => {
-                                                this.approveTeam()
-                                            }}>
-                                            <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`ยืนยันข้อมูลการลงเวลา`}</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    :
-                                    null
+                            this.state.team_data[0].CostBranch != 1 ?
+                                <View style={{ alignItems: 'center', width: DEVICE_WIDTH, position: 'absolute', bottom: 0 }}>
+                                    <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: '90%', alignSelf: 'center', backgroundColor: secondaryColor, borderRadius: 50 / 2, marginBottom: 12 }]}
+                                        onPress={() => {
+                                            this.approveTeam()
+                                        }}>
+                                        <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`ยืนยันข้อมูลการลงเวลา`}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                :
+                                null
                             // <View style={{ alignItems: 'center', width: DEVICE_WIDTH, position: 'absolute', bottom: 0 }}>
                             //     <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: '90%', alignSelf: 'center', backgroundColor: secondaryColor, borderRadius: 50 / 2, marginBottom: 12 }]}
                             //         onPress={() => {
