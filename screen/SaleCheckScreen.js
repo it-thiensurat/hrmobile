@@ -48,6 +48,7 @@ class SaleCheckScreen extends React.Component {
 
     state = {
         teamlist: [],
+        cost: '',
         ImageSource: [],
         latitude: '',
         longitude: '',
@@ -75,8 +76,10 @@ class SaleCheckScreen extends React.Component {
         props.indicatorControll(true)
         Helper.post(BASEURL + SALETEAM_LIST, formData, header, async (results) => {
             // alert(JSON.stringify(results))
+            // return
             if (results.status == 'SUCCESS') {
                 await that.setState({ teamlist: results.data })
+                await that.setState({ cost: results.CostBranch })
                 await props.indicatorControll(false)
             } else {
                 await props.indicatorControll(false)
@@ -275,10 +278,10 @@ class SaleCheckScreen extends React.Component {
                     <View style={[{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 4, paddingRight: 2 }]} />
                 </View>
                 <View style={[{ flex: 0.15, justifyContent: 'center', paddingRight: 2 }]}>
-                    <TouchableOpacity style={{ borderWidth: 0.3, borderRadius: 25, borderColor: secondaryColor, width: 45, height: 45, alignItems: 'center', justifyContent: 'center' }}
+                    <TouchableOpacity disabled={item.CostBranch} style={{ borderWidth: 0.3, borderRadius: 25, borderColor: secondaryColor, width: 45, height: 45, alignItems: 'center', justifyContent: 'center' }}
                         onPress={() => this.onTakePicture(item.detailId, item.saleemp)
                         }>
-                        <Icon name='camera' size={18} color={secondaryColor} />
+                        <Icon name='camera' size={18} color={item.CostBranch === 1 ? 'gray' : secondaryColor} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -377,12 +380,15 @@ class SaleCheckScreen extends React.Component {
                     }
                     {
                         this.state.teamlist ?
-                            <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: DEVICE_WIDTH - 20, backgroundColor: secondaryColor, borderRadius: 50 / 2 }]}
-                                onPress={() => {
-                                    this.approveSaleTeam()
-                                }}>
-                                <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`ยืนยันข้อมูลการลงเวลา`}</Text>
-                            </TouchableOpacity>
+                            this.state.cost != 1 ?
+                                <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: DEVICE_WIDTH - 20, backgroundColor: secondaryColor, borderRadius: 50 / 2 }]}
+                                    onPress={() => {
+                                        this.approveSaleTeam()
+                                    }}>
+                                    <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`ยืนยันข้อมูลการลงเวลา`}</Text>
+                                </TouchableOpacity>
+                                :
+                                null
                             :
                             null
                     }
