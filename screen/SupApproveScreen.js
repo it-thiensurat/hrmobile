@@ -19,6 +19,7 @@ import { NavigationBar } from 'navigationbar-react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import { Picker } from "native-base"
 import ToggleSwitch from 'toggle-switch-react-native'
+import FastImage from 'react-native-fast-image'
 var RNFS = require('react-native-fs');
 
 import {
@@ -268,7 +269,16 @@ class SupApproveScreen extends React.Component {
                                                     <View key={i} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: 2, borderWidth: 0.1, borderRadius: 4, padding: 2 }}>
                                                         <View style={[styles.center, { flex: 0.25 }]}>
                                                             {/* <Icon name='grav' color={v.LeadApproveStatus === 1 ? secondaryColor : darkColor} size={34} /> */}
-                                                            <Image source={{ uri: v.Image }} style={{ width: 80, height: 80, resizeMode: 'cover', borderRadius: 4, borderWidth: 1, borderColor: v.SwitchStatus === 1 ? secondaryColor : darkColor }} />
+                                                            {/* <Image source={{ uri: v.Image }} style={{ width: 80, height: 80, resizeMode: 'cover', borderRadius: 4, borderWidth: 1, borderColor: v.SwitchStatus === 1 ? secondaryColor : darkColor }} /> */}
+                                                            <FastImage
+                                                                style={{ width: 80, height: 80, borderRadius: 4, borderWidth: 1, borderColor: v.SwitchStatus === 1 ? secondaryColor : darkColor }}
+                                                                source={{
+                                                                    uri: v.Image,
+                                                                    // headers: { Authorization: 'someAuthToken' },
+                                                                    priority: FastImage.priority.normal,
+                                                                }}
+                                                                resizeMode={FastImage.resizeMode.cover}
+                                                            />
                                                         </View>
                                                         <View style={[{ flex: 0.6, justifyContent: 'center', paddingLeft: 4 }]}>
                                                             <Text style={[{ fontSize: 20 }]}>{`ชื่อ : ${v.EmpName}`}</Text>

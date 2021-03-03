@@ -35,9 +35,7 @@ import {
     secondaryColor,
     API_KEY,
     BASEURL,
-    SALETEAM_LIST,
-    SALETEAM_CHECK,
-    SALETEAM_APPROVE
+    SALETEAM_LIST
 } from '../utils/contants'
 
 import styles from '../style/style'
@@ -45,7 +43,7 @@ import Helper from '../utils/Helper'
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
-class SaleCheckScreen extends React.Component {
+class SalePaymentScreen extends React.Component {
 
     state = {
         teamlist: [],
@@ -75,10 +73,10 @@ class SaleCheckScreen extends React.Component {
         formData.append('fnno', users.FnNo);
         formData.append('fnyear', users.FnYear);
 
-        props.indicatorControll(true)
-        Helper.post(BASEURL + SALETEAM_LIST, formData, header, async (results) => {
-            // alert(JSON.stringify(results))
-            // return
+        // props.indicatorControll(true)
+        Helper.post(BASEURL + SALETEAM_LIST___TTT, formData, header, async (results) => {
+            alert(JSON.stringify(results))
+            return
             if (results.status == 'SUCCESS') {
                 await that.setState({ teamlist: results.data })
                 await that.setState({ cost: results.CostBranch })
@@ -419,4 +417,4 @@ const mapDispatchToProps = {
     indicatorControll
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SaleCheckScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(SalePaymentScreen)
