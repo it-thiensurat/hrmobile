@@ -48,6 +48,8 @@ target 'hrmobile' do
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
+  pod 'react-native-signature-capture', :path => '../node_modules/react-native-signature-capture'
+
   target 'hrmobileTests' do
     inherit! :search_paths
     # Pods for testing

@@ -35,7 +35,7 @@ import {
     secondaryColor,
     API_KEY,
     BASEURL,
-    SALETEAM_LIST
+    SALETEAM_PAY
 } from '../utils/contants'
 
 import styles from '../style/style'
@@ -47,7 +47,8 @@ class SalePaymentScreen extends React.Component {
 
     state = {
         teamlist: [],
-        cost: '',
+        workdetail: [],
+        amount: '',
         ImageSource: [],
         latitude: '',
         longitude: '',
@@ -67,19 +68,17 @@ class SalePaymentScreen extends React.Component {
         }
         let formData = new FormData();
 
-        formData.append('empId', users.empId);
-        formData.append('teamNo', users.TeamNo);
+        formData.append('teamcode', users.TeamNo);
         formData.append('depid', users.DepID);
         formData.append('fnno', users.FnNo);
         formData.append('fnyear', users.FnYear);
 
-        // props.indicatorControll(true)
-        Helper.post(BASEURL + SALETEAM_LIST___TTT, formData, header, async (results) => {
-            alert(JSON.stringify(results))
-            return
+        props.indicatorControll(true)
+        Helper.post(BASEURL + SALETEAM_PAY, formData, header, async (results) => {
+            // alert(JSON.stringify(results))
+            // return
             if (results.status == 'SUCCESS') {
-                await that.setState({ teamlist: results.data })
-                await that.setState({ cost: results.CostBranch })
+                await that.setState({ teamlist: results.data, workdetail: results.data[0].WorkDetail })
                 await props.indicatorControll(false)
             } else {
                 await props.indicatorControll(false)
@@ -270,9 +269,9 @@ class SalePaymentScreen extends React.Component {
                 <View style={[styles.center, { flex: 0.25 }]}>
                     {/* <Icon name='grav' color={item.LeadApproveStatus === 1 ? secondaryColor : darkColor} size={34} /> */}
                     <FastImage
-                        style={{ width: 80, height: 80, borderRadius: 4, borderWidth: 1, borderColor: item.LeadApproveStatus === 1 ? secondaryColor : darkColor }}
+                        style={{ width: 80, height: 80, borderRadius: 4, borderWidth: 1, borderColor: item.SupApproveStatus === 1 ? secondaryColor : darkColor }}
                         source={{
-                            uri: item.SaleImage,
+                            uri: item.Image,
                             // headers: { Authorization: 'someAuthToken' },
                             priority: FastImage.priority.normal,
                         }}
@@ -280,15 +279,28 @@ class SalePaymentScreen extends React.Component {
                     />
                 </View>
                 <View style={[{ flex: 0.6, justifyContent: 'center', paddingLeft: 2 }]}>
-                    <Text style={[{ fontSize: 20 }]}>{`ชื่อ : ${item.Fullname}`}</Text>
-                    <Text style={[{ fontSize: 20 }]}>{`รหัสพนักงาน : ${item.saleemp}`}</Text>
-                    <Text style={[{ fontSize: 20 }]}>{`รหัสเซลล์ : ${item.salecode}`}</Text>
-                    <Text style={[{ fontSize: 20, color: item.LeadApproveStatus === 1 ? secondaryColor : darkColor }]}>{`สถานะ : ${item.LeadApproveStatus == 1 ? 'ลงเวลาแล้ว' : 'ยังไม่ลงเวลา'}`}</Text>
+                    <Text style={[{ fontSize: 20 }]}>{`ชื่อ : ${item.EmpName}`}</Text>
+                    <Text style={[{ fontSize: 20 }]}>{`รหัสพนักงาน : ${item.EmpID}`}</Text>
+                    <Text style={[{ fontSize: 20 }]}>{`รหัสเซลล์ : ${item.SaleCode}`}</Text>
+                    <Text style={[{ fontSize: 20, color: item.SupApproveStatus === 1 ? secondaryColor : darkColor }]}>{`สถานะ : ${item.SupApproveStatus == 1 ? 'ลงเวลาแล้ว' : 'ยังไม่ลงเวลา'}`}</Text>
+                    <TextInput style={[styles.inputAmount, styles.shadow, { fontFamily: 'DBYord', fontSize: 20 , textAlign: 'center' }]}
+                        // ref={(input) => { this.amount = input; }}
+                        placeholder="ระบุเงิน"
+                        keyboardType={'number-pad'}
+                        returnKeyType='next'
+                        onBlur={false}
+                        autoCapitalize={false}
+                        blurOnSubmit={false}
+                        selectTextOnFocus={true}
+                        value={item.PaymentAmount}
+                        onChangeText={(text) => this.setState({ amount: text })} />
                     <View style={[{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 4, paddingRight: 2 }]} />
                 </View>
                 <View style={[{ flex: 0.15, justifyContent: 'center', paddingRight: 2 }]}>
-                    <TouchableOpacity disabled={item.CostBranch} style={{ borderWidth: 0.3, borderRadius: 25, borderColor: secondaryColor, width: 45, height: 45, alignItems: 'center', justifyContent: 'center' }}
-                        onPress={() => this.onTakePicture(item.detailId, item.saleemp)
+                    <TouchableOpacity style={{ borderWidth: 0.3, borderRadius: 25, borderColor: secondaryColor, width: 45, height: 45, alignItems: 'center', justifyContent: 'center' }}
+                        onPress={() =>
+                            // this.onTakePicture(item.detailId, item.saleemp)
+                            null
                         }>
                         <Icon name='camera' size={18} color={item.CostBranch === 1 ? 'gray' : secondaryColor} />
                     </TouchableOpacity>
@@ -372,36 +384,20 @@ class SalePaymentScreen extends React.Component {
                             <Text style={[styles.bold, { color: secondaryColor, fontSize: 26 }]}>{`Team  :`}</Text>
                         </View>
                         <View style={{ flex: 0.5 }}>
-                            <Text style={[styles.bold, { color: secondaryColor, fontSize: 26 }]}>{`${users.TeamNo}`}</Text>
+                            <Text style={[styles.bold, { color: secondaryColor, fontSize: 26 }]}>{`${users.TeamCode}`}</Text>
                         </View>
                     </View>
                     {
                         this.state.teamlist ?
                             <FlatList
                                 style={{ flex: 1, marginTop: 5 }}
-                                data={this.state.teamlist}
-                                keyExtractor={(item) => item.detailId}
+                                data={this.state.workdetail}
+                                keyExtractor={(item) => item.DetailID}
                                 renderItem={this._renderItem} />
                             :
                             <View style={{ flex: 1 }}>
                                 <Text style={{ color: 'gray', fontSize: 26 }}>{`ไม่พบข้อมูล`}</Text>
                             </View>
-                    }
-                    {
-                        this.state.teamlist ?
-                            this.state.cost != 1 ?
-                                <View style={{ alignItems: 'center', width: DEVICE_WIDTH, position: 'absolute', bottom: 0 }}>
-                                    <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: '90%', alignSelf: 'center', backgroundColor: secondaryColor, borderRadius: 50 / 2, marginBottom: 12 }]}
-                                        onPress={() => {
-                                            this.approveSaleTeam()
-                                        }}>
-                                        <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`ยืนยันข้อมูลการลงเวลา`}</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                :
-                                null
-                            :
-                            null
                     }
                 </View>
             </View >

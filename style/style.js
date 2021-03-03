@@ -73,6 +73,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderRadius: COMPONENT_HIGHT / 2
     },
+    inputAmount: {
+        paddingLeft: 15,
+        alignItems: 'center',
+        height: COMPONENT_HIGHT / 1.2,
+        width: 80,
+        backgroundColor: 'white',
+        justifyContent: 'space-between',
+        borderRadius: COMPONENT_HIGHT / 2
+    },
     inputContainer: {
         width: DEVICE_WIDTH - 80,
         height: COMPONENT_HIGHT - 5,
