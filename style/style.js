@@ -8,6 +8,7 @@ import {
     lightColor,
     primaryColor,
     secondaryColor,
+    grayColor,
     transparentGray
 } from '../utils/contants'
 
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     mainButton: {
         height: COMPONENT_HIGHT,
         width: DEVICE_WIDTH - 40,
-        backgroundColor: secondaryColor,
+        backgroundColor: grayColor,
         borderRadius: COMPONENT_HIGHT / 2
     },
     secondaryButton: {

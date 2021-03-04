@@ -16,6 +16,7 @@ import {
     lightColor,
     primaryColor,
     secondaryColor,
+    grayColor,
     API_KEY,
     BASEURL,
     LOGIN_URL,
@@ -177,7 +178,7 @@ class LoginScreen extends React.Component {
                 <Image source={image} style={{ resizeMode: 'contain', width: 180, height: '25%', margin: 10 }} />
                 <View style={styles.marginBetweenVertical}></View>
                 <View style={[styles.shadow, styles.inputWithIcon]}>
-                    <Icon name="user" color={secondaryColor} size={26} />
+                    <Icon name="user" color={grayColor} size={26} />
                     <TextInput style={[styles.inputContainer]}
                         ref={(input) => { this.username = input; }}
                         placeholder='Username'
@@ -190,7 +191,7 @@ class LoginScreen extends React.Component {
                 </View>
                 <View style={styles.marginBetweenVertical}></View>
                 <View style={[styles.shadow, styles.inputWithIcon]}>
-                    <Icon name="lock" color={secondaryColor} size={26} />
+                    <Icon name="lock" color={grayColor} size={26} />
                     <TextInput style={[styles.inputContainer]}
                         ref={(input) => { this.password = input; }}
                         placeholder='Password'

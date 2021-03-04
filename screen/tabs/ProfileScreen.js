@@ -19,7 +19,8 @@ import {
     darkColor,
     lightColor,
     primaryColor,
-    secondaryColor
+    secondaryColor,
+    grayColor
 } from '../../utils/contants'
 
 import styles from '../../style/style'
@@ -85,7 +86,7 @@ class ProfileScreen extends React.Component {
                         shadowOpacity: 0,
                     }}
                     statusBarStyle={{
-                        backgroundColor: secondaryColor,
+                        backgroundColor: primaryColor,
                         elevation: 0,
                         shadowOpacity: 0,
                     }} />
@@ -94,7 +95,7 @@ class ProfileScreen extends React.Component {
                         <View style={[styles.cruveView, { backgroundColor: 'white' }]} />
                     </View>
                     <View style={[styles.imageContainer, { borderColor: primaryColor }]}>
-                        <Icon name="user" color={secondaryColor} size={60} />
+                        <Icon name="user" color={primaryColor} size={60} />
                     </View>
                     <View style={{ alignItems: 'center', marginTop: 10 }}>
                         <Text style={[styles.bold, { color: 'white', fontSize: 28 }]}>{`รหัส  ${props.userInfo.empId}`}</Text>
@@ -122,7 +123,7 @@ class ProfileScreen extends React.Component {
                                 null
                         }
                     </View>
-                    <TouchableOpacity style={{ height: 50, width: DEVICE_WIDTH - 100, backgroundColor: secondaryColor, borderRadius: 26, alignSelf: 'center', justifyContent: 'center' }}
+                    <TouchableOpacity style={{ height: 50, width: DEVICE_WIDTH - 100, backgroundColor: grayColor, borderRadius: 26, alignSelf: 'center', justifyContent: 'center' }}
                         onPress={
                             async () => {
                                 await StorageService.remove(TOKEN_KEY)

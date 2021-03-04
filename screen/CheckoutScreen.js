@@ -26,6 +26,7 @@ import {
     lightColor,
     primaryColor,
     secondaryColor,
+    grayColor,
     darknessColor,
     API_KEY,
     BASEURL,
@@ -383,7 +384,7 @@ class CheckoutScreen extends React.Component {
                         shadowOpacity: 0,
                     }}
                     statusBarStyle={{
-                        backgroundColor: darknessColor,
+                        backgroundColor: darkColor,
                         elevation: 0,
                         shadowOpacity: 0,
                     }} />

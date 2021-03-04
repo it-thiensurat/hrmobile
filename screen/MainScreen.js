@@ -25,7 +25,7 @@ export default function MainTab() {
         <Tab.Navigator
             initialRouteName="Selectinout"
             tabBarOptions={{
-                activeTintColor: primaryColor,
+                activeTintColor: secondaryColor,
                 inactiveTintColor: 'gray'
             }}
             style={{ backgroundColor: 'white' }}>

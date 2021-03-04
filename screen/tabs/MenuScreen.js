@@ -94,14 +94,14 @@ class MenuScreen extends React.Component {
                         shadowOpacity: 0,
                     }}
                     statusBarStyle={{
-                        backgroundColor: secondaryColor,
+                        backgroundColor: primaryColor,
                         elevation: 0,
                         shadowOpacity: 0,
                     }} />
                 <View style={{ flex: 1, alignItems: 'center' }}>
                     <ScrollView>
                         <View style={{ width: DEVICE_WIDTH }}>
-                            <Text style={[styles.bold, { fontSize: 22, backgroundColor: '#D1F2EB', borderRadius: 20, color: secondaryColor, alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>การลา / แก้ไขการลงเวลา    </Text>
+                            <Text style={[styles.bold, { fontSize: 22, backgroundColor: primaryColor, borderRadius: 20, color: 'white', alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>การลา / แก้ไขการลงเวลา    </Text>
                         </View>
                         <View style={{ flexDirection: 'row', padding: 2, marginTop: 5, marginLeft: 8 }}>
                             <View style={{ flex: 0.35 }}>
@@ -176,7 +176,7 @@ class MenuScreen extends React.Component {
                             </View>
                         </View>
                         <View style={{ width: DEVICE_WIDTH }}>
-                            <Text style={[styles.bold, { fontSize: 22, backgroundColor: '#D6EAF8', borderRadius: 20, color: secondaryColor, alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>การอนุมัติ    </Text>
+                            <Text style={[styles.bold, { fontSize: 22, backgroundColor: primaryColor, borderRadius: 20, color: 'white', alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>การอนุมัติ    </Text>
                         </View>
                         <View style={{ flexDirection: 'row', padding: 2, marginTop: 5, marginLeft: 8 }}>
                             <View style={{ flex: 0.35 }}>
@@ -212,7 +212,7 @@ class MenuScreen extends React.Component {
                             </View>
                         </View>
                         <View style={{ width: DEVICE_WIDTH }}>
-                            <Text style={[styles.bold, { fontSize: 22, backgroundColor: '#FFA0A0', borderRadius: 20, color: secondaryColor, alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>การรับรู้รายรับ    </Text>
+                            <Text style={[styles.bold, { fontSize: 22, backgroundColor: primaryColor, borderRadius: 20, color: 'white', alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>การรับรู้รายรับ    </Text>
                         </View>
                         <View style={{ flexDirection: 'row', padding: 2, marginTop: 5, marginLeft: 8 }}>
                             <View style={{ flex: 0.35 }}>
@@ -258,7 +258,7 @@ class MenuScreen extends React.Component {
                             users.PosID == 3 || users.PosID == 4 ?
                                 <View>
                                     <View style={{ width: DEVICE_WIDTH }}>
-                                        <Text style={[styles.bold, { fontSize: 22, backgroundColor: '#54EFD1', borderRadius: 20, color: secondaryColor, alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>ฝ่ายขาย    </Text>
+                                        <Text style={[styles.bold, { fontSize: 22, backgroundColor: primaryColor, borderRadius: 20, color: 'white', alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>ฝ่ายขาย    </Text>
                                     </View>
                                     <View style={{ flexDirection: 'row', padding: 2, marginTop: 5, marginLeft: 8 }}>
                                         {
@@ -336,7 +336,7 @@ class MenuScreen extends React.Component {
                                 null
                         }
                         <View style={{ width: DEVICE_WIDTH }}>
-                            <Text style={[styles.bold, { fontSize: 22, backgroundColor: '#FFE4E1', borderRadius: 20, color: secondaryColor, alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>อื่นๆ    </Text>
+                            <Text style={[styles.bold, { fontSize: 22, backgroundColor: primaryColor, borderRadius: 20, color: 'white', alignSelf: 'flex-start', paddingLeft: 12, marginTop: 10 }]}>อื่นๆ    </Text>
                         </View>
                         <View style={{ flexDirection: 'row', padding: 2, marginTop: 5, marginBottom: 15, marginLeft: 8 }}>
                             <View style={{ flex: 0.35 }}>

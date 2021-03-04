@@ -18,6 +18,7 @@ var RNFS = require('react-native-fs');
 import {
     primaryColor,
     secondaryColor,
+    grayColor,
     COMMPDF_CZ,
     COMMPDF_FN,
     COMMPDF_YR,
@@ -124,7 +125,7 @@ class CommissionWebView extends React.Component {
                         shadowOpacity: 0,
                     }}
                     statusBarStyle={{
-                        backgroundColor: secondaryColor,
+                        backgroundColor: primaryColor,
                         elevation: 0,
                         shadowOpacity: 0,
                     }} />

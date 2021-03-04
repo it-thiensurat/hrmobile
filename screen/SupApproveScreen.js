@@ -228,7 +228,7 @@ class SupApproveScreen extends React.Component {
                         shadowOpacity: 0,
                     }}
                     statusBarStyle={{
-                        backgroundColor: secondaryColor,
+                        backgroundColor: primaryColor,
                         elevation: 0,
                         shadowOpacity: 0,
                     }} />

@@ -30,6 +30,7 @@ import {
     lightColor,
     primaryColor,
     secondaryColor,
+    grayColor,
     YEARCOMM,
     FORTNIGHTCOMM,
     CONTNO_FN,
@@ -230,7 +231,7 @@ class CommissionScreen extends React.Component {
                         shadowOpacity: 0,
                     }}
                     statusBarStyle={{
-                        backgroundColor: secondaryColor,
+                        backgroundColor: primaryColor,
                         elevation: 0,
                         shadowOpacity: 0,
                     }} />
@@ -238,7 +239,7 @@ class CommissionScreen extends React.Component {
                 <View style={{ flex: 1, padding: 10 }}>
                     <View style={{ marginBottom: 10 }}>
                         <View style={{ marginBottom: 5 }}>
-                            <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`เลือกปี`}</Text>
+                            <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: primaryColor }}>{`เลือกปี`}</Text>
                         </View>
                         <View style={[styles.input, styles.shadow, styles.center]}>
                             <Picker
@@ -260,7 +261,7 @@ class CommissionScreen extends React.Component {
                     </View>
                     <View style={{ marginBottom: 10 }}>
                         <View style={{ marginBottom: 5 }}>
-                            <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: secondaryColor }}>{`เลือกปักษ์`}</Text>
+                            <Text style={{ fontSize: 20, fontFamily: 'DBMed', color: primaryColor }}>{`เลือกปักษ์`}</Text>
                         </View>
                         <View style={[styles.input, styles.shadow, styles.center]}>
                             <Picker
