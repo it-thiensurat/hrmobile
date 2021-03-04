@@ -1,8 +1,8 @@
 /**
  * Color
  */
-export const primaryColor       = '#36D2C7'
-export const secondaryColor     = '#009195'
+export const primaryColor       = '#002B49' // '#36D2C7'
+export const secondaryColor     = '#A5BAC9' // '#009195'
 export const darkColor          = '#D23636'
 export const darknessColor      = '#9e0909'
 export const transparentGray    = 'rgba(147, 144, 144, 0.1)'
