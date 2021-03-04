@@ -62,6 +62,7 @@ import CommissionWebView from './screen/CommissionWebView'
 import SaleCheck from './screen/SaleCheckScreen'
 import SupApprove from './screen/SupApproveScreen'
 import SalePayment from './screen/SalePaymentScreen'
+import SaleSignature from './screen/SaleSignatureScreen'
 
 function MyStack() {
   return (
@@ -84,6 +85,7 @@ function MyStack() {
       <Stack.Screen name="SaleCheck" component={SaleCheck} />
       <Stack.Screen name="SupApprove" component={SupApprove} />
       <Stack.Screen name="SalePayment" component={SalePayment} />
+      <Stack.Screen name="SaleSignature" component={SaleSignature} />
     </Stack.Navigator>
   );
 }

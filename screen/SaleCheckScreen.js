@@ -289,7 +289,7 @@ class SaleCheckScreen extends React.Component {
                     <View style={[{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 4, paddingRight: 2 }]} />
                 </View>
                 <View style={[{ flex: 0.15, justifyContent: 'center', paddingRight: 2 }]}>
-                    <TouchableOpacity disabled={item.CostBranch} style={{ borderWidth: 0.3, borderRadius: 25, borderColor: secondaryColor, width: 45, height: 45, alignItems: 'center', justifyContent: 'center' }}
+                    <TouchableOpacity disabled={item.CostBranch} style={{ borderWidth: 0.3, borderRadius: 25, borderColor: item.CostBranch === 1 ? 'gray' : secondaryColor, width: 45, height: 45, alignItems: 'center', justifyContent: 'center' }}
                         onPress={() => this.onTakePicture(item.detailId, item.saleemp)
                         }>
                         <Icon name='camera' size={18} color={item.CostBranch === 1 ? 'gray' : secondaryColor} />

@@ -48,6 +48,8 @@ export const SUPTEAM_LIST   = '/ServicesPHP/' + SERVER + '/BH/GetTeamCheck'
 export const SUPSUBMIT      = '/ServicesPHP/' + SERVER + '/BH/SupSubmit'
 export const INSERTZKTIME   = '/ServicesPHP/' + SERVER + '/BH/AddToZKTime'
 export const SALETEAM_PAY   = '/ServicesPHP/' + SERVER + '/BH/GetTeamPay'
+export const SALEPERSON_PAY = '/ServicesPHP/' + SERVER + '/BH/PaymentSubmit'
+export const CONFIRM_PAY    = '/ServicesPHP/' + SERVER + '/BH/PaymentConfirm'
 
 export const WEBURL         = 'http://ess.thiensurat.co.th/LoginTSR.aspx?'
 export const COMPCODE       = 'compcode='

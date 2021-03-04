@@ -17,7 +17,7 @@ import {
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { NavigationBar } from 'navigationbar-react-native'
-import Icon from 'react-native-vector-icons/dist/FontAwesome'
+import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 import ImagePicker from 'react-native-image-crop-picker'
 import Geolocation from '@react-native-community/geolocation'
 import { Picker } from "native-base"
@@ -35,7 +35,8 @@ import {
     secondaryColor,
     API_KEY,
     BASEURL,
-    SALETEAM_PAY
+    SALETEAM_PAY,
+    CONFIRM_PAY
 } from '../utils/contants'
 
 import styles from '../style/style'
@@ -88,29 +89,26 @@ class SalePaymentScreen extends React.Component {
         })
     }
 
-    async approveSaleTeam() {
+    async ConfirmSalePay() {
         await this.requestLocationPermission()
 
         let that = this
         const props = that.props
         const users = props.reducer.userInfo
-        const { latitude, longitude } = that.state
         let header = {
             'Authorization': props.reducer.token,
             'x-api-key': API_KEY
         }
         let formData = new FormData();
 
-        formData.append('empId', users.empId);
-        formData.append('teamNo', users.TeamNo);
-        formData.append('depid', users.DepID);
-        formData.append('fnno', users.FnNo);
-        formData.append('fnyear', users.FnYear);
-        formData.append('latitude', latitude);
-        formData.append('longitude', longitude);
+        formData.append('empid', users.empId);
+        formData.append('teamid', that.state.teamlist[0].TeamID);
+        formData.append('depid', that.state.teamlist[0].DepID);
+        formData.append('fnno', that.state.teamlist[0].FnNo);
+        formData.append('fnyear', that.state.teamlist[0].FnYear);
 
         props.indicatorControll(true)
-        await Helper.post(BASEURL + SALETEAM_APPROVE, formData, header, async (results) => {
+        await Helper.post(BASEURL + CONFIRM_PAY, formData, header, async (results) => {
             // alert(JSON.stringify(results))
             if (results.status == 'SUCCESS') {
                 await props.indicatorControll(false)
@@ -136,60 +134,7 @@ class SalePaymentScreen extends React.Component {
         })
     }
 
-    async onSave(detailId, saleemp) {
-        await this.requestLocationPermission()
-
-        let that = this
-        const props = that.props
-        const users = props.reducer.userInfo
-        const { latitude, longitude, currentTime } = that.state
-        let header = {
-            'Authorization': props.reducer.token,
-            'x-api-key': API_KEY
-        }
-        let formData = new FormData();
-        formData.append('empId', users.empId);
-        formData.append('saleEmp', saleemp);
-        formData.append('detailId', detailId);
-        formData.append('checkTime', moment(currentTime).format('L').split("/").reverse().join("-") + ' ' + moment(currentTime).format('LTS'));
-        formData.append('latitude', latitude);
-        formData.append('longitude', longitude);
-        that.state.ImageSource.map((v, i) => {
-            let gallerys = {
-                uri: v.url,
-                type: v.type,
-                name: 'name_' + i + '.jpg',
-            };
-            formData.append('empimg[' + i + ']', gallerys);
-        });
-
-        props.indicatorControll(true)
-        await Helper.post(BASEURL + SALETEAM_CHECK, formData, header, async (results) => {
-            if (results.status == 'SUCCESS') {
-                await props.indicatorControll(false)
-                await Alert.alert(
-                    'ข้อความ',
-                    `${results.message}`,
-                    [
-                        { text: 'OK', onPress: () => that.getSaleTeam() },
-                    ],
-                    { cancelable: false }
-                )
-            } else {
-                await props.indicatorControll(false)
-                await Alert.alert(
-                    'คำเตือน',
-                    `${results.message}`,
-                    [
-                        { text: 'OK', onPress: () => null },
-                    ],
-                    { cancelable: false }
-                )
-            }
-        })
-    }
-
-    onTakePicture(detailId, saleemp) {
+    onTakePicture(DetailID, Amount) {
 
         let that = this
 
@@ -199,17 +144,20 @@ class SalePaymentScreen extends React.Component {
             includeBase64: true,
             compressImageMaxWidth: 200,
             compressImageMaxHeight: 200
-        }).then(async images => {
+        }).then(images => {
             // alert(JSON.stringify(images));
             let img = []
             img.push({
                 url: images.path,
                 type: images.mime
             })
-            await that.setState({
-                ImageSource: img
-            });
-            await that.onSave(detailId, saleemp)
+            that.props.navigation.navigate('SaleSignature',
+                {
+                    DetailID: DetailID,
+                    Amount: Amount,
+                    Img: img
+                }
+            )
         });
     }
 
@@ -269,7 +217,7 @@ class SalePaymentScreen extends React.Component {
                 <View style={[styles.center, { flex: 0.25 }]}>
                     {/* <Icon name='grav' color={item.LeadApproveStatus === 1 ? secondaryColor : darkColor} size={34} /> */}
                     <FastImage
-                        style={{ width: 80, height: 80, borderRadius: 4, borderWidth: 1, borderColor: item.SupApproveStatus === 1 ? secondaryColor : darkColor }}
+                        style={{ width: 80, height: 80, borderRadius: 4, borderWidth: 1, borderColor: item.PaymentStatus === 1 ? secondaryColor : darkColor }}
                         source={{
                             uri: item.Image,
                             // headers: { Authorization: 'someAuthToken' },
@@ -282,27 +230,43 @@ class SalePaymentScreen extends React.Component {
                     <Text style={[{ fontSize: 20 }]}>{`ชื่อ : ${item.EmpName}`}</Text>
                     <Text style={[{ fontSize: 20 }]}>{`รหัสพนักงาน : ${item.EmpID}`}</Text>
                     <Text style={[{ fontSize: 20 }]}>{`รหัสเซลล์ : ${item.SaleCode}`}</Text>
-                    <Text style={[{ fontSize: 20, color: item.SupApproveStatus === 1 ? secondaryColor : darkColor }]}>{`สถานะ : ${item.SupApproveStatus == 1 ? 'ลงเวลาแล้ว' : 'ยังไม่ลงเวลา'}`}</Text>
-                    <TextInput style={[styles.inputAmount, styles.shadow, { fontFamily: 'DBYord', fontSize: 20 , textAlign: 'center' }]}
-                        // ref={(input) => { this.amount = input; }}
-                        placeholder="ระบุเงิน"
-                        keyboardType={'number-pad'}
-                        returnKeyType='next'
-                        onBlur={false}
-                        autoCapitalize={false}
-                        blurOnSubmit={false}
-                        selectTextOnFocus={true}
-                        value={item.PaymentAmount}
-                        onChangeText={(text) => this.setState({ amount: text })} />
+                    <Text style={[{ fontSize: 20, color: item.PaymentStatus === 1 ? secondaryColor : darkColor }]}>{`สถานะ : ${item.PaymentStatus == 1 ? 'จ่ายแล้ว' : 'ยังไม่จ่าย'}`}</Text>
+                    <View style={[{ flexDirection: 'row' }]}>
+                        <View style={[{ flex: 0.5, justifyContent: 'center' }]}>
+                            <Text style={[{ fontSize: 20 }]}>{`จำนวนเงินที่จ่าย `}</Text>
+                        </View>
+                        <View style={[{ flex: 0.5 }]}>
+                            <TextInput style={[styles.inputAmount, styles.shadow, { fontFamily: 'DBYord', fontSize: 20, textAlign: 'center' }]}
+                                // ref={(input) => { this.amount = input; }}
+                                placeholder="ระบุเงิน"
+                                keyboardType={'number-pad'}
+                                returnKeyType='next'
+                                onBlur={false}
+                                autoCapitalize={false}
+                                blurOnSubmit={false}
+                                selectTextOnFocus={true}
+                                value={item.PaymentAmount}
+                                // onChangeText={(text) => this.setState({ amount: text })}
+                                onChangeText={(text) => {
+                                    let val = this.state.teamlist
+                                    let payamount = val[0].WorkDetail[index].PaymentAmount
+                                    payamount = text
+                                    val[0].WorkDetail[index].PaymentAmount = payamount
+                                    this.setState({ teamlist: val })
+                                }} />
+                        </View>
+                    </View>
+
                     <View style={[{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 4, paddingRight: 2 }]} />
                 </View>
                 <View style={[{ flex: 0.15, justifyContent: 'center', paddingRight: 2 }]}>
-                    <TouchableOpacity style={{ borderWidth: 0.3, borderRadius: 25, borderColor: secondaryColor, width: 45, height: 45, alignItems: 'center', justifyContent: 'center' }}
+                    <TouchableOpacity 
+                    // disabled={item.PaymentStatus} 
+                    style={{ borderWidth: 0.3, borderRadius: 25, borderColor: secondaryColor, width: 45, height: 45, alignItems: 'center', justifyContent: 'center' }}
                         onPress={() =>
-                            // this.onTakePicture(item.detailId, item.saleemp)
-                            null
+                            this.onTakePicture(item.DetailID, item.PaymentAmount)
                         }>
-                        <Icon name='camera' size={18} color={item.CostBranch === 1 ? 'gray' : secondaryColor} />
+                        <Icon name='signature' size={22} color={secondaryColor} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -323,7 +287,7 @@ class SalePaymentScreen extends React.Component {
     ComponentCenter = () => {
         return (
             <View style={[styles.center]}>
-                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`ลงเวลาทีมขาย`}</Text>
+                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`จ่ายเงินทีมขาย`}</Text>
             </View>
         );
     }
@@ -351,10 +315,12 @@ class SalePaymentScreen extends React.Component {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.props.navigation.addListener('focus', () => {
+            this.getSaleTeam()
+        });
         BackHandler.addEventListener('hardwareBackPress', this.handleBack);
-        await this.requestLocationPermission()
-        await this.getSaleTeam()
+        this.requestLocationPermission()
     }
 
     render() {
@@ -384,7 +350,7 @@ class SalePaymentScreen extends React.Component {
                             <Text style={[styles.bold, { color: secondaryColor, fontSize: 26 }]}>{`Team  :`}</Text>
                         </View>
                         <View style={{ flex: 0.5 }}>
-                            <Text style={[styles.bold, { color: secondaryColor, fontSize: 26 }]}>{`${users.TeamCode}`}</Text>
+                            <Text style={[styles.bold, { color: secondaryColor, fontSize: 26 }]}>{`${users.TeamNo}`}</Text>
                         </View>
                     </View>
                     {
@@ -398,6 +364,19 @@ class SalePaymentScreen extends React.Component {
                             <View style={{ flex: 1 }}>
                                 <Text style={{ color: 'gray', fontSize: 26 }}>{`ไม่พบข้อมูล`}</Text>
                             </View>
+                    }
+                    {
+                        this.state.teamlist ?
+                            <View style={{ alignItems: 'center', width: DEVICE_WIDTH, position: 'absolute', bottom: 0 }}>
+                                <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: '90%', alignSelf: 'center', backgroundColor: secondaryColor, borderRadius: 50 / 2, marginBottom: 12 }]}
+                                    onPress={() => {
+                                        this.ConfirmSalePay()
+                                    }}>
+                                    <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`ยืนยันข้อมูลการจ่ายเงิน`}</Text>
+                                </TouchableOpacity>
+                            </View>
+                            :
+                            null
                     }
                 </View>
             </View >

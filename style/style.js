@@ -113,6 +113,11 @@ const styles = StyleSheet.create({
         backgroundColor: primaryColor,
         borderRadius: COMPONENT_HIGHT / 2
     },
+    signature: {
+        flex: 1,
+        borderColor: '#000033',
+        borderWidth: 1,
+    },
     shadow: {
         shadowOffset: {
             width: 0,
