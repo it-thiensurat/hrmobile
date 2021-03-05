@@ -41,6 +41,7 @@ import {
 
 import styles from '../style/style'
 import Helper from '../utils/Helper'
+import image from '../img/sign.png'
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
@@ -262,11 +263,12 @@ class SalePaymentScreen extends React.Component {
                 <View style={[{ flex: 0.15, justifyContent: 'center', paddingRight: 2 }]}>
                     <TouchableOpacity 
                     // disabled={item.PaymentStatus} 
-                    style={{ borderWidth: 0.3, borderRadius: 25, borderColor: secondaryColor, width: 45, height: 45, alignItems: 'center', justifyContent: 'center' }}
+                    style={{ width: 50, height: 50, alignItems: 'center', justifyContent: 'center' }}
                         onPress={() =>
                             this.onTakePicture(item.DetailID, item.PaymentAmount)
                         }>
-                        <Icon name='signature' size={22} color={secondaryColor} />
+                        {/* <Icon name='signature' size={22} color={secondaryColor} /> */}
+                        <Image source={image} style={{ resizeMode: 'contain', width: 50, height: 50 }} />
                     </TouchableOpacity>
                 </View>
             </View>
