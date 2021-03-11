@@ -259,31 +259,30 @@ class SalePaymentScreen extends React.Component {
                                     let payamount = val[0].WorkDetail[index].PaymentAmount
                                     payamount = text
                                     val[0].WorkDetail[index].PaymentAmount = payamount
-                                    // this.setState({ teamlist: val })
-
-                                    if (Number(text) < Number(item.PaymentAmount)) {
-                                        this.setState({ teamlist: val })
-                                    } else {
-                                        Alert.alert(
-                                            'คำเตือน',
-                                            'กรุณาระบุจำนวนเงินส่วนที่เหลือให้ถูกต้อง เนื่องจากจ่ายเงินรวมแล้วเกิน 200 บาท',
-                                            [
-                                                { text: 'Cancel', onPress: () => null },
-                                                { text: 'OK', onPress: () => null },
-                                            ],
-                                            { cancelable: false }
-                                        )
-                                    }
+                                    this.setState({ teamlist: val })
                                 }} />
                         </View>
                     </View>
-
                     <View style={[{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 4, paddingRight: 2 }]} />
                 </View>
                 <View style={[{ flex: 0.15, justifyContent: 'center', paddingRight: 2 }]}>
                     <TouchableOpacity style={{ width: 50, height: 50, alignItems: 'center', justifyContent: 'center' }}
-                        onPress={() =>
-                            this.onTakePicture(item.DetailID, item.PaymentAmount, item.EmpID, item.EmpName, item.SaleCode, item.CitizenID)
+                        onPress={() => {
+                            if (Number(item.PaymentAmount) <= Number(item.PaymentCompare)) {
+                                this.onTakePicture(item.DetailID, item.PaymentAmount, item.EmpID, item.EmpName, item.SaleCode, item.CitizenID)
+                            } else {
+                                Alert.alert(
+                                    'คำเตือน!',
+                                    `กรุณาระบุจำนวนเงินส่วนที่เหลือให้ถูกต้อง เนื่องจากจ่ายเงินรวมแล้วเกิน 200 บาท`,
+                                    [
+                                        { text: 'OK', onPress: () => null },
+                                    ],
+                                    { cancelable: false }
+                                )
+                            }
+                        }
+
+                            // this.onTakePicture(item.DetailID, item.PaymentAmount, item.EmpID, item.EmpName, item.SaleCode, item.CitizenID)
                         }>
                         <Image source={image} style={{ resizeMode: 'contain', width: 50, height: 50 }} />
                     </TouchableOpacity>
