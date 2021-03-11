@@ -293,6 +293,7 @@ class SupApproveScreen extends React.Component {
                                                             <Switch
                                                                 // value={this.state.switchValue}
                                                                 // onValueChange={(switchValue) => this.setState({ switchValue })} />
+                                                                disabled={this.state.team_data[0].CostBranch == 1 ? true : false}
                                                                 value={v.SwitchStatus == 1 ? true : false}
                                                                 onValueChange={(e) => this.onChangeValue(v, i, item, index, e)} />
                                                         </View>

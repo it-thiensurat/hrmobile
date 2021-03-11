@@ -32,7 +32,8 @@ import {
     CHECK_KEY,
     CHECK_TIME,
     TIMESTAMP,
-    CHECK_OUT
+    CHECK_OUT,
+    grayColor
 } from '../../utils/contants'
 
 import {
@@ -343,14 +344,14 @@ class SelectinoutScreen extends React.Component {
                             <Text style={{ fontSize: 22, color: secondaryColor, width: '100%', textAlign: 'center', marginBottom: 15 }}>
                                 {`${(this.state.checkInTime) ? this.state.checkInTime : ' '}`}
                             </Text>
-                            <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
+                            <TouchableOpacity disabled={props.userInfo.PosID == 1 ? true : false} style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
                                 onPress={
                                     () => {
                                         this.props.navigation.navigate('CheckIn')
                                     }
                                 }>
-                                <Text style={{ fontSize: 26, color: secondaryColor }}>{`CHECK IN`}</Text>
-                                <Text style={{ fontSize: 24, color: secondaryColor }}>{`ลงเวลาเข้างาน`}</Text>
+                                <Text style={{ fontSize: 26, color: props.userInfo.PosID == 1 ? grayColor : secondaryColor }}>{`CHECK IN`}</Text>
+                                <Text style={{ fontSize: 24, color: props.userInfo.PosID == 1 ? grayColor : secondaryColor }}>{`ลงเวลาเข้างาน`}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={{ width: 20 }} />
@@ -361,14 +362,14 @@ class SelectinoutScreen extends React.Component {
                             <Text style={{ fontSize: 22, color: darkColor, width: '100%', textAlign: 'center', marginBottom: 15 }}>
                                 {`${(this.state.checkOutTime) ? this.state.checkOutTime : ' '}`}
                             </Text>
-                            <TouchableOpacity style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
+                            <TouchableOpacity disabled={props.userInfo.departmentId == props.userInfo.PosID == 1 ? true : false} style={[styles.buttonCheckSmall, styles.shadow, styles.center, { backgroundColor: 'white' }]}
                                 onPress={
                                     () => {
                                         this.props.navigation.navigate('CheckOut')
                                     }
                                 }>
-                                <Text style={{ fontSize: 26, color: darkColor }}>{`CHECK OUT`}</Text>
-                                <Text style={{ fontSize: 24, color: darkColor }}>{`ลงเวลาออกงาน`}</Text>
+                                <Text style={{ fontSize: 26, color: props.userInfo.PosID == 1 ? grayColor : darkColor }}>{`CHECK OUT`}</Text>
+                                <Text style={{ fontSize: 24, color: props.userInfo.PosID == 1 ? grayColor : darkColor }}>{`ลงเวลาออกงาน`}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

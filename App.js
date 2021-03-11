@@ -63,6 +63,8 @@ import SaleCheck from './screen/SaleCheckScreen'
 import SupApprove from './screen/SupApproveScreen'
 import SalePayment from './screen/SalePaymentScreen'
 import SaleSignature from './screen/SaleSignatureScreen'
+import SaleApprove100 from './screen/SaleApprove100Screen'
+import SalePayment100 from './screen/SalePayment100Screen'
 
 function MyStack() {
   return (
@@ -86,6 +88,8 @@ function MyStack() {
       <Stack.Screen name="SupApprove" component={SupApprove} />
       <Stack.Screen name="SalePayment" component={SalePayment} />
       <Stack.Screen name="SaleSignature" component={SaleSignature} />
+      <Stack.Screen name="SaleApprove100" component={SaleApprove100} />
+      <Stack.Screen name="SalePayment100" component={SalePayment100} />
     </Stack.Navigator>
   );
 }

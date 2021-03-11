@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         alignItems: 'center',
         height: COMPONENT_HIGHT / 1.2,
-        width: 80,
+        width: 65,
         backgroundColor: 'white',
         justifyContent: 'space-between',
         borderRadius: COMPONENT_HIGHT / 2

@@ -34,10 +34,7 @@ import {
     primaryColor,
     secondaryColor,
     API_KEY,
-    BASEURL,
-    SALETEAM_PAY,
-    CONFIRM_PAY,
-    grayColor
+    BASEURL
 } from '../utils/contants'
 
 import styles from '../style/style'
@@ -46,7 +43,7 @@ import image from '../img/sign.png'
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
-class SalePaymentScreen extends React.Component {
+class SalePayment100Screen extends React.Component {
 
     state = {
         teamlist: [],
@@ -65,6 +62,8 @@ class SalePaymentScreen extends React.Component {
         await that.setState({ teamlist: [] })
         const props = that.props
         const users = props.reducer.userInfo
+        alert(JSON.stringify(users))
+        return
         let header = {
             'Authorization': props.reducer.token,
             'x-api-key': API_KEY
@@ -76,7 +75,7 @@ class SalePaymentScreen extends React.Component {
         formData.append('fnno', users.FnNo);
         formData.append('fnyear', users.FnYear);
 
-        // props.indicatorControll(true)
+        props.indicatorControll(true)
         Helper.post(BASEURL + SALETEAM_PAY, formData, header, async (results) => {
             // alert(JSON.stringify(results))
             // return
@@ -136,7 +135,7 @@ class SalePaymentScreen extends React.Component {
         })
     }
 
-    onTakePicture(DetailID, Amount, EmpID, EmpName, SaleCode, CitizenID) {
+    onTakePicture(DetailID, Amount) {
 
         let that = this
 
@@ -157,11 +156,7 @@ class SalePaymentScreen extends React.Component {
                 {
                     DetailID: DetailID,
                     Amount: Amount,
-                    Img: img,
-                    EmpId: EmpID,
-                    EmpName: EmpName,
-                    SaleCode: SaleCode,
-                    Citizen: CitizenID
+                    Img: img
                 }
             )
         });
@@ -223,7 +218,7 @@ class SalePaymentScreen extends React.Component {
                 <View style={[styles.center, { flex: 0.25 }]}>
                     {/* <Icon name='grav' color={item.LeadApproveStatus === 1 ? secondaryColor : darkColor} size={34} /> */}
                     <FastImage
-                        style={{ width: 80, height: 80, borderRadius: 4, borderWidth: 1, borderColor: grayColor }}
+                        style={{ width: 80, height: 80, borderRadius: 4, borderWidth: 1, borderColor: item.PaymentStatus === 1 ? secondaryColor : darkColor }}
                         source={{
                             uri: item.Image,
                             // headers: { Authorization: 'someAuthToken' },
@@ -232,18 +227,17 @@ class SalePaymentScreen extends React.Component {
                         resizeMode={FastImage.resizeMode.cover}
                     />
                 </View>
-                <View style={[{ flex: 0.6, justifyContent: 'center', paddingLeft: 2, paddingTop: 6 }]}>
+                <View style={[{ flex: 0.6, justifyContent: 'center', paddingLeft: 2 }]}>
                     <Text style={[{ fontSize: 20 }]}>{`ชื่อ : ${item.EmpName}`}</Text>
                     <Text style={[{ fontSize: 20 }]}>{`รหัสพนักงาน : ${item.EmpID}`}</Text>
                     <Text style={[{ fontSize: 20 }]}>{`รหัสเซลล์ : ${item.SaleCode}`}</Text>
-                    {/* <Text style={[{ fontSize: 20, color: item.PaymentStatus === 1 ? secondaryColor : darkColor }]}>{`สถานะ : ${item.PaymentStatus == 1 ? 'จ่ายแล้ว' : 'ยังไม่จ่าย'}`}</Text> */}
-                    <Text style={[{ fontSize: 20 }]}>{`เงินที่จ่ายแล้ว : ${item.PaymentBalance}`}</Text>
+                    <Text style={[{ fontSize: 20, color: item.PaymentStatus === 1 ? secondaryColor : darkColor }]}>{`สถานะ : ${item.PaymentStatus == 1 ? 'จ่ายแล้ว' : 'ยังไม่จ่าย'}`}</Text>
                     <View style={[{ flexDirection: 'row' }]}>
                         <View style={[{ flex: 0.5, justifyContent: 'center' }]}>
-                            <Text style={[{ fontSize: 20 }]}>{`จ่ายเงินส่วนที่เหลือ `}</Text>
+                            <Text style={[{ fontSize: 20 }]}>{`จำนวนเงินที่จ่าย `}</Text>
                         </View>
-                        <View style={[{ flex: 0.5, paddingLeft: 1 }]}>
-                            <TextInput style={[styles.inputAmount, styles.shadow, { fontFamily: 'DBYord', fontSize: 20, color: 'red', textAlign: 'center' }]}
+                        <View style={[{ flex: 0.5 }]}>
+                            <TextInput style={[styles.inputAmount, styles.shadow, { fontFamily: 'DBYord', fontSize: 20, textAlign: 'center' }]}
                                 // ref={(input) => { this.amount = input; }}
                                 placeholder="ระบุเงิน"
                                 keyboardType={'number-pad'}
@@ -259,21 +253,7 @@ class SalePaymentScreen extends React.Component {
                                     let payamount = val[0].WorkDetail[index].PaymentAmount
                                     payamount = text
                                     val[0].WorkDetail[index].PaymentAmount = payamount
-                                    // this.setState({ teamlist: val })
-
-                                    if (Number(text) < Number(item.PaymentAmount)) {
-                                        this.setState({ teamlist: val })
-                                    } else {
-                                        Alert.alert(
-                                            'คำเตือน',
-                                            'กรุณาระบุจำนวนเงินส่วนที่เหลือให้ถูกต้อง เนื่องจากจ่ายเงินรวมแล้วเกิน 200 บาท',
-                                            [
-                                                { text: 'Cancel', onPress: () => null },
-                                                { text: 'OK', onPress: () => null },
-                                            ],
-                                            { cancelable: false }
-                                        )
-                                    }
+                                    this.setState({ teamlist: val })
                                 }} />
                         </View>
                     </View>
@@ -281,10 +261,13 @@ class SalePaymentScreen extends React.Component {
                     <View style={[{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 4, paddingRight: 2 }]} />
                 </View>
                 <View style={[{ flex: 0.15, justifyContent: 'center', paddingRight: 2 }]}>
-                    <TouchableOpacity style={{ width: 50, height: 50, alignItems: 'center', justifyContent: 'center' }}
+                    <TouchableOpacity 
+                    // disabled={item.PaymentStatus} 
+                    style={{ width: 50, height: 50, alignItems: 'center', justifyContent: 'center' }}
                         onPress={() =>
-                            this.onTakePicture(item.DetailID, item.PaymentAmount, item.EmpID, item.EmpName, item.SaleCode, item.CitizenID)
+                            this.onTakePicture(item.DetailID, item.PaymentAmount)
                         }>
+                        {/* <Icon name='signature' size={22} color={secondaryColor} /> */}
                         <Image source={image} style={{ resizeMode: 'contain', width: 50, height: 50 }} />
                     </TouchableOpacity>
                 </View>
@@ -411,4 +394,4 @@ const mapDispatchToProps = {
     indicatorControll
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SalePaymentScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(SalePayment100Screen)

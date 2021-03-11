@@ -55,7 +55,7 @@ class SaleSignatureScreen extends React.Component {
         let that = this
         const props = that.props
         const { signimage } = that.state
-        const { DetailID, Amount, Img } = props.route.params
+        const { DetailID, Amount, Img, EmpId, EmpName, SaleCode, Citizen } = props.route.params
         const users = props.reducer.userInfo
         let header = {
             'Authorization': props.reducer.token,
@@ -63,7 +63,15 @@ class SaleSignatureScreen extends React.Component {
         }
         let formData = new FormData();
         formData.append('DetailID', DetailID);
-        formData.append('empId', users.empId);
+        formData.append('empId', EmpId);
+
+        formData.append('createby', users.empId);
+        formData.append('empName', EmpName);
+        formData.append('citizen', Citizen);
+        formData.append('saleCode', SaleCode);
+        formData.append('lat', '0.0');
+        formData.append('lon', '0.0');
+
         formData.append('PaymentAmount', Amount);
         Img.map((v, i) => {
             let gallerys = {

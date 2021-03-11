@@ -12,17 +12,19 @@ import {
     Dimensions,
     Alert,
     AppState,
-    PermissionsAndroid
+    PermissionsAndroid,
+    Switch
 } from 'react-native'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { NavigationBar } from 'navigationbar-react-native'
-import Icon from 'react-native-vector-icons/dist/FontAwesome5'
+import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import ImagePicker from 'react-native-image-crop-picker'
 import Geolocation from '@react-native-community/geolocation'
 import { Picker } from "native-base"
 import FastImage from 'react-native-fast-image'
 var RNFS = require('react-native-fs');
+var numeral = require('numeral');
 
 import {
     indicatorControll
@@ -35,23 +37,20 @@ import {
     secondaryColor,
     API_KEY,
     BASEURL,
-    SALETEAM_PAY,
-    CONFIRM_PAY,
-    grayColor
+    GETALLOW100
 } from '../utils/contants'
 
 import styles from '../style/style'
 import Helper from '../utils/Helper'
-import image from '../img/sign.png'
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
-class SalePaymentScreen extends React.Component {
+class SaleApprove100Screen extends React.Component {
 
     state = {
         teamlist: [],
-        workdetail: [],
-        amount: '',
+        cause: [],
+        cost: '',
         ImageSource: [],
         latitude: '',
         longitude: '',
@@ -65,23 +64,26 @@ class SalePaymentScreen extends React.Component {
         await that.setState({ teamlist: [] })
         const props = that.props
         const users = props.reducer.userInfo
+
         let header = {
             'Authorization': props.reducer.token,
             'x-api-key': API_KEY
         }
         let formData = new FormData();
 
-        formData.append('teamcode', users.TeamNo);
-        formData.append('depid', users.DepID);
-        formData.append('fnno', users.FnNo);
-        formData.append('fnyear', users.FnYear);
+        // formData.append('empId', users.empId);
+        formData.append('teamno', users.TeamNo100);
+        // formData.append('depid', users.DepID);
+        // formData.append('fnno', users.FnNo);
+        // formData.append('fnyear', users.FnYear);
 
-        // props.indicatorControll(true)
-        Helper.post(BASEURL + SALETEAM_PAY, formData, header, async (results) => {
+        props.indicatorControll(true)
+        Helper.post(BASEURL + GETALLOW100, formData, header, async (results) => {
             // alert(JSON.stringify(results))
             // return
             if (results.status == 'SUCCESS') {
-                await that.setState({ teamlist: results.data, workdetail: results.data[0].WorkDetail })
+                await that.setState({ teamlist: results.data })
+                await that.setState({ cause: results.cause })
                 await props.indicatorControll(false)
             } else {
                 await props.indicatorControll(false)
@@ -91,26 +93,29 @@ class SalePaymentScreen extends React.Component {
         })
     }
 
-    async ConfirmSalePay() {
+    async approveSaleTeam() {
         await this.requestLocationPermission()
 
         let that = this
         const props = that.props
         const users = props.reducer.userInfo
+        const { latitude, longitude } = that.state
         let header = {
             'Authorization': props.reducer.token,
             'x-api-key': API_KEY
         }
         let formData = new FormData();
 
-        formData.append('empid', users.empId);
-        formData.append('teamid', that.state.teamlist[0].TeamID);
-        formData.append('depid', that.state.teamlist[0].DepID);
-        formData.append('fnno', that.state.teamlist[0].FnNo);
-        formData.append('fnyear', that.state.teamlist[0].FnYear);
+        formData.append('empId', users.empId);
+        formData.append('teamNo', users.TeamNo);
+        formData.append('depid', users.DepID);
+        formData.append('fnno', users.FnNo);
+        formData.append('fnyear', users.FnYear);
+        formData.append('latitude', latitude);
+        formData.append('longitude', longitude);
 
         props.indicatorControll(true)
-        await Helper.post(BASEURL + CONFIRM_PAY, formData, header, async (results) => {
+        await Helper.post(BASEURL + SALETEAM_APPROVE, formData, header, async (results) => {
             // alert(JSON.stringify(results))
             if (results.status == 'SUCCESS') {
                 await props.indicatorControll(false)
@@ -136,35 +141,22 @@ class SalePaymentScreen extends React.Component {
         })
     }
 
-    onTakePicture(DetailID, Amount, EmpID, EmpName, SaleCode, CitizenID) {
+    onSelectCause(value) {
+        if (value != '') {
+            let CauseList = this.state.cause
+            // let CauseList_arr = CauseList.filter((item) => item.id == value)
+            this.setState({ cause: value })
+        } else {
+            this.setState({ cause: '' })
+        }
+    }
 
-        let that = this
+    onChangeValue(item, index, e) {
+        let data = this.state.teamlist
+        item.SwitchStatus = e ? 1 : 0
+        data[index] = item
 
-        ImagePicker.openCamera({
-            multiple: false,
-            useFrontCamera: true,
-            includeBase64: true,
-            compressImageMaxWidth: 200,
-            compressImageMaxHeight: 200
-        }).then(images => {
-            // alert(JSON.stringify(images));
-            let img = []
-            img.push({
-                url: images.path,
-                type: images.mime
-            })
-            that.props.navigation.navigate('SaleSignature',
-                {
-                    DetailID: DetailID,
-                    Amount: Amount,
-                    Img: img,
-                    EmpId: EmpID,
-                    EmpName: EmpName,
-                    SaleCode: SaleCode,
-                    Citizen: CitizenID
-                }
-            )
-        });
+        this.setState({ teamlist: data })
     }
 
     async requestLocationPermission() {
@@ -218,75 +210,42 @@ class SalePaymentScreen extends React.Component {
     }
 
     _renderItem = ({ item, index }) => {
+        const users = this.props.reducer.userInfo
+        let Cause_header = [{ id: 0, causeName: 'กรุณาเลือกเหตุผล' }]
+        let CauseList = this.state.cause
+        CauseList = Cause_header.concat(CauseList)
         return (
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: 2, borderWidth: 0.1, borderRadius: 4, padding: 2 }}>
-                <View style={[styles.center, { flex: 0.25 }]}>
-                    {/* <Icon name='grav' color={item.LeadApproveStatus === 1 ? secondaryColor : darkColor} size={34} /> */}
-                    <FastImage
-                        style={{ width: 80, height: 80, borderRadius: 4, borderWidth: 1, borderColor: grayColor }}
-                        source={{
-                            uri: item.Image,
-                            // headers: { Authorization: 'someAuthToken' },
-                            priority: FastImage.priority.normal,
-                        }}
-                        resizeMode={FastImage.resizeMode.cover}
-                    />
-                </View>
-                <View style={[{ flex: 0.6, justifyContent: 'center', paddingLeft: 2, paddingTop: 6 }]}>
-                    <Text style={[{ fontSize: 20 }]}>{`ชื่อ : ${item.EmpName}`}</Text>
-                    <Text style={[{ fontSize: 20 }]}>{`รหัสพนักงาน : ${item.EmpID}`}</Text>
-                    <Text style={[{ fontSize: 20 }]}>{`รหัสเซลล์ : ${item.SaleCode}`}</Text>
-                    {/* <Text style={[{ fontSize: 20, color: item.PaymentStatus === 1 ? secondaryColor : darkColor }]}>{`สถานะ : ${item.PaymentStatus == 1 ? 'จ่ายแล้ว' : 'ยังไม่จ่าย'}`}</Text> */}
-                    <Text style={[{ fontSize: 20 }]}>{`เงินที่จ่ายแล้ว : ${item.PaymentBalance}`}</Text>
-                    <View style={[{ flexDirection: 'row' }]}>
-                        <View style={[{ flex: 0.5, justifyContent: 'center' }]}>
-                            <Text style={[{ fontSize: 20 }]}>{`จ่ายเงินส่วนที่เหลือ `}</Text>
-                        </View>
-                        <View style={[{ flex: 0.5, paddingLeft: 1 }]}>
-                            <TextInput style={[styles.inputAmount, styles.shadow, { fontFamily: 'DBYord', fontSize: 20, color: 'red', textAlign: 'center' }]}
-                                // ref={(input) => { this.amount = input; }}
-                                placeholder="ระบุเงิน"
-                                keyboardType={'number-pad'}
-                                returnKeyType='next'
-                                onBlur={false}
-                                autoCapitalize={false}
-                                blurOnSubmit={false}
-                                selectTextOnFocus={true}
-                                value={item.PaymentAmount}
-                                // onChangeText={(text) => this.setState({ amount: text })}
-                                onChangeText={(text) => {
-                                    let val = this.state.teamlist
-                                    let payamount = val[0].WorkDetail[index].PaymentAmount
-                                    payamount = text
-                                    val[0].WorkDetail[index].PaymentAmount = payamount
-                                    // this.setState({ teamlist: val })
-
-                                    if (Number(text) < Number(item.PaymentAmount)) {
-                                        this.setState({ teamlist: val })
-                                    } else {
-                                        Alert.alert(
-                                            'คำเตือน',
-                                            'กรุณาระบุจำนวนเงินส่วนที่เหลือให้ถูกต้อง เนื่องจากจ่ายเงินรวมแล้วเกิน 200 บาท',
-                                            [
-                                                { text: 'Cancel', onPress: () => null },
-                                                { text: 'OK', onPress: () => null },
-                                            ],
-                                            { cancelable: false }
-                                        )
-                                    }
-                                }} />
-                        </View>
+                <View style={[{ flex: 0.80, justifyContent: 'center', padding: 6 }]}>
+                    <Text style={[{ fontSize: 20 }]}>{`ชื่อ : ${item.fname} ${item.lname}`}</Text>
+                    <Text style={[{ fontSize: 20 }]}>{`รหัสเซลล์ : ${item.salecode}`}</Text>
+                    <Text style={[{ fontSize: 20 }]}>{`วันเริ่มงาน : ${item.startDate}`}</Text>
+                    <Text style={[{ fontSize: 20 }]}>{`จำนวนเงิน : ${numeral(item.amount).format('0,0.00')}`}</Text>
+                    <Text style={[{ fontSize: 20, paddingBottom: 8 }]}>{`เหตุผล(กรณีไม่อนุมัติ)`}</Text>
+                    <View style={[styles.inputWithButton, styles.shadow, styles.center]}>
+                        <Picker
+                            mode="dropdown"
+                            placeholder=""
+                            textStyle={{ fontSize: 18 }}
+                            itemStyle={{ marginLeft: 0, paddingLeft: 10 }}
+                            itemTextStyle={{ color: 'gray', fontSize: 18 }}
+                            style={[{ color: 'gray', width: '100%' }]}
+                            selectedValue={this.state.cause}
+                            onValueChange={(value, index) => this.onSelectCause(value)} >
+                            {
+                                CauseList.map((value, index) => {
+                                    return (<Picker.Item key={index} label={value.causeName} value={value.id} />);
+                                })
+                            }
+                        </Picker>
                     </View>
-
                     <View style={[{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 4, paddingRight: 2 }]} />
                 </View>
                 <View style={[{ flex: 0.15, justifyContent: 'center', paddingRight: 2 }]}>
-                    <TouchableOpacity style={{ width: 50, height: 50, alignItems: 'center', justifyContent: 'center' }}
-                        onPress={() =>
-                            this.onTakePicture(item.DetailID, item.PaymentAmount, item.EmpID, item.EmpName, item.SaleCode, item.CitizenID)
-                        }>
-                        <Image source={image} style={{ resizeMode: 'contain', width: 50, height: 50 }} />
-                    </TouchableOpacity>
+                    <Text style={[{ alignSelf: 'center', fontSize: 20, color: item.SwitchStatus === 1 ? secondaryColor : darkColor }]}>{item.SwitchStatus ? 'อนุมัติ' : 'ไม่อนุมัติ'}</Text>
+                    <Switch
+                        value={item.SwitchStatus == 1 ? true : false}
+                        onValueChange={(e) => this.onChangeValue(item, index, e)} />
                 </View>
             </View>
         )
@@ -306,7 +265,7 @@ class SalePaymentScreen extends React.Component {
     ComponentCenter = () => {
         return (
             <View style={[styles.center]}>
-                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`จ่ายเงินทีมขาย`}</Text>
+                <Text style={[styles.bold, { color: 'white', fontSize: 26 }]}>{`ลงเวลาทีมขาย`}</Text>
             </View>
         );
     }
@@ -334,12 +293,10 @@ class SalePaymentScreen extends React.Component {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
     }
 
-    componentDidMount() {
-        this.props.navigation.addListener('focus', () => {
-            this.getSaleTeam()
-        });
+    async componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBack);
-        this.requestLocationPermission()
+        // await this.requestLocationPermission()
+        await this.getSaleTeam()
     }
 
     render() {
@@ -376,8 +333,8 @@ class SalePaymentScreen extends React.Component {
                         this.state.teamlist ?
                             <FlatList
                                 style={{ flex: 1, marginTop: 5 }}
-                                data={this.state.workdetail}
-                                keyExtractor={(item) => item.DetailID}
+                                data={this.state.teamlist}
+                                keyExtractor={(item) => item.citizenid}
                                 renderItem={this._renderItem} />
                             :
                             <View style={{ flex: 1 }}>
@@ -389,9 +346,9 @@ class SalePaymentScreen extends React.Component {
                             <View style={{ alignItems: 'center', width: DEVICE_WIDTH, position: 'absolute', bottom: 0 }}>
                                 <TouchableOpacity style={[styles.shadow, styles.center, { height: 50, width: '90%', alignSelf: 'center', backgroundColor: secondaryColor, borderRadius: 50 / 2, marginBottom: 12 }]}
                                     onPress={() => {
-                                        this.ConfirmSalePay()
+                                        this.approveSaleTeam()
                                     }}>
-                                    <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`ยืนยันข้อมูลการจ่ายเงิน`}</Text>
+                                    <Text style={[{ color: 'white', fontSize: 26 }, styles.bold]}>{`ยืนยันข้อมูลการอนุมัติ`}</Text>
                                 </TouchableOpacity>
                             </View>
                             :
@@ -411,4 +368,4 @@ const mapDispatchToProps = {
     indicatorControll
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SalePaymentScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(SaleApprove100Screen)

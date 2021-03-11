@@ -270,7 +270,7 @@ class MenuScreen extends React.Component {
                                                                 this.props.navigation.navigate('SaleCheck')
                                                             }
                                                         }>
-                                                        <LinearGradient colors={['#54EFD1', '#10E2E6', '#00D3F3']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                                        <LinearGradient colors={['#99CCFF', '#3399FF', '#0099FF']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                                                             <Icon name="check-square" color={'white'} size={45} />
                                                             <Text style={[styles.bold, { fontSize: 18, color: 'white', marginTop: 5 }]}>ลงเวลาทีมขาย</Text>
                                                         </LinearGradient>
@@ -294,12 +294,18 @@ class MenuScreen extends React.Component {
                                                                 this.props.navigation.navigate('SalePayment')
                                                             }
                                                         }>
-                                                        <LinearGradient colors={['#54EFD1', '#10E2E6', '#00D3F3']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                                        <LinearGradient colors={['#99CCFF', '#3399FF', '#0099FF']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                                                             <Icon name="money" color={'white'} size={45} />
                                                             <Text style={[styles.bold, { fontSize: 18, color: 'white', marginTop: 5 }]}>จ่ายเงินทีมขาย</Text>
                                                         </LinearGradient>
                                                     </TouchableOpacity>
                                                 </View>
+                                                :
+                                                null
+                                        }
+                                        {
+                                            users.PosID == 3 ?
+                                                <View style={{ width: 5 }} />
                                                 :
                                                 null
                                         }
@@ -312,7 +318,7 @@ class MenuScreen extends React.Component {
                                                                 this.props.navigation.navigate('SupApprove')
                                                             }
                                                         }>
-                                                        <LinearGradient colors={['#54EFD1', '#10E2E6', '#00D3F3']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                                        <LinearGradient colors={['#99CCFF', '#3399FF', '#0099FF']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                                                             <Icon name="edit" color={'white'} size={45} />
                                                             <Text style={[styles.bold, { fontSize: 18, color: 'white', marginTop: 5 }]}>อนุมัติเวลาทีมขาย</Text>
                                                         </LinearGradient>
@@ -331,6 +337,84 @@ class MenuScreen extends React.Component {
                                             <View style={{ width: 105, height: 105 }} />
                                         </View>
                                     </View>
+                                    {/* <View style={{ flexDirection: 'row', padding: 2, marginTop: 5, marginLeft: 8 }}>
+                                        {
+                                            users.PosID == 3 ?
+                                                <View style={{ flex: 0.35 }}>
+                                                    <TouchableOpacity style={{ width: 105, height: 105 }}
+                                                        onPress={
+                                                            () => {
+                                                                this.props.navigation.navigate('SaleApprove100')
+                                                            }
+                                                        }>
+                                                        <LinearGradient colors={['#99CCFF', '#3399FF', '#0099FF']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                                            <Icon name="edit" color={'white'} size={45} />
+                                                            <Text style={[styles.bold, { fontSize: 16, color: 'white', marginTop: 5 }]}>อนุมัติเบี้ยเลี้ยง 100</Text>
+                                                        </LinearGradient>
+                                                    </TouchableOpacity>
+                                                </View>
+                                                :
+                                                null
+                                        }
+                                        {
+                                            users.PosID == 3 ?
+                                                <View style={{ width: 5 }} />
+                                                :
+                                                null
+                                        }
+                                        {
+                                            users.PosID == 3 ?
+                                                <View style={{ flex: 0.35 }}>
+                                                    <TouchableOpacity style={{ width: 105, height: 105 }}
+                                                        onPress={
+                                                            () => {
+                                                                this.props.navigation.navigate('SalePayment100')
+                                                            }
+                                                        }>
+                                                        <LinearGradient colors={['#99CCFF', '#3399FF', '#0099FF']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                                            <Icon name="money" color={'white'} size={45} />
+                                                            <Text style={[styles.bold, { fontSize: 16, color: 'white', marginTop: 5 }]}>จ่ายเงินเบี้ยเลี้ยง 100</Text>
+                                                        </LinearGradient>
+                                                    </TouchableOpacity>
+                                                </View>
+                                                :
+                                                null
+                                        }
+                                        {
+                                            users.PosID == 3 ?
+                                                <View style={{ width: 5 }} />
+                                                :
+                                                null
+                                        }
+                                        {
+                                            users.PosID == 4 ?
+                                                <View style={{ flex: 0.35 }}>
+                                                    <TouchableOpacity style={{ width: 105, height: 105 }}
+                                                        onPress={
+                                                            () => {
+                                                                // this.props.navigation.navigate('SupApprove')
+                                                                null
+                                                            }
+                                                        }>
+                                                        <LinearGradient colors={['#99CCFF', '#3399FF', '#0099FF']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                                            <Icon name="edit" color={'white'} size={45} />
+                                                            <Text style={[styles.bold, { fontSize: 18, color: 'white', marginTop: 5 }]}>อนุมัติเวลาทีมขาย</Text>
+                                                        </LinearGradient>
+                                                    </TouchableOpacity>
+                                                </View>
+                                                :
+                                                null
+                                        }
+                                        {
+                                            users.PosID == 4 ?
+                                                <View style={{ width: 5 }} />
+                                                :
+                                                null
+                                        }
+                                        <View style={{ flex: 0.35 }}>
+                                            <View style={{ width: 105, height: 105 }} />
+                                        </View>
+                                    </View> */}
                                 </View>
                                 :
                                 null

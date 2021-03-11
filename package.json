@@ -26,6 +26,7 @@
     "moment": "^2.24.0",
     "native-base": "^2.13.12",
     "navigationbar-react-native": "0.0.5",
+    "numeral": "^2.0.6",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-android-location-enabler": "^1.2.1",
